@@ -30,7 +30,7 @@ class ProductVideo(Video):
 
 
 class ProductComment(Comment):
-    product = models.ForeignKey(Comment, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
 
 
 class Description(models.Model):
