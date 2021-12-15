@@ -1,3 +1,9 @@
 from django.db import models
 
-# Create your models here.
+
+class News(models.Model):
+    pass
+
+
+class Subscribers(models.Model):
+    pass
