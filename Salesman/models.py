@@ -1,9 +1,10 @@
 from django.db import models
+from User.models import Profile
+
+
+class SalesmanProfile(Profile):
+    pass
 
 
 class Salesman(models.Model):
-    pass
-
-
-class Profile(models.Model):
-    pass
+    profile = models.OneToOneField(SalesmanProfile, on_delete=models.CASCADE)

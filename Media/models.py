@@ -1,6 +1,8 @@
 from django.db import models
+from User.models import Profile, Customer
 
-# Create your models here.
+
+# abstract
 class Image(models.Model):
     pass
 
@@ -13,10 +15,5 @@ class Comment(models.Model):
     pass
 
 
-class Description(models.Model):
-    pass
-
-
 class Address(models.Model):
     pass
-
