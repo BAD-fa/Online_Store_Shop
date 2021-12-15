@@ -1,5 +1,4 @@
 from django.db import models
-from Product.models import Product
 from Media.models import Image, Comment, Address
 
 
@@ -13,11 +12,6 @@ class Customer(models.Model):
 
 class Admin(models.Model):
     pass
-
-
-class WishList(models.Model):
-    customer = models.OneToOneField(Customer, on_delete=models.CASCADE)
-    product = models.ManyToManyField(Product)
 
 
 class Type(models.Model):

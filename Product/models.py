@@ -35,3 +35,8 @@ class ProductComment(Comment):
 
 class Description(models.Model):
     product = models.OneToOneField(Product, on_delete=models.CASCADE)
+
+
+class WishList(models.Model):
+    customer = models.OneToOneField(Customer, on_delete=models.CASCADE)
+    product = models.ManyToManyField(Product)
