@@ -1,5 +1,5 @@
 from django.db import models
-from Media.models import Image, Comment, Address
+from Online_Store_Shop.utils import Image, Comment, Address
 
 
 class Profile(models.Model):
@@ -11,6 +11,7 @@ class Customer(models.Model):
 
 
 class Admin(models.Model):
+    # customize django user
     pass
 
 

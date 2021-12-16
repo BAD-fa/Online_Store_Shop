@@ -1,6 +1,6 @@
 from django.db import models
 from User.models import Customer
-from Media.models import Image, Video, Comment
+from Online_Store_Shop.utils import Image, Video, Comment
 from Salesman.models import Salesman
 
 
@@ -19,6 +19,7 @@ class Product(models.Model):
 
 class Cart(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    product = models.ManyToManyField(Product)
 
 
 class ProductImage(Image):
