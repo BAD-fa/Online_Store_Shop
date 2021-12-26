@@ -1,12 +1,14 @@
 from django.db import models
 from User.models import Customer
 from Salesman.models import Salesman
-from multiupload.fields import MultiImageField
 
 
 class Category(models.Model):
     name = models.CharField(max_length=32)
     category = models.ForeignKey('self', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
 
     # property description
 
@@ -16,7 +18,6 @@ class Product(models.Model):
     salesman = models.ForeignKey(Salesman, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     price = models.BigIntegerField(null=True)
-    img = MultiImageField(upload_to="Product/images", min_num=1, max_num=10, max_file_size=1024 * 1024 * 5)
     video = models.FileField(upload_to="Product/video", null=True, blank=True,
                              allowed_extensions=['MOV', 'avi', 'mp4', 'webm', 'mkv'])
     amount = models.IntegerField()
@@ -24,11 +25,18 @@ class Product(models.Model):
     status = models.BooleanField()
     rate = models.FloatField()
 
+    def __str__(self):
+        return self.name
+
 
 class Cart(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     product = models.ManyToManyField(Product)
     price = models.IntegerField()
+    date = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.customer.username} --- {self.date}"
 
 
 class ProductComment(models.Model):
@@ -37,6 +45,11 @@ class ProductComment(models.Model):
     content = models.TextField()
     author = models.ForeignKey(Customer, on_delete=models.DO_NOTHING)
     rate = models.IntegerField()
+
+
+class ProductImage(models.Model):
+    img = models.ImageField(upload_to="Product/video", null=True, blank=True)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
 
 
 class WishList(models.Model):
