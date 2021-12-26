@@ -9,5 +9,5 @@ class History(models.Model):
     cart = JSONField()
     price = models.CharField(max_length=30)
     payment_method = models.CharField(max_length=30)
-    tracking_code = models.CharField(max_length=20,unique=True)
+    tracking_code = models.CharField(max_length=20, unique=True)
 

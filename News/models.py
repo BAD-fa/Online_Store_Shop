@@ -9,6 +9,5 @@ class News(models.Model):
     img = models.ImageField(upload_to="News_news", null=True, blank=True)
 
 
-
 class Subscribers(models.Model):
     email = EmailField()
