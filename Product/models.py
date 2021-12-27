@@ -23,7 +23,7 @@ class Product(models.Model):
     amount = models.IntegerField()
     description = models.TextField()
     status = models.BooleanField()
-    rate = models.FloatField()
+    rate = models.FloatField(default=0)
 
     def __str__(self):
         return self.name
