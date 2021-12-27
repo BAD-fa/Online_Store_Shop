@@ -4,6 +4,6 @@ Django==4.0
 django-extensions==3.1.5
 django-multiupload==0.6.1
 pydot==1.4.2
-pygraphviz==1.7
 pyparsing==3.0.6
+python-dotenv==0.19.2
 sqlparse==0.4.2

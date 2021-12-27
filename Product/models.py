@@ -5,7 +5,7 @@ from Salesman.models import Salesman
 
 class Category(models.Model):
     name = models.CharField(max_length=32)
-    category = models.ForeignKey('self', on_delete=models.CASCADE)
+    cat = models.ForeignKey('self', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
@@ -18,8 +18,7 @@ class Product(models.Model):
     salesman = models.ForeignKey(Salesman, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     price = models.BigIntegerField(null=True)
-    video = models.FileField(upload_to="Product/video", null=True, blank=True,
-                             allowed_extensions=['MOV', 'avi', 'mp4', 'webm', 'mkv'])
+    video = models.FileField(upload_to="Product/video", null=True, blank=True)
     amount = models.IntegerField()
     description = models.TextField()
     status = models.BooleanField()
