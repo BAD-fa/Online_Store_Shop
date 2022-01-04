@@ -1,0 +1,168 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/images/icons/favicon.png">
+
+    <!-- WebFont.js -->
+    <script>
+        WebFontConfig = {
+            google: { families: ['Poppins:400,500,600,700'] }
+        };
+        ( function ( d ) {
+            var wf = d.createElement( 'script' ), s = d.scripts[0];
+            wf.src = 'assets/js/webfont.js';
+            wf.async = true;
+            s.parentNode.insertBefore( wf, s );
+        } )( document );
+    </script>
+
+    <link rel="preload" href="{% static 'assets/vendor/fontawesome-free/webfonts/fa-regular-400.woff2' %}" as="font" type="font/woff2"
+        crossorigin="anonymous">
+    <link rel="preload" href="{% static 'assets/vendor/fontawesome-free/webfonts/fa-solid-900.woff2' %}" as="font" type="font/woff2"
+        crossorigin="anonymous">
+    <link rel="preload" href="{% static 'assets/vendor/fontawesome-free/webfonts/fa-brands-400.woff2' %}" as="font" type="font/woff2"
+            crossorigin="anonymous">
+    <link rel="preload" href="{% static 'assets/fonts/wolmart87d5.ttf?png09e' %}" as="font" type="font/ttf" crossorigin="anonymous">
+
+{% endblock head %}
+
+{% block content %}
+    <main class="main order">
+        <!-- Start of Breadcrumb -->
+        <nav class="breadcrumb-nav">
+            <div class="container">
+                <ul class="breadcrumb shop-breadcrumb bb-no">
+                    <li class="passed"><a href="cart.html">سبد خرید فروشگاه  </a></li>
+                    <li class="passed"><a href="checkout.html">پرداخت </a></li>
+                    <li class="active"><a href="order.html">سفارش کامل شد</a></li>
+                </ul>
+            </div>
+        </nav>
+        <!-- End of Breadcrumb -->
+
+        <div class="page-content mb-10 pb-2">
+            <div class="container">
+                <div class="order-success text-center font-weight-bolder text-dark">
+                    <i class="fas fa-check"></i>
+                    متشکرم. سفارش شما دریافت شد.
+                </div>
+                <!-- End of Order Success -->
+
+                <ul class="order-view list-style-none">
+                    {% for detail in details %}
+                        <li>
+                            <label>شماره سفارش</label>
+                            <strong>945</strong>
+                        </li>
+                    {% endfor %}
+                </ul>
+                <!-- End of Order View -->
+                <div class="order-details-wrapper mb-5">
+                    <h4 class="title text-uppercase ls-25 mb-5">جزئیات سفارش </h4>
+                    <table class="order-table">
+                        <thead>
+                            <tr>
+                                <th class="text-dark">محصول </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for det in details %}
+                                <tr>
+                                    <td>
+                                        <a href="#">کوله پشتی قهوه ای</a>&nbsp;<strong>x 1</strong><br>
+                                        فروشنده :  <a href="#">فروشنده  1</a>
+                                    </td>
+                                    <td>60000 تومان</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                        <tfoot>
+                            {% for det in details %}
+                                <tr>
+                                    <th>مجموع کل: </th>
+                                    <td>100000 تومان</td>
+                                </tr>
+                            {% endfor %}
+                        </tfoot>
+                    </table>
+                </div>
+                <!-- End of Order Details -->
+
+                <div class="sub-orders mb-10">
+                    <h4 class="title mb-5 font-weight-bold ls-25">سفارشات فرعی </h4>
+                    <div class="alert alert-icon alert-inline mb-5">
+                        <i class="w-icon-exclamation-triangle"></i>
+                        <strong>یادداشت:  </strong>این سفارش دارای محصولات چند فروشنده است. بنابراین ما این سفارش را به چند سفارش فروشنده تقسیم کردیم. هر سفارش توسط فروشنده مربوطه به طور مستقل انجام می شود.
+                    </div>
+                    <table class="order-subtable">
+                        <thead>
+                            {% for i in j %}
+                                <tr>
+                                    <th class="order">سفارش </th>
+                                    <th class="date">تاریخ </th>
+                                    <th class="status">وضعیت </th>
+                                    <th class="total">مجموع </th>
+                                    <th class="action"></th>
+                                </tr>
+                            {% endfor %}
+                        </thead>
+                        <tbody>
+                            {% for i in j %}
+                                <tr>
+                                    <td class="order">950</td>
+                                    <td class="date">شهریور 1400</td>
+                                    <td class="status">در حالت تعلیق </td>
+                                    <td class="total">40000 تومان برای 1 آیتم</td>
+                                    <td class="action"><a href="order-view.html" class="btn btn-rounded">نمایش </a></td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <!-- End of Sub Orders-->
+
+                <div id="account-adresses">
+                    <div class="row">
+                        <div class="col-sm-6 mb-8">
+                            <div class="ecommerce-address billing-address">
+                                <h4 class="title title-underline ls-25 font-weight-bold">آدرس قبض </h4>
+                                <address class="mb-4">
+                                    <table class="address-table">
+                                        <tbody>
+                                        {% for i in j %}
+                                            <tr>
+                                                <td>جعفر عباسی</td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </address>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 mb-8">
+                            <div class="ecommerce-address shipping-address">
+                                <h4 class="title title-underline ls-25 font-weight-bold">آدرس حمل و نقل</h4>
+                                <address class="mb-4">
+                                    <table class="address-table">
+                                        <tbody>
+                                        {% for i in j %}
+                                            <tr>
+                                                <td>جعفر عباسی</td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </address>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End of Account Address -->
+
+                <a href="#" class="btn btn-dark btn-rounded btn-icon-left btn-back mt-6"><i class="w-icon-long-arrow-left"></i>برگشت به لیست</a>
+            </div>
+        </div>
+    </main>
+{% endblock content %}
