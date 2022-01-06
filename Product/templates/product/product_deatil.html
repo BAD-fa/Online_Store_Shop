@@ -1,4 +1,4 @@
-{% extends "base_product.html" %}
+{% extends "base.html" %}
 
 
 {% block content %}
@@ -16,7 +16,7 @@
                             <i class="w-icon-angle-left"></i>
                         </a>
                         <span class="product-nav-popup">
-                            <img src="assets/images/products/product-nav-prev.jpg" alt="Product" width="110"
+                            <img src="{% static 'assets/images/products/product-nav-prev.jpg'%}" alt="Product" width="110"
                                 height="110" />
                             <span class="product-name">صدای ساز نرم</span>
                         </span>
@@ -26,7 +26,7 @@
                             <i class="w-icon-angle-right"></i>
                         </a>
                         <span class="product-nav-popup">
-                            <img src="assets/images/products/product-nav-next.jpg" alt="Product" width="110"
+                            <img src="{% static 'assets/images/products/product-nav-next.jpg' %}" alt="Product" width="110"
                                 height="110" />
                             <span class="product-name">بلندگوی عالی صدا</span>
                         </span>
@@ -46,20 +46,20 @@
                                         <div
                                             class="product-single-carousel owl-carousel owl-theme owl-nav-inner row cols-1 gutter-no">
                                             <figure class="product-image">
-                                                <img src="assets/images/products/swatch/1-800x900.jpg"
-                                                    data-zoom-image="assets/images/products/swatch/1-800x900.jpg"
+                                                <img src="{% static 'assets/images/products/swatch/1-800x900.jpg' %}"
+                                                    data-zoom-image="{% static 'assets/images/products/swatch/1-800x900.jpg' %}"
                                                     alt="نشانگر صدا میز میز" width="800" height="900">
                                             </figure>
                                         </div>
                                         <div class="product-thumbs-wrap">
                                             <div class="product-thumbs row cols-4 gutter-sm">
                                                 <div class="product-thumb active">
-                                                    <img src="assets/images/products/swatch/1-800x900.jpg"
+                                                    <img src="{%static 'assets/images/products/swatch/1-800x900.jpg'%}"
                                                         alt="Product Thumb" width="800" height="900">
                                                 </div>
                                                 {% for  in  %}
                                                 <div class="product-thumb">
-                                                    <img src="assets/images/products/swatch/2-800x900.jpg"
+                                                    <img src="{%static 'assets/images/products/swatch/2-800x900.jpg'%}"
                                                         alt="Product Thumb" width="800" height="900">
                                                 </div>
                                             </div>
@@ -75,7 +75,7 @@
                                         <h1 class="product-title">نشانگر صدا میز میز</h1>
                                         <div class="product-bm-wrapper">
                                             <figure class="brand">
-                                                <img src="assets/images/products/brand/brand-6.jpg" alt="Brand"
+                                                <img src="{% static 'assets/images/products/brand/brand-6.jpg' %}" alt="Brand"
                                                     width="85" height="48" />
                                             </figure>
                                             <div class="product-meta">
@@ -98,7 +98,7 @@
                                                 <span class="ratings" style="width: 80%;"></span>
                                                 <span class="tooltiptext tooltip-top"></span>
                                             </div>
-                                            <a href="#product-tab-reviews" class="rating-reviews">(3 نظر )</a>
+                                            <a href="# class="rating-reviews">(3 نظر )</a>
                                         </div>
 
                                         <div class="product-short-desc">
@@ -116,7 +116,7 @@
                                             <div class="d-flex align-items-center product-variations">
                                             {% for  in  %}
                                                 <a href="#" class="image"><img
-                                                        src="assets/images/products/swatch/1-800x900.jpg"
+                                                        src="{% static 'assets/images/products/swatch/1-800x900.jpg' %}"
                                                         alt="Product Swatch" width="24" height="24" /></a>
                                             {%endfor%}
                                             </div>
@@ -179,16 +179,16 @@
                             <div class="tab tab-nav-boxed tab-nav-underline product-tabs">
                                 <ul class="nav nav-tabs" role="tablist">
                                     <li class="nav-item">
-                                        <a href="#product-tab-description" class="nav-link active">توضیحات </a>
+                                        <a href="#" class="nav-link active">توضیحات </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="#product-tab-specification" class="nav-link">مشخصات </a>
+                                        <a href="#" class="nav-link">مشخصات </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="#product-tab-vendor" class="nav-link">اطلاعات فروشنده </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="#product-tab-reviews" class="nav-link">نظرات مشتریان  (3)</a>
+                                        <a href="#" class="nav-link">نظرات مشتریان  (3)</a>
                                     </li>
                                 </ul>
                                 <div class="tab-content">
@@ -205,12 +205,12 @@
                                                 <div class="banner banner-video product-video br-xs">
                                                     <figure class="banner-media">
                                                         <a href="#">
-                                                            <img src="assets/images/products/video-banner-610x300.jpg"
+                                                            <img src="{% static 'assets/images/products/video-banner-610x300.jpg' %}"
                                                                 alt="banner" width="610" height="300"
                                                                 style="background-color: #bebebe;">
                                                         </a>
                                                         <a class="btn-play-video btn-iframe"
-                                                            href="assets/video/memory-of-a-woman.mp4"></a>
+                                                            href="{%static 'assets/video/memory-of-a-woman.mp4'%}"></a>
                                                     </figure>
                                                 </div>
                                             </div>
@@ -255,7 +255,7 @@
                                         <div class="row mb-3">
                                             <div class="col-md-6 mb-4">
                                                 <figure class="vendor-banner br-sm">
-                                                    <img src="assets/images/products/vendor-banner.jpg"
+                                                    <img src="{%static 'assets/images/products/vendor-banner.jpg'%}"
                                                         alt="Vendor Banner" width="610" height="295"
                                                         style="background-color: #353B55;" />
                                                 </figure>
@@ -264,7 +264,7 @@
                                                 <div class="vendor-user">
                                                     <figure class="vendor-logo mr-4">
                                                         <a href="#">
-                                                            <img src="assets/images/products/vendor-logo.jpg"
+                                                            <img src="{% static 'assets/images/products/vendor-logo.jpg' %}"
                                                                 alt="لوگوی فروشنده" width="80" height="80" />
                                                         </a>
                                                     </figure>
@@ -293,7 +293,7 @@
                                                         <a href="#tel:">1234567890</a>
                                                     </li>
                                                 </ul>
-                                                <a href="vendor-dokan-store.html"
+                                                <a href="#"
                                                     class="btn btn-dark btn-link btn-underline btn-icon-right">نمایش فروشگاه <i class="w-icon-long-arrow-left"></i></a>
                                             </div>
                                         </div>
@@ -439,19 +439,19 @@
                                         <div class="tab tab-nav-boxed tab-nav-outline tab-nav-center">
                                             <ul class="nav nav-tabs" role="tablist">
                                                 <li class="nav-item">
-                                                    <a href="#show-all" class="nav-link active">نمایش همه </a>
+                                                    <a href="#" class="nav-link active">نمایش همه </a>
                                                 </li>
                                                 <li class="nav-item">
-                                                    <a href="#helpful-positive" class="nav-link">مفیدترین مثبت</a>
+                                                    <a href="#" class="nav-link">مفیدترین مثبت</a>
                                                 </li>
                                                 <li class="nav-item">
-                                                    <a href="#helpful-negative" class="nav-link">مفیدترین منفی</a>
+                                                    <a href="#" class="nav-link">مفیدترین منفی</a>
                                                 </li>
                                                 <li class="nav-item">
-                                                    <a href="#highest-rating" class="nav-link">بالاترین رتبه </a>
+                                                    <a href="#" class="nav-link">بالاترین رتبه </a>
                                                 </li>
                                                 <li class="nav-item">
-                                                    <a href="#lowest-rating" class="nav-link">پایین ترین رتبه </a>
+                                                    <a href="#" class="nav-link">پایین ترین رتبه </a>
                                                 </li>
                                             </ul>
                                             <div class="tab-content">
@@ -460,7 +460,7 @@
                                                         <li class="comment">
                                                             <div class="comment-body">
                                                                 <figure class="comment-avatar">
-                                                                    <img src="assets/images/agents/1-100x100.png"
+                                                                    <img src="{% static 'assets/images/agents/1-100x100.png' %}"
                                                                         alt="Commenter Avatar" width="90" height="90">
                                                                 </figure>
                                                                 <div class="comment-content">
@@ -490,10 +490,10 @@
                                                                         <div class="review-image">
                                                                             <a href="#">
                                                                                 <figure>
-                                                                                    <img src="assets/images/products/default/review-img-1.jpg"
+                                                                                    <img src="{% static 'assets/images/products/default/review-img-1.jpg'%}"
                                                                                         width="60" height="60"
                                                                                         alt="پیوست تصویر مروری جان دو در ساعت مچی الکترونیکی بلک مچی"
-                                                                                        data-zoom-image="assets/images/products/default/review-img-1-800x900.jpg" />
+                                                                                        data-zoom-image="{% static 'assets/images/products/default/review-img-1-800x900.jpg"' %} />
                                                                                 </figure>
                                                                             </a>
                                                                         </div>
@@ -504,7 +504,7 @@
                                                         <li class="comment">
                                                             <div class="comment-body">
                                                                 <figure class="comment-avatar">
-                                                                    <img src="assets/images/agents/2-100x100.png"
+                                                                    <img src="{% static 'assets/images/agents/2-100x100.png' %}"
                                                                         alt="Commenter Avatar" width="90" height="90">
                                                                 </figure>
                                                                 <div class="comment-content">
@@ -534,18 +534,18 @@
                                                                         <div class="review-image">
                                                                             <a href="#">
                                                                                 <figure>
-                                                                                    <img src="assets/images/products/default/review-img-2.jpg"
+                                                                                    <img src="{%static 'assets/images/products/default/review-img-2.jpg'%}"
                                                                                         width="60" height="60"
                                                                                         alt="پیوست تصویر مروری جان دو در ساعت مچی الکترونیکی بلک مچی"
-                                                                                        data-zoom-image="assets/images/products/default/review-img-2.jpg" />
+                                                                                        data-zoom-image="{%static 'assets/images/products/default/review-img-2.jpg'%}" />
                                                                                 </figure>
                                                                             </a>
                                                                             <a href="#">
                                                                                 <figure>
-                                                                                    <img src="assets/images/products/default/review-img-3.jpg"
+                                                                                    <img src="{% static 'assets/images/products/default/review-img-3.jpg' %}"
                                                                                         width="60" height="60"
                                                                                         alt="پیوست تصویر مروری جان دو در ساعت مچی الکترونیکی بلک مچی"
-                                                                                        data-zoom-image="assets/images/products/default/review-img-3.jpg" />
+                                                                                        data-zoom-image="{% static 'assets/images/products/default/review-img-3.jpg' %}" />
                                                                                 </figure>
                                                                             </a>
                                                                         </div>
@@ -556,7 +556,7 @@
                                                         <li class="comment">
                                                             <div class="comment-body">
                                                                 <figure class="comment-avatar">
-                                                                    <img src="assets/images/agents/3-100x100.png"
+                                                                    <img src="{% static 'assets/images/agents/3-100x100.png' %}"
                                                                         alt="Commenter Avatar" width="90" height="90">
                                                                 </figure>
                                                                 <div class="comment-content">
@@ -594,7 +594,7 @@
                                                         <li class="comment">
                                                             <div class="comment-body">
                                                                 <figure class="comment-avatar">
-                                                                    <img src="assets/images/agents/1-100x100.png"
+                                                                    <img src="{% static 'assets/images/agents/1-100x100.png' %}"
                                                                         alt="Commenter Avatar" width="90" height="90">
                                                                 </figure>
                                                                 <div class="comment-content">
