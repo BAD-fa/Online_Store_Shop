@@ -1,6 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import View
 
-class home_test(View):
-    def get(self,request):
-       return render(request,"base.html")
+
+def home(request):
+    return render(request, 'index.html')
