@@ -1,11 +1,62 @@
+{% extends "base.html" %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% block content %}
+    <div class="page-content">
+        <div class="container">
+            <ul class="nav-filters filter-underline blog-filters mb-4">
+                <li><a href="#" class="nav-filter active" data-filter="*">همه پست های وبلاگ  <span>6</span></a></li>
+                {% for cat in blog_category %}
+                    <li><a href="#" class="nav-filter" data-filter=".{{ cat.name }}">cat.name <span>cat.count</span></a></li>
+                {% endfor %}
+            </ul>
 
-</body>
-</html>
+            <div class="row grid cols-lg-3 cols-md-2 mb-2" data-grid-options="{
+                        'layoutMode': 'fitRows'
+                    }">
+                {% for blog in blogs %}
+                    <div class="grid-item سبک زندگی مد">
+                        <article class="post post-mask overlay-zoom br-sm">
+                            <figure class="post-media">
+                                <a href="#">
+                                    <img src="{% static 'assets/images/blog/2cols/6.jpg' %}" width="600" height="420" alt="blog">
+                                </a>
+                            </figure>
+                            <div class="post-details">
+                                <div class="post-details-visible">
+                                    <div class="post-cats">
+                                        <a href="#">مدل </a>,
+                                        <a href="#">فناوری </a>
+                                    </div>
+                                    <h4 class="post-title text-white"><a href="#">لورم ایپسوم متن ساختگی با تولید سادگی</a>
+                                    </h4>
+                                </div>
+                                <div class="post-meta">
+                                    توسط  <a href="#" class="post-author">جعفر خان </a>
+                                    - <a href="#" class="post-date">1400/5/20</a>
+                                    <a href="#" class="post-comment">0 نظرات </a>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                {% endfor %}
+                <ul class="pagination justify-content-center mb-10 pb-2 pt-2 mt-8">
+                    <li class="prev disabled">
+                        <a href="#" aria-label="قبلی " tabindex="-1" aria-disabled="true">
+                            <i class="w-icon-long-arrow-right"></i>قبلی
+                        </a>
+                    </li>
+                    {% for page in pages %}
+                        <li class="page-item">
+                            <a class="page-link" href="#">2</a>
+                        </li>
+                    {% endfor %}
+                    <li class="next">
+                        <a href="#" aria-label="بعدی ">
+                            بعدی <i class="w-icon-long-arrow-left"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
