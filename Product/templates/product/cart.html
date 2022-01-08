@@ -1,0 +1,162 @@
+{% extends "base_product" %}
+
+{% block content %}
+<main class="main cart">
+    <nav class="breadcrumb-nav">
+        <div class="container">
+            <ul class="breadcrumb shop-breadcrumb bb-no">
+                <li class="active"><a href="cart.html">سبد خرید فروشگاه  </a></li>
+                <li><a href="#">پرداخت </a></li>
+                <li><a href="#">سفارش کامل شد</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="page-content">
+        <div class="container">
+            <div class="row gutter-lg mb-10">
+                <div class="col-lg-8 pr-lg-4 mb-6">
+                    <table class="shop-table cart-table">
+                        <thead>
+                            <tr>
+                                <th class="product-name"><span>محصول </span></th>
+                                <th></th>
+                                <th class="product-price"><span>قیمت</span></th>
+                                <th class="product-quantity"><span>تعداد</span></th>
+                                <th class="product-subtotal"><span>جمع کل</span></th>
+                            </tr>
+                            {% for elm in  cart  %}##
+                            <td class="product-thumbnail">
+                                <div class="p-relative">
+                                    <a href="product-default.html">
+                                        <figure>
+                                            <img src="{% static 'assets/images/shop/12.jpg' %}" alt="product"
+                                                width="300" height="338">
+                                        </figure>
+                                    </a>
+                                    <button type="submit" class="btn btn-close"><i
+                                            class="fas fa-times"></i></button>
+                                </div>
+                            </td>
+                            <td class="product-name">
+                                <a href="product-default.html">
+                                    {{elm.name}}
+                                </a>
+                            </td>
+                            <td class="product-price"><span class="amount">{{elm.price}}</span></td>
+                            <td class="product-quantity">
+                                <div class="input-group">
+                                    <input class="quantity form-control" type="number" min="1" max="{{elm.amount}}">
+                                    <button class="quantity-plus w-icon-plus"></button>
+                                    <button class="quantity-minus w-icon-minus"></button>
+                                </div>
+                            </td>
+                            <td class="product-subtotal">
+                                <span class="amount">{{(elm.price)*number}}</span>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        <tr>
+                            <div class="cart-action mb-6">
+                                <button type="submit" class="btn btn-rounded btn-default btn-clear" name="clear_cart" value="پاک کردن سبد">پاک کردن سبد </button> 
+                                <button type="submit" class="btn btn-rounded btn-update disabled" name="update_cart" value="بروزرسانی سبد">بروزرسانی سبد</button>
+                            </div>
+                            <form class="coupon">
+                                <h5 class="title coupon-title font-weight-bold text-uppercase">انواع کد تخفیف </h5>
+                                <input type="text" class="form-control mb-4" placeholder="وارد کردن کد تخفیف..." required />
+                                <button class="btn btn-dark btn-outline btn-rounded">اعمال کد</button>
+                            </form>
+                        </div>
+                        <div class="col-lg-4 sticky-sidebar-wrapper">
+                            <div class="sticky-sidebar">
+                                <div class="cart-summary mb-4">
+                                    <h3 class="cart-title text-uppercase">مجموع سبد خرید</h3>
+                                    <div class="cart-subtotal d-flex align-items-center justify-content-between">
+                                        <label class="ls-25">جمع کل</label>
+                                    <span>{{cart.price}}</span>
+                                    </div>
+                                    <hr class="divider">
+
+                                    <ul class="shipping-methods mb-2">
+                                        <li>
+                                            <label
+                                                class="shipping-title text-dark font-weight-bold">حمل و نقل</label>
+                                        </li>
+                                        <li>
+                                            <div class="custom-radio">
+                                                <input type="radio" id="free-shipping" class="custom-control-input"
+                                                    name="shipping">
+                                                <label for="free-shipping"
+                                                    class="custom-control-label color-dark">ارسال رایگان</label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="custom-radio">
+                                                <input type="radio" id="local-pickup" class="custom-control-input"
+                                                    name="shipping">
+                                                <label for="local-pickup"
+                                                    class="custom-control-label color-dark">وانت محلی</label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="custom-radio">
+                                                <input type="radio" id="flat-rate" class="custom-control-input"
+                                                    name="shipping">
+                                                <label for="flat-rate" class="custom-control-label color-dark">نرخ ثابت:
+                                                    78000 تومان</label>
+                                            </div>
+                                        </li>
+                                    </ul>
+
+                                    <div class="shipping-calculator">
+                                        <p class="shipping-destination lh-1">حمل و نقل به  <strong>کدام کشور؟</strong>.</p>
+
+                                        <form class="shipping-calculator-form">
+                                            <div class="form-group">
+                                                <div class="select-box">
+                                                    <select name="country" class="form-control form-control-md">
+                                                        <option value="default" selected="selected">ترکیه
+                                                            
+                                                        </option>
+                                                        <option value="us">ترکیه</option>
+                                                        <option value="uk">آمریکا</option>
+                                                        <option value="fr">فرانسه </option>
+                                                        <option value="aus">هلند </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="select-box">
+                                                    <select name="state" class="form-control form-control-md">
+                                                        <option value="default" selected="selected">کالیفرنیا
+                                                        </option>
+                                                        <option value="ohaio">اویاهو</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <input class="form-control form-control-md" type="text"
+                                                    name="town-city" placeholder="شهر / بخش">
+                                            </div>
+                                            <div class="form-group">
+                                                <input class="form-control form-control-md" type="text"
+                                                    name="zipcode" placeholder="کد پستی">
+                                            </div>
+                                            <button type="submit" class="btn btn-dark btn-outline btn-rounded">بروز کردن سبد</button>
+                                        </form>
+                                    </div>
+
+                                    <hr class="divider mb-6">
+                                    <div class="order-total d-flex justify-content-between align-items-center">
+                                        <label>مجموع خرید</label>
+                                        <span class="ls-50">100000 تومان</span>
+                                    </div>
+                                    <a href="#"
+                                        class="btn btn-block btn-dark btn-icon-right btn-rounded  btn-checkout">
+                                        برای تسویه حساب ادامه دهید<i class="w-icon-long-arrow-left"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>  
+{% endblock content %}
