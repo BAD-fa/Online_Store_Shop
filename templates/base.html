@@ -49,10 +49,10 @@
     {% endblock title %}</title>
 </head>
 <body>
-    {% block header %}{% endblock header %}
-    {% block sidebar %} {% endblock sidebar %}
+    {% block header %}{% include "header.html" %}{% endblock header %}
+    {% block sidebar %} {% include "side.html" %}{% endblock sidebar %}
     {% block content %}{% endblock content %}
-    {% block footer %}{% endblock footer %}
+    {% block footer %}{% include "footer.html" %}{% endblock footer %}
 
     <script src="{% static 'assets/vendor/jquery/jquery.min.js' %}"></script>
     <script src="{% static 'assets/vendor/jquery.plugin/jquery.plugin.min.js' %}"></script>
