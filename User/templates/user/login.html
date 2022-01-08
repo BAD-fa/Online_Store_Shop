@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Start of Breadcrumb -->
+            <nav class="breadcrumb-nav">
+                <div class="container">
+                    <ul class="breadcrumb">
+                        <li><a href="#">صفحه اصلی </a></li>
+                        <li>حساب من</li>
+                    </ul>
+                </div>
+            </nav>
+            <!-- End of Breadcrumb -->
+            <div class="page-content">
+                <div class="container">
+                    <div class="login-popup">
+                        <div class="tab tab-nav-boxed tab-nav-center tab-nav-underline">
+                            <ul class="nav nav-tabs text-uppercase" role="tablist">
+                                <li class="nav-item">
+                                    <a href="#sign-in" class="nav-link active">ورود  </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#sign-up" class="nav-link">ثبت نام</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="sign-in">
+                                    <div class="form-group">
+                                        <label>آدرس ایمیل یا نام کاربری *</label>
+                                        <input type="text" class="form-control" name="username" id="username" required>
+                                    </div>
+                                    <div class="form-group mb-0">
+                                        <label>رمز عبور *</label>
+                                        <input type="text" class="form-control" name="password" id="password" required>
+                                    </div>
+                                    <div class="form-checkbox d-flex align-items-center justify-content-between">
+                                        <input type="checkbox" class="custom-checkbox" id="remember1" name="remember1" required="">
+                                        <label for="remember1">مرا به خاطر بسپار </label>
+                                        <a href="#">فراموشی رمز عبور؟ </a>
+                                    </div>
+                                    <a href="#" class="btn btn-primary">ورود  </a>
+                                </div>
+                                <div class="tab-pane" id="sign-up">
+                                    <div class="form-group">
+                                        <label> آدرس ایمیل شما*</label>
+                                        <input type="text" class="form-control" name="email_1" id="email_1" required>
+                                    </div>
+                                    <div class="form-group mb-5">
+                                        <label>رمز عبور *</label>
+                                        <input type="text" class="form-control" name="password_1" id="password_1" required>
+                                    </div>
+                                    <div class="checkbox-content login-vendor">
+                                        <div class="form-group mb-5">
+                                            <label>نام کوچک  *</label>
+                                            <input type="text" class="form-control" name="first-name" id="first-name" required>
+                                        </div>
+                                        <div class="form-group mb-5">
+                                            <label>نام خانوادگی *</label>
+                                            <input type="text" class="form-control" name="last-name" id="last-name" required>
+                                        </div>
+                                        <div class="form-group mb-5">
+                                            <label>نام فروشگاه *</label>
+                                            <input type="text" class="form-control" name="shop-name" id="shop-name" required>
+                                        </div>
+                                        <div class="form-group mb-5">
+                                            <label>آدرس فروشگاه *</label>
+                                            <input type="text" class="form-control" name="shop-url" id="shop-url" required>
+                                            <small>تم فایل</small>
+                                        </div>
+                                        <div class="form-group mb-5">
+                                            <label>شماره تلفن  *</label>
+                                            <input type="text" class="form-control" name="phone-number" id="phone-number" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-checkbox user-checkbox mt-0">
+                                        <input type="checkbox" class="custom-checkbox checkbox-round active" id="check-customer" name="check-customer" required="">
+                                        <label for="check-customer" class="check-customer mb-1">من مشتری هستم</label>
+                                        <br>
+                                        <input type="checkbox" class="custom-checkbox checkbox-round" id="check-seller" name="check-seller" required="">
+                                        <label for="check-seller" class="check-seller">من فروشنده هستم</label>
+                                    </div>
+                                    <p>اطلاعات شخصی شما برای پشتیبانی از تجربیات شما در سراسر این وب سایت ، مدیریت دسترسی به حساب شما و سایر مقاصدی که در سایت ما شرح داده شده است مورد استفاده قرار می گیرد. <a href="#" class="text-primary">سیاست حفظ حریم خصوصی </a>.</p>
+                                    <a href="#" class="d-block mb-5 text-primary">به عنوان فروشنده ثبت نام کنید؟</a>
+                                    <div class="form-checkbox d-flex align-items-center justify-content-between mb-5">
+                                        <input type="checkbox" class="custom-checkbox" id="remember" name="remember" required="">
+                                        <label for="remember" class="font-size-md">من موافقم با <a  href="#" class="text-primary font-size-md">سیاست حفظ حریم خصوصی </a></label>
+                                    </div>
+                                    <a href="#" class="btn btn-primary">ورود</a>
+                                </div>
+                            </div>
+                            <p class="text-center">با حساب اجتماعی وارد شوید</p>
+                            <div class="social-icons social-icon-border-color d-flex justify-content-center">
+                                <a href="#" class="social-icon social-facebook w-icon-facebook"></a>
+                                <a href="#" class="social-icon social-twitter w-icon-twitter"></a>
+                                <a href="#" class="social-icon social-google fab fa-google"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <!-- End of Main -->
+{% endblock content %}
