@@ -1,6 +1,13 @@
+from django import views
+from django.db.models.aggregates import Count
 from django.shortcuts import render
+from django.views import View
 
 
-def home(request):
-    return render(request, 'index.html')
+class home(View):
+
+    def get(self,request):
+        return render(request,"index.html")
+
+
 

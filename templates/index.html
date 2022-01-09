@@ -6,7 +6,7 @@
 {% endblock head %}
 
 {% block title %}
-    main_page
+    فروشگاه اینترنتی وولـمارت
 {% endblock title %}
 
 
@@ -33,7 +33,7 @@
                                 'name': 'fadeInDownShorter', 'duration': '1s'
                             }" data-options="{'relativeInput':true,'clipRelativeInput':true,'invertX':true,'invertY':true}"
                                 data-child-depth="0.2">
-                                <img src="{% static 'assets/images/demos/demo2/slides/ski.png' }" alt="Ski" width="729"
+                                <img src="{% static 'assets/images/demos/demo2/slides/ski.png'%}" alt="Ski" width="729"
                                     height="570" />
                             </figure>
                             <div class="banner-content text-right y-50 ml-auto">
@@ -100,7 +100,7 @@
                     <!-- End of .intro-slide2 -->
 
                     <div class="banner banner-fixed intro-slide intro-slide3"
-                        style="background-image: url(assets/images/demos/demo2/slides/slide-3.jpg); background-color: #d0cfcb;">
+                        style="background-image: {%static 'assets/images/demos/demo2/slides/slide-3.jpg'%}; background-color: #d0cfcb;">
                         <div class="container">
                             <figure class="slide-image floating-item slide-animate" data-animation-options="{
                                 'name': 'fadeInRightShorter', 'duration': '1s'
@@ -2400,146 +2400,6 @@
                 </div>
                 <!-- End of Owl Carousel -->
 
-                <h2 class="title text-left text-capitalize mb-5 appear-animate">دیدگاه های اخیر شما </h2>
-                <div class="owl-carousel owl-theme appear-animate viewed-products row cols-xl-8 cols-lg-6 cols-md-4 cols-2 mb-7"
-                    data-owl-options="{
-                    'nav': false,
-                    'dots': true,
-                    'margin': 20,
-                    'responsive': {
-                        '0': {
-                            'items': 2
-                        },
-                        '576': {
-                            'items': 3
-                        },
-                        '768': {
-                            'items': 5
-                        },
-                        '992': {
-                            'items': 6
-                        },
-                        '1200': {
-                            'items': 8,
-                            'dots': true
-                        }
-                    }
-                }">
-                    <div class="product-wrap">
-                        <div class="product text-center product-absolute">
-                            <figure class="product-media">
-                                <a href="#">
-                                    <img src="assets/images/demos/demo2/products/3-5-1.jpg" alt="Category image"
-                                        width="300" height="338" style="background-color: #fff" />
-                                </a>
-                            </figure>
-                            <h4 class="product-name">
-                                <a href="product-default.html">دستگاه شارژ و زنگ هشدار</a>
-                            </h4>
-                        </div>
-                    </div>
-                    <!-- End of Product Wrap -->
-                    <div class="product-wrap">
-                        <div class="product text-center product-absolute">
-                            <figure class="product-media">
-                                <a href="#">
-                                    <img src="assets/images/demos/demo2/products/4-2-1.jpg" alt="Category image"
-                                        width="300" height="338" style="background-color: #fff" />
-                                </a>
-                            </figure>
-                            <h4 class="product-name">
-                                <a href="product-default.html">تسکین دهنده زنان</a>
-                            </h4>
-                        </div>
-                    </div>
-                    <!-- End of Product Wrap -->
-                    <div class="product-wrap">
-                        <div class="product text-center product-absolute">
-                            <figure class="product-media">
-                                <a href="#">
-                                    <img src="assets/images/demos/demo2/products/3-2-1.jpg" alt="Category image"
-                                        width="300" height="338" style="background-color: #fff" />
-                                </a>
-                            </figure>
-                            <h4 class="product-name">
-                                <a href="product-default.html">ساعت طلا</a>
-                            </h4>
-                        </div>
-                    </div>
-                    <!-- End of Product Wrap -->
-                    <div class="product-wrap">
-                        <div class="product text-center product-absolute">
-                            <figure class="product-media">
-                                <a href="#">
-                                    <img src="assets/images/demos/demo2/products/3-6-1.jpg" alt="Category image"
-                                        width="300" height="338" style="background-color: #fff" />
-                                </a>
-                            </figure>
-                            <h4 class="product-name">
-                                <a href="product-default.html">مینی هدفون بی سیم</a>
-                            </h4>
-                        </div>
-                    </div>
-                    <!-- End of Product Wrap -->
-                    <div class="product-wrap">
-                        <div class="product text-center product-absolute">
-                            <figure class="product-media">
-                                <a href="#">
-                                    <img src="assets/images/demos/demo2/products/4-1-1.jpg" alt="Category image"
-                                        width="300" height="338" style="background-color: #fff" />
-                                </a>
-                            </figure>
-                            <h4 class="product-name">
-                                <a href="product-default.html">کیف مدرسه سفید</a>
-                            </h4>
-                        </div>
-                    </div>
-                    <!-- End of Product Wrap -->
-                    <div class="product-wrap">
-                        <div class="product text-center product-absolute">
-                            <figure class="product-media">
-                                <a href="#">
-                                    <img src="assets/images/demos/demo2/products/3-7-1.jpg" alt="Category image"
-                                        width="300" height="338" style="background-color: #fff" />
-                                </a>
-                            </figure>
-                            <h4 class="product-name">
-                                <a href="product-default.html">صفحه نمایش با کیفیت بالا تبلت </a>
-                            </h4>
-                        </div>
-                    </div>
-                    <!-- End of Product Wrap -->
-                    <div class="product-wrap">
-                        <div class="product text-center product-absolute">
-                            <figure class="product-media">
-                                <a href="#">
-                                    <img src="assets/images/demos/demo2/products/4-4.jpg" alt="Category image"
-                                        width="300" height="338" style="background-color: #fff" />
-                                </a>
-                            </figure>
-                            <h4 class="product-name">
-                                <a href="product-default.html">پیراهن فراتر از OTP</a>
-                            </h4>
-                        </div>
-                    </div>
-                    <!-- End of Product Wrap -->
-                    <div class="product-wrap">
-                        <div class="product text-center product-absolute">
-                            <figure class="product-media">
-                                <a href="#">
-                                    <img src="assets/images/demos/demo2/products/4-3.jpg" alt="Category image"
-                                        width="300" height="338" style="background-color: #fff" />
-                                </a>
-                            </figure>
-                            <h4 class="product-name">
-                                <a href="product-default.html">کفش آموزشی آبی</a>
-                            </h4>
-                        </div>
-                    </div>
-                    <!-- End of Product Wrap -->
-                </div>
-                <!-- End of Owl Carousel -->
-
                 <h2 class="title text-left mb-5 appear-animate">مشتریان ما</h2>
                 <div class="owl-carousel owl-theme row cols-xl-8 cols-lg-6 cols-md-4 cols-sm-3 cols-2 brands-wrapper br-sm mb-10 appear-animate"
                     data-owl-options="{
@@ -2568,28 +2428,28 @@
                     }
                 }">
                     <figure>
-                        <img src="assets/images/demos/demo2/brands/1.png" alt="Brand" width="290" height="100" />
+                        <img src="{%static 'assets/images/demos/demo2/brands/1.png'%}" alt="Brand" width="290" height="100" />
                     </figure>
                     <figure>
-                        <img src="assets/images/demos/demo2/brands/2.png" alt="Brand" width="290" height="100" />
+                        <img src="{%static 'assets/images/demos/demo2/brands/2.png'%}" alt="Brand" width="290" height="100" />
                     </figure>
                     <figure>
-                        <img src="assets/images/demos/demo2/brands/3.png" alt="Brand" width="290" height="100" />
+                        <img src="{%static 'assets/images/demos/demo2/brands/3.png'%}" alt="Brand" width="290" height="100" />
                     </figure>
                     <figure>
-                        <img src="assets/images/demos/demo2/brands/4.png" alt="Brand" width="290" height="100" />
+                        <img src="{%static 'assets/images/demos/demo2/brands/4.png'%}" alt="Brand" width="290" height="100" />
                     </figure>
                     <figure>
-                        <img src="assets/images/demos/demo2/brands/5.png" alt="Brand" width="290" height="100" />
+                        <img src="{%static 'assets/images/demos/demo2/brands/5.png'%}" alt="Brand" width="290" height="100" />
                     </figure>
                     <figure>
-                        <img src="assets/images/demos/demo2/brands/6.png" alt="Brand" width="290" height="100" />
+                        <img src="{%static 'assets/images/demos/demo2/brands/6.png'%}" alt="Brand" width="290" height="100" />
                     </figure>
                     <figure>
-                        <img src="assets/images/demos/demo2/brands/7.png" alt="Brand" width="290" height="100" />
+                        <img src="{%static 'assets/images/demos/demo2/brands/7.png'%}" alt="Brand" width="290" height="100" />
                     </figure>
                     <figure>
-                        <img src="assets/images/demos/demo2/brands/8.png" alt="Brand" width="290" height="100" />
+                        <img src="{%static 'assets/images/demos/demo2/brands/8.png'%}" alt="Brand" width="290" height="100" />
                     </figure>
                 </div>
                 <!-- End of Brands Wrapper -->
@@ -2618,7 +2478,7 @@
                     <div class="post">
                         <figure class="post-media br-sm">
                             <a href="post-single.html">
-                                <img src="assets/images/demos/demo2/blog/1.jpg" alt="Post" width="620" height="398"
+                                <img src="{%static 'assets/images/demos/demo2/blog/1.jpg'%}" alt="Post" width="620" height="398"
                                     style="background-color: #898078;">
                             </a>
                             <div class="post-calendar">

@@ -5,7 +5,7 @@ from Salesman.models import Salesman
 
 class Category(models.Model):
     name = models.CharField(max_length=32)
-    cat = models.ForeignKey('self', on_delete=models.CASCADE)
+    cat = models.ForeignKey('self', on_delete=models.CASCADE ,null=True , blank=True,related_name="sub_cat")
 
     def __str__(self):
         return self.name
