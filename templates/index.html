@@ -1,12 +1,14 @@
 {% extends 'base.html' %}
 {% load static %}
-
+{%load top_salesman_product %}
+{%load sampel_random %}
+{%load random_products %}
 {% block head %}
     <link rel="stylesheet" type="text/css" href="{% static 'assets/css/demo2.min.css' %}">
 {% endblock head %}
 
 {% block title %}
-    main_page
+    فروشگاه اینترنتی وولـمارت
 {% endblock title %}
 
 
@@ -33,7 +35,7 @@
                                 'name': 'fadeInDownShorter', 'duration': '1s'
                             }" data-options="{'relativeInput':true,'clipRelativeInput':true,'invertX':true,'invertY':true}"
                                 data-child-depth="0.2">
-                                <img src="{% static 'assets/images/demos/demo2/slides/ski.png' }" alt="Ski" width="729"
+                                <img src="{% static 'assets/images/demos/demo2/slides/ski.png'%}" alt="Ski" width="729"
                                     height="570" />
                             </figure>
                             <div class="banner-content text-right y-50 ml-auto">
@@ -100,7 +102,7 @@
                     <!-- End of .intro-slide2 -->
 
                     <div class="banner banner-fixed intro-slide intro-slide3"
-                        style="background-image: url(assets/images/demos/demo2/slides/slide-3.jpg); background-color: #d0cfcb;">
+                        style="background-image: {%static 'assets/images/demos/demo2/slides/slide-3.jpg'%}; background-color: #d0cfcb;">
                         <div class="container">
                             <figure class="slide-image floating-item slide-animate" data-animation-options="{
                                 'name': 'fadeInRightShorter', 'duration': '1s'
@@ -411,48 +413,27 @@
                     </div>
                 </div>
                 <!-- End of Product Deals Warpper -->
-
                 <div class="row category-wrapper electronics-cosmetics appear-animate mb-7">
+                {%random_sampel p_category 2 as random_categorys%}
+                {% for category in random_categorys %}
                     <div class="col-md-6 mb-4">
                         <div class="banner banner-fixed br-sm">
                             <figure>
-                                <img src="assets/images/demos/demo2/categories/1-1.jpg" alt="دسته بنر"
+                                <img src="{{category.img.url}}" alt="{{category.name}}"
                                     width="640" height="200" style="background-color: #25282D;" />
                             </figure>
                             <div class="banner-content y-50">
-                                <h3 class="banner-title text-white ls-25 mb-0">الکترونیک </h3>
-                                <div class="banner-price-info text-white font-weight-bold text-uppercase mb-1">شروع از
-                                    <strong class="text-secondary">125000 تومان</strong>
-                                </div>
+                                <h3 class="banner-title text-white ls-25 mb-0">{{category.name}} </h3>
                                 <hr class="banner-divider bg-white" />
-                                <a href="shop-banner-sidebar.html"
-                                    class="btn btn-white btn-link btn-underline btn-icon-right">
-                                    اکنون میخرم <i class="w-icon-long-arrow-left"></i></a>
+                                <a href="shop-banner-sidebar.html"></a>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6 mb-4">
-                        <div class="banner banner-fixed br-sm">
-                            <figure>
-                                <img src="assets/images/demos/demo2/categories/1-2.jpg" alt="دسته بنر"
-                                    width="640" height="200" style="background-color: #eeedec;" />
-                            </figure>
-                            <div class="banner-content y-50">
-                                <h3 class="banner-title ls-25 text-capitalize mb-0">مجموعه لوازم آرایشی</h3>
-                                <div class="banner-price-info font-weight-bold text-uppercase mb-1">فروش تا
-                                    <strong class="text-secondary">30% فوری</strong>
-                                </div>
-                                <hr class="banner-divider bg-dark" />
-                                <a href="shop-banner-sidebar.html"
-                                    class="btn btn-dark btn-link btn-underline btn-icon-right">
-                                    اکنون میخرم <i class="w-icon-long-arrow-left"></i></a>
-                            </div>
-                        </div>
-                    </div>
+                {% endfor %}
                 </div>
                 <!-- End of Category Wrapper -->
 
-                <h2 class="title mb-5 appear-animate">برترین فروشندگان هفتگی</h2>
+                <h2 class="title mb-5 appear-animate">برترین فروشندگان </h2>
                 <div class="owl-carousel owl-theme vendor-wrapper row cols-lg-4 cols-md-3 cols-sm-2 cols-1 mb-4 appear-animate"
                     data-owl-options="{
                     'nav': false,
@@ -473,12 +454,14 @@
                         }
                     }
                 }">
-                    <div class="vendor-widget vendor-widget-1">
+                    {% for salesman in top_salesman %}
+                    {%get_top_product salesman as top_product%}
+                     <div class="vendor-widget vendor-widget-1">
                         <div class="vendor-products grid-type">
                             <div class="vendor-product lg-item">
                                 <figure class="product-media">
                                     <a href="product-default.html">
-                                        <img src="assets/images/demos/demo2/products/2-1.jpg" alt="محصول فروشنده"
+                                        <img src="{{top_product.0.img.url}}" alt="{{top_product.0.name}}"
                                             width="300" height="338">
                                     </a>
                                 </figure>
@@ -486,7 +469,7 @@
                             <div class="vendor-product sm-item">
                                 <figure class="product-media">
                                     <a href="product-default.html">
-                                        <img src="assets/images/demos/demo2/products/2-2.jpg" alt="محصول فروشنده"
+                                        <img src="{{top_product.1.img.url}}" alt="{{top_product.1.name}}"
                                             width="300" height="338">
                                     </a>
                                 </figure>
@@ -494,7 +477,7 @@
                             <div class="vendor-product sm-item">
                                 <figure class="product-media">
                                     <a href="product-default.html">
-                                        <img src="assets/images/demos/demo2/products/2-3.jpg" alt="محصول فروشنده"
+                                        <img src="{{top_product.2.img.url}}" alt="{{top_product.2.name}}"
                                             width="300" height="338">
                                     </a>
                                 </figure>
@@ -503,15 +486,15 @@
                         <div class="vendor-details">
                             <figure class="vendor-logo">
                                 <a href="vendor-dokan-store.html">
-                                    <img src="assets/images/demos/demo2/vendor-logo/1.jpg" alt="لوگوی فروشنده" width="70"
+                                    <img src="{{salesman.shop_logo.url}}" alt="لوگوی فروشنده" width="70"
                                         height="70">
                                 </a>
                             </figure>
                             <div class="vendor-personal">
                                 <h4 class="vendor-name">
-                                    <a href="vendor-dokan-store.html">فروشنده  1</a>
+                                    <a href="vendor-dokan-store.html">{{salesman.shop_name}}</a>
                                 </h4>
-                                <span class="vendor-product-count">(27 محصول  )</span>
+                                <span class="vendor-product-count">({{ top_product|length }} محصول  )</span>
                                 <div class="ratings-container">
                                     <div class="ratings-full">
                                         <span class="ratings" style="width: 100%;"></span>
@@ -521,172 +504,14 @@
                             </div>
                         </div>
                     </div>
-                    <!-- End of Vendor Widget -->
-                    <div class="vendor-widget vendor-widget-1">
-                        <div class="vendor-products grid-type">
-                            <div class="vendor-product lg-item">
-                                <figure class="product-media">
-                                    <a href="product-default.html">
-                                        <img src="assets/images/demos/demo2/products/2-4.jpg" alt="محصول فروشنده"
-                                            width="300" height="338">
-                                    </a>
-                                </figure>
-                            </div>
-                            <div class="vendor-product sm-item">
-                                <figure class="product-media">
-                                    <a href="product-default.html">
-                                        <img src="assets/images/demos/demo2/products/2-5.jpg" alt="محصول فروشنده"
-                                            width="300" height="338">
-                                    </a>
-                                </figure>
-                            </div>
-                            <div class="vendor-product sm-item">
-                                <figure class="product-media">
-                                    <a href="product-default.html">
-                                        <img src="assets/images/demos/demo2/products/2-6.jpg" alt="محصول فروشنده"
-                                            width="300" height="338">
-                                    </a>
-                                </figure>
-                            </div>
-                        </div>
-                        <div class="vendor-details">
-                            <figure class="vendor-logo">
-                                <a href="vendor-dokan-store.html">
-                                    <img src="assets/images/demos/demo2/vendor-logo/2.jpg" alt="لوگوی فروشنده" width="70"
-                                        height="70">
-                                </a>
-                            </figure>
-                            <div class="vendor-personal">
-                                <h4 class="vendor-name">
-                                    <a href="vendor-dokan-store.html">فروشنده  2</a>
-                                </h4>
-                                <span class="vendor-product-count">(20 محصول  )</span>
-                                <div class="ratings-container">
-                                    <div class="ratings-full">
-                                        <span class="ratings" style="width: 100%;"></span>
-                                        <span class="tooltiptext tooltip-top"></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End of Vendor Widget -->
-                    <div class="vendor-widget vendor-widget-1">
-                        <div class="vendor-products grid-type">
-                            <div class="vendor-product lg-item">
-                                <figure class="product-media">
-                                    <a href="product-default.html">
-                                        <img src="assets/images/demos/demo2/products/2-7.jpg" alt="محصول فروشنده"
-                                            width="300" height="338">
-                                    </a>
-                                </figure>
-                            </div>
-                            <div class="vendor-product sm-item">
-                                <figure class="product-media">
-                                    <a href="product-default.html">
-                                        <img src="assets/images/demos/demo2/products/2-8.jpg" alt="محصول فروشنده"
-                                            width="300" height="338">
-                                    </a>
-                                </figure>
-                            </div>
-                            <div class="vendor-product sm-item">
-                                <figure class="product-media">
-                                    <a href="product-default.html">
-                                        <img src="assets/images/demos/demo2/products/2-9.jpg" alt="محصول فروشنده"
-                                            width="300" height="338">
-                                    </a>
-                                </figure>
-                            </div>
-                        </div>
-                        <div class="vendor-details">
-                            <figure class="vendor-logo">
-                                <a href="vendor-dokan-store.html">
-                                    <img src="assets/images/demos/demo2/vendor-logo/3.jpg" alt="لوگوی فروشنده" width="70"
-                                        height="70">
-                                </a>
-                            </figure>
-                            <div class="vendor-personal">
-                                <h4 class="vendor-name">
-                                    <a href="vendor-dokan-store.html">فروشنده  3</a>
-                                </h4>
-                                <span class="vendor-product-count">(16 محصول  )</span>
-                                <div class="ratings-container">
-                                    <div class="ratings-full">
-                                        <span class="ratings" style="width: 100%;"></span>
-                                        <span class="tooltiptext tooltip-top"></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End of Vendor Widget -->
-                    <div class="vendor-widget vendor-widget-1">
-                        <div class="vendor-products grid-type">
-                            <div class="vendor-product lg-item">
-                                <figure class="product-media">
-                                    <a href="product-default.html">
-                                        <img src="assets/images/demos/demo2/products/2-10.jpg" alt="محصول فروشنده"
-                                            width="300" height="338">
-                                    </a>
-                                </figure>
-                            </div>
-                            <div class="vendor-product sm-item">
-                                <figure class="product-media">
-                                    <a href="product-default.html">
-                                        <img src="assets/images/demos/demo2/products/2-11.jpg" alt="محصول فروشنده"
-                                            width="300" height="338">
-                                    </a>
-                                </figure>
-                            </div>
-                            <div class="vendor-product sm-item">
-                                <figure class="product-media">
-                                    <a href="product-default.html">
-                                        <img src="assets/images/demos/demo2/products/2-12.jpg" alt="محصول فروشنده"
-                                            width="300" height="338">
-                                    </a>
-                                </figure>
-                            </div>
-                        </div>
-                        <div class="vendor-details">
-                            <figure class="vendor-logo">
-                                <a href="vendor-dokan-store.html">
-                                    <img src="assets/images/demos/demo2/vendor-logo/4.jpg" alt="لوگوی فروشنده" width="70"
-                                        height="70">
-                                </a>
-                            </figure>
-                            <div class="vendor-personal">
-                                <h4 class="vendor-name">
-                                    <a href="vendor-dokan-store.html">فروشنده  4</a>
-                                </h4>
-                                <span class="vendor-product-count">(23 محصول  )</span>
-                                <div class="ratings-container">
-                                    <div class="ratings-full">
-                                        <span class="ratings" style="width: 100%;"></span>
-                                        <span class="tooltiptext tooltip-top"></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    {% endfor %}
                     <!-- End of Vendor Widget -->
                 </div>
                 <!-- End of Vendor Wrapper -->
+                {%random_sampel p_category 1 as random_category%}
+                {%random_products random_category 6 as random_products%}
                 <div class="tab tab-with-title tab-nav-boxed appear-animate">
-                    <h2 class="title">لوازم الکترونیکی مصرفی</h2>
-                    <ul class="nav nav-tabs" role="tablist">
-                        <li class="nav-item">
-                            <a class="nav-link active" href="#tab-1">تازه رسیده ها </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#tab-2">برترین فروش </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#tab-3">محبوب ترین </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#tab-4">نمایش همه </a>
-                        </li>
-                    </ul>
+                    <h2 class="title">{{random_category.name}}</h2>
                 </div>
                 <!-- End of Tab Title-->
                 <div class="tab-content appear-animate">
@@ -716,7 +541,7 @@
                                         </div>
                                     </figure>
                                     <div class="product-details">
-                                        <h4 class="product-name"><a href="product-default.html">جعبه شارژر مغناطیسی</a>
+                                        <h4 class="product-name"><a href="product-default.html">{{random_products.0.name}}</a>
                                         </h4>
                                         <div class="ratings-container">
                                             <div class="ratings-full">
@@ -726,11 +551,13 @@
                                             <a href="product-default.html" class="rating-reviews">(3 نظر )</a>
                                         </div>
                                         <div class="product-price">
-                                            <ins class="new-price">79000 تومان</ins>
+                                            <ins class="new-price">{{random_products.0.price}}</ins>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            {{random_products.0.pop}}
+                            {% for product  in random_products %}
                             <div class="product-wrap sm-item">
                                 <div class="product text-center">
                                     <figure class="product-media">
@@ -769,931 +596,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="product-wrap sm-item">
-                                <div class="product text-center">
-                                    <figure class="product-media">
-                                        <a href="product-default.html">
-                                            <img src="assets/images/demos/demo2/products/3-3-1.jpg" alt="Product"
-                                                width="300" height="338">
-                                            <img src="assets/images/demos/demo2/products/3-3-2.jpg" alt="Product"
-                                                width="300" height="338">
-                                        </a>
-                                        <div class="product-action-vertical">
-                                            <a href="#" class="btn-product-icon btn-cart w-icon-cart"
-                                                title="افزودن به سبد خرید"></a>
-                                            <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
-                                                title="افزودن به علاقه مندیها"></a>
-                                            <a href="#" class="btn-product-icon btn-quickview w-icon-search"
-                                                title="نمایش سریع"></a>
-                                            <a href="#" class="btn-product-icon btn-compare w-icon-compare"
-                                                title="افزودن برای مقایسه"></a>
-                                        </div>
-                                    </figure>
-                                    <div class="product-details">
-                                        <h4 class="product-name"><a href="product-default.html">درون وایرلس دار</a></h4>
-                                        <div class="ratings-container">
-                                            <div class="ratings-full">
-                                                <span class="ratings" style="width: 60%;"></span>
-                                                <span class="tooltiptext tooltip-top"></span>
-                                            </div>
-                                            <a href="product-default.html" class="rating-reviews">(8 نظر )</a>
-                                        </div>
-                                        <div class="product-price">
-                                            <ins class="new-price">80000 تومان</ins>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="product-wrap sm-item">
-                                <div class="product text-center">
-                                    <figure class="product-media">
-                                        <a href="product-default.html">
-                                            <img src="assets/images/demos/demo2/products/3-4-1.jpg" alt="Product"
-                                                width="300" height="338">
-                                            <img src="assets/images/demos/demo2/products/3-4-2.jpg" alt="Product"
-                                                width="300" height="338">
-                                        </a>
-                                        <div class="product-action-vertical">
-                                            <a href="#" class="btn-product-icon btn-cart w-icon-cart"
-                                                title="افزودن به سبد خرید"></a>
-                                            <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
-                                                title="افزودن به علاقه مندیها"></a>
-                                            <a href="#" class="btn-product-icon btn-quickview w-icon-search"
-                                                title="نمایش سریع"></a>
-                                            <a href="#" class="btn-product-icon btn-compare w-icon-compare"
-                                                title="افزودن برای مقایسه"></a>
-                                        </div>
-                                    </figure>
-                                    <div class="product-details">
-                                        <h4 class="product-name"><a href="product-default.html">پخش کننده صوتی</a></h4>
-                                        <div class="ratings-container">
-                                            <div class="ratings-full">
-                                                <span class="ratings" style="width: 100%;"></span>
-                                                <span class="tooltiptext tooltip-top"></span>
-                                            </div>
-                                            <a href="product-default.html" class="rating-reviews">(6 نظر )</a>
-                                        </div>
-                                        <div class="product-price">
-                                            <ins class="new-price">24000 تومان</ins>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="product-wrap sm-item">
-                                <div class="product text-center">
-                                    <figure class="product-media">
-                                        <a href="product-default.html">
-                                            <img src="assets/images/demos/demo2/products/3-5-1.jpg" alt="Product"
-                                                width="300" height="338">
-                                            <img src="assets/images/demos/demo2/products/3-5-2.jpg" alt="Product"
-                                                width="300" height="338">
-                                        </a>
-                                        <div class="product-action-vertical">
-                                            <a href="#" class="btn-product-icon btn-cart w-icon-cart"
-                                                title="افزودن به سبد خرید"></a>
-                                            <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
-                                                title="افزودن به علاقه مندیها"></a>
-                                            <a href="#" class="btn-product-icon btn-quickview w-icon-search"
-                                                title="نمایش سریع"></a>
-                                            <a href="#" class="btn-product-icon btn-compare w-icon-compare"
-                                                title="افزودن برای مقایسه"></a>
-                                        </div>
-                                    </figure>
-                                    <div class="product-details">
-                                        <h4 class="product-name"><a href="product-default.html">دستگاه شارژ و زنگ هشدار</a></h4>
-                                        <div class="ratings-container">
-                                            <div class="ratings-full">
-                                                <span class="ratings" style="width: 80%;"></span>
-                                                <span class="tooltiptext tooltip-top"></span>
-                                            </div>
-                                            <a href="product-default.html" class="rating-reviews">(3 نظر )</a>
-                                        </div>
-                                        <div class="product-price">
-                                            <ins class="new-price">39000 تومان</ins>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="product-wrap sm-item">
-                                <div class="product text-center">
-                                    <figure class="product-media">
-                                        <a href="product-default.html">
-                                            <img src="assets/images/demos/demo2/products/3-6-1.jpg" alt="Product"
-                                                width="300" height="338">
-                                            <img src="assets/images/demos/demo2/products/3-6-2.jpg" alt="Product"
-                                                width="300" height="338">
-                                        </a>
-                                        <div class="product-action-vertical">
-                                            <a href="#" class="btn-product-icon btn-cart w-icon-cart"
-                                                title="افزودن به سبد خرید"></a>
-                                            <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
-                                                title="افزودن به علاقه مندیها"></a>
-                                            <a href="#" class="btn-product-icon btn-quickview w-icon-search"
-                                                title="نمایش سریع"></a>
-                                            <a href="#" class="btn-product-icon btn-compare w-icon-compare"
-                                                title="افزودن برای مقایسه"></a>
-                                        </div>
-                                    </figure>
-                                    <div class="product-details">
-                                        <h4 class="product-name"><a href="product-default.html">مینی هدفون بی سیم</a></h4>
-                                        <div class="ratings-container">
-                                            <div class="ratings-full">
-                                                <span class="ratings" style="width: 100%;"></span>
-                                                <span class="tooltiptext tooltip-top"></span>
-                                            </div>
-                                            <a href="product-default.html" class="rating-reviews">(9 نظر )</a>
-                                        </div>
-                                        <div class="product-price">
-                                            <ins class="new-price">39000 تومان</ins>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="product-wrap sm-item">
-                                <div class="product text-center">
-                                    <figure class="product-media">
-                                        <a href="product-default.html">
-                                            <img src="assets/images/demos/demo2/products/3-7-1.jpg" alt="Product"
-                                                width="300" height="338">
-                                            <img src="assets/images/demos/demo2/products/3-7-2.jpg" alt="Product"
-                                                width="300" height="338">
-                                        </a>
-                                        <div class="product-action-vertical">
-                                            <a href="#" class="btn-product-icon btn-cart w-icon-cart"
-                                                title="افزودن به سبد خرید"></a>
-                                            <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
-                                                title="افزودن به علاقه مندیها"></a>
-                                            <a href="#" class="btn-product-icon btn-quickview w-icon-search"
-                                                title="نمایش سریع"></a>
-                                            <a href="#" class="btn-product-icon btn-compare w-icon-compare"
-                                                title="افزودن برای مقایسه"></a>
-                                        </div>
-                                    </figure>
-                                    <div class="product-details">
-                                        <h4 class="product-name"><a href="product-default.html">صفحه نمایش با کیفیت بالا تبلت </a></h4>
-                                        <div class="ratings-container">
-                                            <div class="ratings-full">
-                                                <span class="ratings" style="width: 80%;"></span>
-                                                <span class="tooltiptext tooltip-top"></span>
-                                            </div>
-                                            <a href="product-default.html" class="rating-reviews">(5 نظر )</a>
-                                        </div>
-                                        <div class="product-price">
-                                            <ins class="new-price">173000 تومان</ins>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tab-pane" id="tab-2">
-                        <div class="row grid-type products">
-                            <div class="product-wrap lg-item">
-                                <div class="product text-center">
-                                    <figure class="product-media">
-                                        <a href="product-default.html">
-                                            <img src="assets/images/demos/demo2/products/3-2-1.jpg" alt="Product"
-                                                width="300" height="338">
-                                            <img src="assets/images/demos/demo2/products/3-2-2.jpg" alt="Product"
-                                                width="300" height="338">
-                                        </a>
-                                        <div class="product-action-vertical">
-                                            <a href="#" class="btn-product-icon btn-cart w-icon-cart"
-                                                title="افزودن به سبد خرید"></a>
-                                            <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
-                                                title="افزودن به علاقه مندیها"></a>
-                                            <a href="#" class="btn-product-icon btn-quickview w-icon-search"
-                                                title="نمایش سریع"></a>
-                                            <a href="#" class="btn-product-icon btn-compare w-icon-compare"
-                                                title="افزودن برای مقایسه"></a>
-                                        </div>
-                                    </figure>
-                                    <div class="product-details">
-                                        <h4 class="product-name"><a href="product-default.html">ساعت طلا</a></h4>
-                                        <div class="ratings-container">
-                                            <div class="ratings-full">
-                                                <span class="ratings" style="width: 80%;"></span>
-                                                <span class="tooltiptext tooltip-top"></span>
-                                            </div>
-                                            <a href="product-default.html" class="rating-reviews">(3 نظر )</a>
-                                        </div>
-                                        <div class="product-price">
-                                            <ins class="new-price">17000 تومان</ins><del class="old-price">19000 تومان</del>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="product-wrap sm-item">
-                                <div class="product text-center">
-                                    <figure class="product-media">
-                                        <a href="product-default.html">
-                                            <img src="assets/images/demos/demo2/products/3-5-1.jpg" alt="Product"
-                                                width="300" height="338">
-                                            <img src="assets/images/demos/demo2/products/3-5-2.jpg" alt="Product"
-                                                width="300" height="338">
-                                        </a>
-                                        <div class="product-action-vertical">
-                                            <a href="#" class="btn-product-icon btn-cart w-icon-cart"
-                                                title="افزودن به سبد خرید"></a>
-                                            <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
-                                                title="افزودن به علاقه مندیها"></a>
-                                            <a href="#" class="btn-product-icon btn-quickview w-icon-search"
-                                                title="نمایش سریع"></a>
-                                            <a href="#" class="btn-product-icon btn-compare w-icon-compare"
-                                                title="افزودن برای مقایسه"></a>
-                                        </div>
-                                    </figure>
-                                    <div class="product-details">
-                                        <h4 class="product-name"><a href="product-default.html">دستگاه شارژ و زنگ هشدار</a></h4>
-                                        <div class="ratings-container">
-                                            <div class="ratings-full">
-                                                <span class="ratings" style="width: 80%;"></span>
-                                                <span class="tooltiptext tooltip-top"></span>
-                                            </div>
-                                            <a href="product-default.html" class="rating-reviews">(3 نظر )</a>
-                                        </div>
-                                        <div class="product-price">
-                                            <ins class="new-price">39000 تومان</ins>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="product-wrap sm-item">
-                                <div class="product text-center">
-                                    <figure class="product-media">
-                                        <a href="product-default.html">
-                                            <img src="assets/images/demos/demo2/products/3-1-1.jpg" alt="Product"
-                                                width="300" height="338">
-                                            <img src="assets/images/demos/demo2/products/3-1-2.jpg" alt="Product"
-                                                width="300" height="338">
-                                        </a>
-                                        <div class="product-action-vertical">
-                                            <a href="#" class="btn-product-icon btn-cart w-icon-cart"
-                                                title="افزودن به سبد خرید"></a>
-                                            <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
-                                                title="افزودن به علاقه مندیها"></a>
-                                            <a href="#" class="btn-product-icon btn-quickview w-icon-search"
-                                                title="نمایش سریع"></a>
-                                            <a href="#" class="btn-product-icon btn-compare w-icon-compare"
-                                                title="افزودن برای مقایسه"></a>
-                                        </div>
-                                    </figure>
-                                    <div class="product-details">
-                                        <h4 class="product-name"><a href="product-default.html">جعبه شارژر مغناطیسی</a>
-                                        </h4>
-                                        <div class="ratings-container">
-                                            <div class="ratings-full">
-                                                <span class="ratings" style="width: 100%;"></span>
-                                                <span class="tooltiptext tooltip-top"></span>
-                                            </div>
-                                            <a href="product-default.html" class="rating-reviews">(3 نظر )</a>
-                                        </div>
-                                        <div class="product-price">
-                                            <ins class="new-price">79000 تومان</ins>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="product-wrap sm-item">
-                                <div class="product text-center">
-                                    <figure class="product-media">
-                                        <a href="product-default.html">
-                                            <img src="assets/images/demos/demo2/products/3-4-1.jpg" alt="Product"
-                                                width="300" height="338">
-                                            <img src="assets/images/demos/demo2/products/3-4-2.jpg" alt="Product"
-                                                width="300" height="338">
-                                        </a>
-                                        <div class="product-action-vertical">
-                                            <a href="#" class="btn-product-icon btn-cart w-icon-cart"
-                                                title="افزودن به سبد خرید"></a>
-                                            <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
-                                                title="افزودن به علاقه مندیها"></a>
-                                            <a href="#" class="btn-product-icon btn-quickview w-icon-search"
-                                                title="نمایش سریع"></a>
-                                            <a href="#" class="btn-product-icon btn-compare w-icon-compare"
-                                                title="افزودن برای مقایسه"></a>
-                                        </div>
-                                    </figure>
-                                    <div class="product-details">
-                                        <h4 class="product-name"><a href="product-default.html">پخش کننده صوتی</a></h4>
-                                        <div class="ratings-container">
-                                            <div class="ratings-full">
-                                                <span class="ratings" style="width: 100%;"></span>
-                                                <span class="tooltiptext tooltip-top"></span>
-                                            </div>
-                                            <a href="product-default.html" class="rating-reviews">(6 نظر )</a>
-                                        </div>
-                                        <div class="product-price">
-                                            <ins class="new-price">24000 تومان</ins>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="product-wrap sm-item">
-                                <div class="product text-center">
-                                    <figure class="product-media">
-                                        <a href="product-default.html">
-                                            <img src="assets/images/demos/demo2/products/3-7-1.jpg" alt="Product"
-                                                width="300" height="338">
-                                            <img src="assets/images/demos/demo2/products/3-7-2.jpg" alt="Product"
-                                                width="300" height="338">
-                                        </a>
-                                        <div class="product-action-vertical">
-                                            <a href="#" class="btn-product-icon btn-cart w-icon-cart"
-                                                title="افزودن به سبد خرید"></a>
-                                            <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
-                                                title="افزودن به علاقه مندیها"></a>
-                                            <a href="#" class="btn-product-icon btn-quickview w-icon-search"
-                                                title="نمایش سریع"></a>
-                                            <a href="#" class="btn-product-icon btn-compare w-icon-compare"
-                                                title="افزودن برای مقایسه"></a>
-                                        </div>
-                                    </figure>
-                                    <div class="product-details">
-                                        <h4 class="product-name"><a href="product-default.html">صفحه نمایش با کیفیت بالا تبلت </a></h4>
-                                        <div class="ratings-container">
-                                            <div class="ratings-full">
-                                                <span class="ratings" style="width: 80%;"></span>
-                                                <span class="tooltiptext tooltip-top"></span>
-                                            </div>
-                                            <a href="product-default.html" class="rating-reviews">(5 نظر )</a>
-                                        </div>
-                                        <div class="product-price">
-                                            <ins class="new-price">173000 تومان</ins>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="product-wrap sm-item">
-                                <div class="product text-center">
-                                    <figure class="product-media">
-                                        <a href="product-default.html">
-                                            <img src="assets/images/demos/demo2/products/3-6-1.jpg" alt="Product"
-                                                width="300" height="338">
-                                            <img src="assets/images/demos/demo2/products/3-6-2.jpg" alt="Product"
-                                                width="300" height="338">
-                                        </a>
-                                        <div class="product-action-vertical">
-                                            <a href="#" class="btn-product-icon btn-cart w-icon-cart"
-                                                title="افزودن به سبد خرید"></a>
-                                            <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
-                                                title="افزودن به علاقه مندیها"></a>
-                                            <a href="#" class="btn-product-icon btn-quickview w-icon-search"
-                                                title="نمایش سریع"></a>
-                                            <a href="#" class="btn-product-icon btn-compare w-icon-compare"
-                                                title="افزودن برای مقایسه"></a>
-                                        </div>
-                                    </figure>
-                                    <div class="product-details">
-                                        <h4 class="product-name"><a href="product-default.html">مینی هدفون بی سیم</a></h4>
-                                        <div class="ratings-container">
-                                            <div class="ratings-full">
-                                                <span class="ratings" style="width: 100%;"></span>
-                                                <span class="tooltiptext tooltip-top"></span>
-                                            </div>
-                                            <a href="product-default.html" class="rating-reviews">(9 نظر )</a>
-                                        </div>
-                                        <div class="product-price">
-                                            <ins class="new-price">39000 تومان</ins>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="product-wrap sm-item">
-                                <div class="product text-center">
-                                    <figure class="product-media">
-                                        <a href="product-default.html">
-                                            <img src="assets/images/demos/demo2/products/3-3-1.jpg" alt="Product"
-                                                width="300" height="338">
-                                            <img src="assets/images/demos/demo2/products/3-3-2.jpg" alt="Product"
-                                                width="300" height="338">
-                                        </a>
-                                        <div class="product-action-vertical">
-                                            <a href="#" class="btn-product-icon btn-cart w-icon-cart"
-                                                title="افزودن به سبد خرید"></a>
-                                            <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
-                                                title="افزودن به علاقه مندیها"></a>
-                                            <a href="#" class="btn-product-icon btn-quickview w-icon-search"
-                                                title="نمایش سریع"></a>
-                                            <a href="#" class="btn-product-icon btn-compare w-icon-compare"
-                                                title="افزودن برای مقایسه"></a>
-                                        </div>
-                                    </figure>
-                                    <div class="product-details">
-                                        <h4 class="product-name"><a href="product-default.html">درون وایرلس دار</a></h4>
-                                        <div class="ratings-container">
-                                            <div class="ratings-full">
-                                                <span class="ratings" style="width: 60%;"></span>
-                                                <span class="tooltiptext tooltip-top"></span>
-                                            </div>
-                                            <a href="product-default.html" class="rating-reviews">(8 نظر )</a>
-                                        </div>
-                                        <div class="product-price">
-                                            <ins class="new-price">80000 تومان</ins>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tab-pane" id="tab-3">
-                        <div class="row grid-type products">
-                            <div class="product-wrap lg-item">
-                                <div class="product text-center">
-                                    <figure class="product-media">
-                                        <a href="product-default.html">
-                                            <img src="assets/images/demos/demo2/products/3-5-1.jpg" alt="Product"
-                                                width="300" height="338">
-                                            <img src="assets/images/demos/demo2/products/3-5-2.jpg" alt="Product"
-                                                width="300" height="338">
-                                        </a>
-                                        <div class="product-action-vertical">
-                                            <a href="#" class="btn-product-icon btn-cart w-icon-cart"
-                                                title="افزودن به سبد خرید"></a>
-                                            <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
-                                                title="افزودن به علاقه مندیها"></a>
-                                            <a href="#" class="btn-product-icon btn-quickview w-icon-search"
-                                                title="نمایش سریع"></a>
-                                            <a href="#" class="btn-product-icon btn-compare w-icon-compare"
-                                                title="افزودن برای مقایسه"></a>
-                                        </div>
-                                    </figure>
-                                    <div class="product-details">
-                                        <h4 class="product-name"><a href="product-default.html">دستگاه شارژ و زنگ هشدار</a></h4>
-                                        <div class="ratings-container">
-                                            <div class="ratings-full">
-                                                <span class="ratings" style="width: 80%;"></span>
-                                                <span class="tooltiptext tooltip-top"></span>
-                                            </div>
-                                            <a href="product-default.html" class="rating-reviews">(3 نظر )</a>
-                                        </div>
-                                        <div class="product-price">
-                                            <ins class="new-price">39000 تومان</ins>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="product-wrap sm-item">
-                                <div class="product text-center">
-                                    <figure class="product-media">
-                                        <a href="product-default.html">
-                                            <img src="assets/images/demos/demo2/products/3-4-1.jpg" alt="Product"
-                                                width="300" height="338">
-                                            <img src="assets/images/demos/demo2/products/3-4-2.jpg" alt="Product"
-                                                width="300" height="338">
-                                        </a>
-                                        <div class="product-action-vertical">
-                                            <a href="#" class="btn-product-icon btn-cart w-icon-cart"
-                                                title="افزودن به سبد خرید"></a>
-                                            <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
-                                                title="افزودن به علاقه مندیها"></a>
-                                            <a href="#" class="btn-product-icon btn-quickview w-icon-search"
-                                                title="نمایش سریع"></a>
-                                            <a href="#" class="btn-product-icon btn-compare w-icon-compare"
-                                                title="افزودن برای مقایسه"></a>
-                                        </div>
-                                    </figure>
-                                    <div class="product-details">
-                                        <h4 class="product-name"><a href="product-default.html">پخش کننده صوتی</a></h4>
-                                        <div class="ratings-container">
-                                            <div class="ratings-full">
-                                                <span class="ratings" style="width: 100%;"></span>
-                                                <span class="tooltiptext tooltip-top"></span>
-                                            </div>
-                                            <a href="product-default.html" class="rating-reviews">(6 نظر )</a>
-                                        </div>
-                                        <div class="product-price">
-                                            <ins class="new-price">24000 تومان</ins>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="product-wrap sm-item">
-                                <div class="product text-center">
-                                    <figure class="product-media">
-                                        <a href="product-default.html">
-                                            <img src="assets/images/demos/demo2/products/3-1-1.jpg" alt="Product"
-                                                width="300" height="338">
-                                            <img src="assets/images/demos/demo2/products/3-1-2.jpg" alt="Product"
-                                                width="300" height="338">
-                                        </a>
-                                        <div class="product-action-vertical">
-                                            <a href="#" class="btn-product-icon btn-cart w-icon-cart"
-                                                title="افزودن به سبد خرید"></a>
-                                            <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
-                                                title="افزودن به علاقه مندیها"></a>
-                                            <a href="#" class="btn-product-icon btn-quickview w-icon-search"
-                                                title="نمایش سریع"></a>
-                                            <a href="#" class="btn-product-icon btn-compare w-icon-compare"
-                                                title="افزودن برای مقایسه"></a>
-                                        </div>
-                                    </figure>
-                                    <div class="product-details">
-                                        <h4 class="product-name"><a href="product-default.html">جعبه شارژر مغناطیسی</a>
-                                        </h4>
-                                        <div class="ratings-container">
-                                            <div class="ratings-full">
-                                                <span class="ratings" style="width: 100%;"></span>
-                                                <span class="tooltiptext tooltip-top"></span>
-                                            </div>
-                                            <a href="product-default.html" class="rating-reviews">(3 نظر )</a>
-                                        </div>
-                                        <div class="product-price">
-                                            <ins class="new-price">79000 تومان</ins>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="product-wrap sm-item">
-                                <div class="product text-center">
-                                    <figure class="product-media">
-                                        <a href="product-default.html">
-                                            <img src="assets/images/demos/demo2/products/3-3-1.jpg" alt="Product"
-                                                width="300" height="338">
-                                            <img src="assets/images/demos/demo2/products/3-3-2.jpg" alt="Product"
-                                                width="300" height="338">
-                                        </a>
-                                        <div class="product-action-vertical">
-                                            <a href="#" class="btn-product-icon btn-cart w-icon-cart"
-                                                title="افزودن به سبد خرید"></a>
-                                            <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
-                                                title="افزودن به علاقه مندیها"></a>
-                                            <a href="#" class="btn-product-icon btn-quickview w-icon-search"
-                                                title="نمایش سریع"></a>
-                                            <a href="#" class="btn-product-icon btn-compare w-icon-compare"
-                                                title="افزودن برای مقایسه"></a>
-                                        </div>
-                                    </figure>
-                                    <div class="product-details">
-                                        <h4 class="product-name"><a href="product-default.html">درون وایرلس دار</a></h4>
-                                        <div class="ratings-container">
-                                            <div class="ratings-full">
-                                                <span class="ratings" style="width: 60%;"></span>
-                                                <span class="tooltiptext tooltip-top"></span>
-                                            </div>
-                                            <a href="product-default.html" class="rating-reviews">(8 نظر )</a>
-                                        </div>
-                                        <div class="product-price">
-                                            <ins class="new-price">80000 تومان</ins>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="product-wrap sm-item">
-                                <div class="product text-center">
-                                    <figure class="product-media">
-                                        <a href="product-default.html">
-                                            <img src="assets/images/demos/demo2/products/3-7-1.jpg" alt="Product"
-                                                width="300" height="338">
-                                            <img src="assets/images/demos/demo2/products/3-7-2.jpg" alt="Product"
-                                                width="300" height="338">
-                                        </a>
-                                        <div class="product-action-vertical">
-                                            <a href="#" class="btn-product-icon btn-cart w-icon-cart"
-                                                title="افزودن به سبد خرید"></a>
-                                            <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
-                                                title="افزودن به علاقه مندیها"></a>
-                                            <a href="#" class="btn-product-icon btn-quickview w-icon-search"
-                                                title="نمایش سریع"></a>
-                                            <a href="#" class="btn-product-icon btn-compare w-icon-compare"
-                                                title="افزودن برای مقایسه"></a>
-                                        </div>
-                                    </figure>
-                                    <div class="product-details">
-                                        <h4 class="product-name"><a href="product-default.html">صفحه نمایش با کیفیت بالا تبلت </a></h4>
-                                        <div class="ratings-container">
-                                            <div class="ratings-full">
-                                                <span class="ratings" style="width: 80%;"></span>
-                                                <span class="tooltiptext tooltip-top"></span>
-                                            </div>
-                                            <a href="product-default.html" class="rating-reviews">(5 نظر )</a>
-                                        </div>
-                                        <div class="product-price">
-                                            <ins class="new-price">173000 تومان</ins>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="product-wrap sm-item">
-                                <div class="product text-center">
-                                    <figure class="product-media">
-                                        <a href="product-default.html">
-                                            <img src="assets/images/demos/demo2/products/3-6-1.jpg" alt="Product"
-                                                width="300" height="338">
-                                            <img src="assets/images/demos/demo2/products/3-6-2.jpg" alt="Product"
-                                                width="300" height="338">
-                                        </a>
-                                        <div class="product-action-vertical">
-                                            <a href="#" class="btn-product-icon btn-cart w-icon-cart"
-                                                title="افزودن به سبد خرید"></a>
-                                            <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
-                                                title="افزودن به علاقه مندیها"></a>
-                                            <a href="#" class="btn-product-icon btn-quickview w-icon-search"
-                                                title="نمایش سریع"></a>
-                                            <a href="#" class="btn-product-icon btn-compare w-icon-compare"
-                                                title="افزودن برای مقایسه"></a>
-                                        </div>
-                                    </figure>
-                                    <div class="product-details">
-                                        <h4 class="product-name"><a href="product-default.html">مینی هدفون بی سیم</a></h4>
-                                        <div class="ratings-container">
-                                            <div class="ratings-full">
-                                                <span class="ratings" style="width: 100%;"></span>
-                                                <span class="tooltiptext tooltip-top"></span>
-                                            </div>
-                                            <a href="product-default.html" class="rating-reviews">(9 نظر )</a>
-                                        </div>
-                                        <div class="product-price">
-                                            <ins class="new-price">39000 تومان</ins>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="product-wrap sm-item">
-                                <div class="product text-center">
-                                    <figure class="product-media">
-                                        <a href="product-default.html">
-                                            <img src="assets/images/demos/demo2/products/3-2-1.jpg" alt="Product"
-                                                width="300" height="338">
-                                            <img src="assets/images/demos/demo2/products/3-2-2.jpg" alt="Product"
-                                                width="300" height="338">
-                                        </a>
-                                        <div class="product-action-vertical">
-                                            <a href="#" class="btn-product-icon btn-cart w-icon-cart"
-                                                title="افزودن به سبد خرید"></a>
-                                            <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
-                                                title="افزودن به علاقه مندیها"></a>
-                                            <a href="#" class="btn-product-icon btn-quickview w-icon-search"
-                                                title="نمایش سریع"></a>
-                                            <a href="#" class="btn-product-icon btn-compare w-icon-compare"
-                                                title="افزودن برای مقایسه"></a>
-                                        </div>
-                                    </figure>
-                                    <div class="product-details">
-                                        <h4 class="product-name"><a href="product-default.html">ساعت طلا</a></h4>
-                                        <div class="ratings-container">
-                                            <div class="ratings-full">
-                                                <span class="ratings" style="width: 80%;"></span>
-                                                <span class="tooltiptext tooltip-top"></span>
-                                            </div>
-                                            <a href="product-default.html" class="rating-reviews">(3 نظر )</a>
-                                        </div>
-                                        <div class="product-price">
-                                            <ins class="new-price">17000 تومان</ins><del class="old-price">19000 تومان</del>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tab-pane" id="tab-4">
-                        <div class="row grid-type products">
-                            <div class="product-wrap lg-item">
-                                <div class="product text-center">
-                                    <figure class="product-media">
-                                        <a href="product-default.html">
-                                            <img src="assets/images/demos/demo2/products/3-3-1.jpg" alt="Product"
-                                                width="300" height="338">
-                                            <img src="assets/images/demos/demo2/products/3-3-2.jpg" alt="Product"
-                                                width="300" height="338">
-                                        </a>
-                                        <div class="product-action-vertical">
-                                            <a href="#" class="btn-product-icon btn-cart w-icon-cart"
-                                                title="افزودن به سبد خرید"></a>
-                                            <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
-                                                title="افزودن به علاقه مندیها"></a>
-                                            <a href="#" class="btn-product-icon btn-quickview w-icon-search"
-                                                title="نمایش سریع"></a>
-                                            <a href="#" class="btn-product-icon btn-compare w-icon-compare"
-                                                title="افزودن برای مقایسه"></a>
-                                        </div>
-                                    </figure>
-                                    <div class="product-details">
-                                        <h4 class="product-name"><a href="product-default.html">درون وایرلس دار</a></h4>
-                                        <div class="ratings-container">
-                                            <div class="ratings-full">
-                                                <span class="ratings" style="width: 60%;"></span>
-                                                <span class="tooltiptext tooltip-top"></span>
-                                            </div>
-                                            <a href="product-default.html" class="rating-reviews">(8 نظر )</a>
-                                        </div>
-                                        <div class="product-price">
-                                            <ins class="new-price">80000 تومان</ins>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="product-wrap sm-item">
-                                <div class="product text-center">
-                                    <figure class="product-media">
-                                        <a href="product-default.html">
-                                            <img src="assets/images/demos/demo2/products/3-2-1.jpg" alt="Product"
-                                                width="300" height="338">
-                                            <img src="assets/images/demos/demo2/products/3-2-2.jpg" alt="Product"
-                                                width="300" height="338">
-                                        </a>
-                                        <div class="product-action-vertical">
-                                            <a href="#" class="btn-product-icon btn-cart w-icon-cart"
-                                                title="افزودن به سبد خرید"></a>
-                                            <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
-                                                title="افزودن به علاقه مندیها"></a>
-                                            <a href="#" class="btn-product-icon btn-quickview w-icon-search"
-                                                title="نمایش سریع"></a>
-                                            <a href="#" class="btn-product-icon btn-compare w-icon-compare"
-                                                title="افزودن برای مقایسه"></a>
-                                        </div>
-                                    </figure>
-                                    <div class="product-details">
-                                        <h4 class="product-name"><a href="product-default.html">ساعت طلا</a></h4>
-                                        <div class="ratings-container">
-                                            <div class="ratings-full">
-                                                <span class="ratings" style="width: 80%;"></span>
-                                                <span class="tooltiptext tooltip-top"></span>
-                                            </div>
-                                            <a href="product-default.html" class="rating-reviews">(3 نظر )</a>
-                                        </div>
-                                        <div class="product-price">
-                                            <ins class="new-price">17000 تومان</ins><del class="old-price">19000 تومان</del>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="product-wrap sm-item">
-                                <div class="product text-center">
-                                    <figure class="product-media">
-                                        <a href="product-default.html">
-                                            <img src="assets/images/demos/demo2/products/3-6-1.jpg" alt="Product"
-                                                width="300" height="338">
-                                            <img src="assets/images/demos/demo2/products/3-6-2.jpg" alt="Product"
-                                                width="300" height="338">
-                                        </a>
-                                        <div class="product-action-vertical">
-                                            <a href="#" class="btn-product-icon btn-cart w-icon-cart"
-                                                title="افزودن به سبد خرید"></a>
-                                            <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
-                                                title="افزودن به علاقه مندیها"></a>
-                                            <a href="#" class="btn-product-icon btn-quickview w-icon-search"
-                                                title="نمایش سریع"></a>
-                                            <a href="#" class="btn-product-icon btn-compare w-icon-compare"
-                                                title="افزودن برای مقایسه"></a>
-                                        </div>
-                                    </figure>
-                                    <div class="product-details">
-                                        <h4 class="product-name"><a href="product-default.html">مینی هدفون بی سیم</a></h4>
-                                        <div class="ratings-container">
-                                            <div class="ratings-full">
-                                                <span class="ratings" style="width: 100%;"></span>
-                                                <span class="tooltiptext tooltip-top"></span>
-                                            </div>
-                                            <a href="product-default.html" class="rating-reviews">(9 نظر )</a>
-                                        </div>
-                                        <div class="product-price">
-                                            <ins class="new-price">39000 تومان</ins>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="product-wrap sm-item">
-                                <div class="product text-center">
-                                    <figure class="product-media">
-                                        <a href="product-default.html">
-                                            <img src="assets/images/demos/demo2/products/3-5-1.jpg" alt="Product"
-                                                width="300" height="338">
-                                            <img src="assets/images/demos/demo2/products/3-5-2.jpg" alt="Product"
-                                                width="300" height="338">
-                                        </a>
-                                        <div class="product-action-vertical">
-                                            <a href="#" class="btn-product-icon btn-cart w-icon-cart"
-                                                title="افزودن به سبد خرید"></a>
-                                            <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
-                                                title="افزودن به علاقه مندیها"></a>
-                                            <a href="#" class="btn-product-icon btn-quickview w-icon-search"
-                                                title="نمایش سریع"></a>
-                                            <a href="#" class="btn-product-icon btn-compare w-icon-compare"
-                                                title="افزودن برای مقایسه"></a>
-                                        </div>
-                                    </figure>
-                                    <div class="product-details">
-                                        <h4 class="product-name"><a href="product-default.html">دستگاه شارژ و زنگ هشدار</a></h4>
-                                        <div class="ratings-container">
-                                            <div class="ratings-full">
-                                                <span class="ratings" style="width: 80%;"></span>
-                                                <span class="tooltiptext tooltip-top"></span>
-                                            </div>
-                                            <a href="product-default.html" class="rating-reviews">(3 نظر )</a>
-                                        </div>
-                                        <div class="product-price">
-                                            <ins class="new-price">39000 تومان</ins>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="product-wrap sm-item">
-                                <div class="product text-center">
-                                    <figure class="product-media">
-                                        <a href="product-default.html">
-                                            <img src="assets/images/demos/demo2/products/3-4-1.jpg" alt="Product"
-                                                width="300" height="338">
-                                            <img src="assets/images/demos/demo2/products/3-4-2.jpg" alt="Product"
-                                                width="300" height="338">
-                                        </a>
-                                        <div class="product-action-vertical">
-                                            <a href="#" class="btn-product-icon btn-cart w-icon-cart"
-                                                title="افزودن به سبد خرید"></a>
-                                            <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
-                                                title="افزودن به علاقه مندیها"></a>
-                                            <a href="#" class="btn-product-icon btn-quickview w-icon-search"
-                                                title="نمایش سریع"></a>
-                                            <a href="#" class="btn-product-icon btn-compare w-icon-compare"
-                                                title="افزودن برای مقایسه"></a>
-                                        </div>
-                                    </figure>
-                                    <div class="product-details">
-                                        <h4 class="product-name"><a href="product-default.html">پخش کننده صوتی</a></h4>
-                                        <div class="ratings-container">
-                                            <div class="ratings-full">
-                                                <span class="ratings" style="width: 100%;"></span>
-                                                <span class="tooltiptext tooltip-top"></span>
-                                            </div>
-                                            <a href="product-default.html" class="rating-reviews">(6 نظر )</a>
-                                        </div>
-                                        <div class="product-price">
-                                            <ins class="new-price">24000 تومان</ins>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="product-wrap sm-item">
-                                <div class="product text-center">
-                                    <figure class="product-media">
-                                        <a href="product-default.html">
-                                            <img src="assets/images/demos/demo2/products/3-7-1.jpg" alt="Product"
-                                                width="300" height="338">
-                                            <img src="assets/images/demos/demo2/products/3-7-2.jpg" alt="Product"
-                                                width="300" height="338">
-                                        </a>
-                                        <div class="product-action-vertical">
-                                            <a href="#" class="btn-product-icon btn-cart w-icon-cart"
-                                                title="افزودن به سبد خرید"></a>
-                                            <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
-                                                title="افزودن به علاقه مندیها"></a>
-                                            <a href="#" class="btn-product-icon btn-quickview w-icon-search"
-                                                title="نمایش سریع"></a>
-                                            <a href="#" class="btn-product-icon btn-compare w-icon-compare"
-                                                title="افزودن برای مقایسه"></a>
-                                        </div>
-                                    </figure>
-                                    <div class="product-details">
-                                        <h4 class="product-name"><a href="product-default.html">صفحه نمایش با کیفیت بالا تبلت </a></h4>
-                                        <div class="ratings-container">
-                                            <div class="ratings-full">
-                                                <span class="ratings" style="width: 80%;"></span>
-                                                <span class="tooltiptext tooltip-top"></span>
-                                            </div>
-                                            <a href="product-default.html" class="rating-reviews">(5 نظر )</a>
-                                        </div>
-                                        <div class="product-price">
-                                            <ins class="new-price">173000 تومان</ins>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="product-wrap sm-item">
-                                <div class="product text-center">
-                                    <figure class="product-media">
-                                        <a href="product-default.html">
-                                            <img src="assets/images/demos/demo2/products/3-1-1.jpg" alt="Product"
-                                                width="300" height="338">
-                                            <img src="assets/images/demos/demo2/products/3-1-2.jpg" alt="Product"
-                                                width="300" height="338">
-                                        </a>
-                                        <div class="product-action-vertical">
-                                            <a href="#" class="btn-product-icon btn-cart w-icon-cart"
-                                                title="افزودن به سبد خرید"></a>
-                                            <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
-                                                title="افزودن به علاقه مندیها"></a>
-                                            <a href="#" class="btn-product-icon btn-quickview w-icon-search"
-                                                title="نمایش سریع"></a>
-                                            <a href="#" class="btn-product-icon btn-compare w-icon-compare"
-                                                title="افزودن برای مقایسه"></a>
-                                        </div>
-                                    </figure>
-                                    <div class="product-details">
-                                        <h4 class="product-name"><a href="product-default.html">جعبه شارژر مغناطیسی</a>
-                                        </h4>
-                                        <div class="ratings-container">
-                                            <div class="ratings-full">
-                                                <span class="ratings" style="width: 100%;"></span>
-                                                <span class="tooltiptext tooltip-top"></span>
-                                            </div>
-                                            <a href="product-default.html" class="rating-reviews">(3 نظر )</a>
-                                        </div>
-                                        <div class="product-price">
-                                            <ins class="new-price">79000 تومان</ins>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            {%endfor%}
                         </div>
                     </div>
                 </div>
@@ -2400,146 +1303,6 @@
                 </div>
                 <!-- End of Owl Carousel -->
 
-                <h2 class="title text-left text-capitalize mb-5 appear-animate">دیدگاه های اخیر شما </h2>
-                <div class="owl-carousel owl-theme appear-animate viewed-products row cols-xl-8 cols-lg-6 cols-md-4 cols-2 mb-7"
-                    data-owl-options="{
-                    'nav': false,
-                    'dots': true,
-                    'margin': 20,
-                    'responsive': {
-                        '0': {
-                            'items': 2
-                        },
-                        '576': {
-                            'items': 3
-                        },
-                        '768': {
-                            'items': 5
-                        },
-                        '992': {
-                            'items': 6
-                        },
-                        '1200': {
-                            'items': 8,
-                            'dots': true
-                        }
-                    }
-                }">
-                    <div class="product-wrap">
-                        <div class="product text-center product-absolute">
-                            <figure class="product-media">
-                                <a href="#">
-                                    <img src="assets/images/demos/demo2/products/3-5-1.jpg" alt="Category image"
-                                        width="300" height="338" style="background-color: #fff" />
-                                </a>
-                            </figure>
-                            <h4 class="product-name">
-                                <a href="product-default.html">دستگاه شارژ و زنگ هشدار</a>
-                            </h4>
-                        </div>
-                    </div>
-                    <!-- End of Product Wrap -->
-                    <div class="product-wrap">
-                        <div class="product text-center product-absolute">
-                            <figure class="product-media">
-                                <a href="#">
-                                    <img src="assets/images/demos/demo2/products/4-2-1.jpg" alt="Category image"
-                                        width="300" height="338" style="background-color: #fff" />
-                                </a>
-                            </figure>
-                            <h4 class="product-name">
-                                <a href="product-default.html">تسکین دهنده زنان</a>
-                            </h4>
-                        </div>
-                    </div>
-                    <!-- End of Product Wrap -->
-                    <div class="product-wrap">
-                        <div class="product text-center product-absolute">
-                            <figure class="product-media">
-                                <a href="#">
-                                    <img src="assets/images/demos/demo2/products/3-2-1.jpg" alt="Category image"
-                                        width="300" height="338" style="background-color: #fff" />
-                                </a>
-                            </figure>
-                            <h4 class="product-name">
-                                <a href="product-default.html">ساعت طلا</a>
-                            </h4>
-                        </div>
-                    </div>
-                    <!-- End of Product Wrap -->
-                    <div class="product-wrap">
-                        <div class="product text-center product-absolute">
-                            <figure class="product-media">
-                                <a href="#">
-                                    <img src="assets/images/demos/demo2/products/3-6-1.jpg" alt="Category image"
-                                        width="300" height="338" style="background-color: #fff" />
-                                </a>
-                            </figure>
-                            <h4 class="product-name">
-                                <a href="product-default.html">مینی هدفون بی سیم</a>
-                            </h4>
-                        </div>
-                    </div>
-                    <!-- End of Product Wrap -->
-                    <div class="product-wrap">
-                        <div class="product text-center product-absolute">
-                            <figure class="product-media">
-                                <a href="#">
-                                    <img src="assets/images/demos/demo2/products/4-1-1.jpg" alt="Category image"
-                                        width="300" height="338" style="background-color: #fff" />
-                                </a>
-                            </figure>
-                            <h4 class="product-name">
-                                <a href="product-default.html">کیف مدرسه سفید</a>
-                            </h4>
-                        </div>
-                    </div>
-                    <!-- End of Product Wrap -->
-                    <div class="product-wrap">
-                        <div class="product text-center product-absolute">
-                            <figure class="product-media">
-                                <a href="#">
-                                    <img src="assets/images/demos/demo2/products/3-7-1.jpg" alt="Category image"
-                                        width="300" height="338" style="background-color: #fff" />
-                                </a>
-                            </figure>
-                            <h4 class="product-name">
-                                <a href="product-default.html">صفحه نمایش با کیفیت بالا تبلت </a>
-                            </h4>
-                        </div>
-                    </div>
-                    <!-- End of Product Wrap -->
-                    <div class="product-wrap">
-                        <div class="product text-center product-absolute">
-                            <figure class="product-media">
-                                <a href="#">
-                                    <img src="assets/images/demos/demo2/products/4-4.jpg" alt="Category image"
-                                        width="300" height="338" style="background-color: #fff" />
-                                </a>
-                            </figure>
-                            <h4 class="product-name">
-                                <a href="product-default.html">پیراهن فراتر از OTP</a>
-                            </h4>
-                        </div>
-                    </div>
-                    <!-- End of Product Wrap -->
-                    <div class="product-wrap">
-                        <div class="product text-center product-absolute">
-                            <figure class="product-media">
-                                <a href="#">
-                                    <img src="assets/images/demos/demo2/products/4-3.jpg" alt="Category image"
-                                        width="300" height="338" style="background-color: #fff" />
-                                </a>
-                            </figure>
-                            <h4 class="product-name">
-                                <a href="product-default.html">کفش آموزشی آبی</a>
-                            </h4>
-                        </div>
-                    </div>
-                    <!-- End of Product Wrap -->
-                </div>
-                <!-- End of Owl Carousel -->
-
                 <h2 class="title text-left mb-5 appear-animate">مشتریان ما</h2>
                 <div class="owl-carousel owl-theme row cols-xl-8 cols-lg-6 cols-md-4 cols-sm-3 cols-2 brands-wrapper br-sm mb-10 appear-animate"
                     data-owl-options="{
@@ -2568,28 +1331,28 @@
                     }
                 }">
                     <figure>
-                        <img src="assets/images/demos/demo2/brands/1.png" alt="Brand" width="290" height="100" />
+                        <img src="{%static 'assets/images/demos/demo2/brands/1.png'%}" alt="Brand" width="290" height="100" />
                     </figure>
                     <figure>
-                        <img src="assets/images/demos/demo2/brands/2.png" alt="Brand" width="290" height="100" />
+                        <img src="{%static 'assets/images/demos/demo2/brands/2.png'%}" alt="Brand" width="290" height="100" />
                     </figure>
                     <figure>
-                        <img src="assets/images/demos/demo2/brands/3.png" alt="Brand" width="290" height="100" />
+                        <img src="{%static 'assets/images/demos/demo2/brands/3.png'%}" alt="Brand" width="290" height="100" />
                     </figure>
                     <figure>
-                        <img src="assets/images/demos/demo2/brands/4.png" alt="Brand" width="290" height="100" />
+                        <img src="{%static 'assets/images/demos/demo2/brands/4.png'%}" alt="Brand" width="290" height="100" />
                     </figure>
                     <figure>
-                        <img src="assets/images/demos/demo2/brands/5.png" alt="Brand" width="290" height="100" />
+                        <img src="{%static 'assets/images/demos/demo2/brands/5.png'%}" alt="Brand" width="290" height="100" />
                     </figure>
                     <figure>
-                        <img src="assets/images/demos/demo2/brands/6.png" alt="Brand" width="290" height="100" />
+                        <img src="{%static 'assets/images/demos/demo2/brands/6.png'%}" alt="Brand" width="290" height="100" />
                     </figure>
                     <figure>
-                        <img src="assets/images/demos/demo2/brands/7.png" alt="Brand" width="290" height="100" />
+                        <img src="{%static 'assets/images/demos/demo2/brands/7.png'%}" alt="Brand" width="290" height="100" />
                     </figure>
                     <figure>
-                        <img src="assets/images/demos/demo2/brands/8.png" alt="Brand" width="290" height="100" />
+                        <img src="{%static 'assets/images/demos/demo2/brands/8.png'%}" alt="Brand" width="290" height="100" />
                     </figure>
                 </div>
                 <!-- End of Brands Wrapper -->
@@ -2618,7 +1381,7 @@
                     <div class="post">
                         <figure class="post-media br-sm">
                             <a href="post-single.html">
-                                <img src="assets/images/demos/demo2/blog/1.jpg" alt="Post" width="620" height="398"
+                                <img src="{%static 'assets/images/demos/demo2/blog/1.jpg'%}" alt="Post" width="620" height="398"
                                     style="background-color: #898078;">
                             </a>
                             <div class="post-calendar">

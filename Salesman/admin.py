@@ -4,4 +4,5 @@ from .models import Salesman, SalesmanProfile
 
 
 admin.site.register(Salesman)
+
 admin.site.register(SalesmanProfile)
