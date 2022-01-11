@@ -11,6 +11,3 @@ class home(View):
         top_salesman = Salesman.objects.all().order_by("profile__rating")[:4]
         ctx ={"top_salesman":top_salesman}
         return render(request,"index.html",ctx)
-
-
-
