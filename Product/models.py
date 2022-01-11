@@ -6,6 +6,7 @@ from Salesman.models import Salesman
 class Category(models.Model):
     name = models.CharField(max_length=32)
     cat = models.ForeignKey('self', on_delete=models.CASCADE ,null=True , blank=True,related_name="sub_cat")
+    img = models.ImageField(upload_to ="category",null=True)
 
     def __str__(self):
         return self.name
@@ -23,6 +24,7 @@ class Product(models.Model):
     description = models.TextField()
     status = models.BooleanField()
     rate = models.FloatField(default=0)
+    img = models.ImageField(upload_to="Product/img",null=True)
 
     def __str__(self):
         return self.name
@@ -44,6 +46,7 @@ class ProductComment(models.Model):
     content = models.TextField()
     author = models.ForeignKey(Customer, on_delete=models.DO_NOTHING)
     rate = models.IntegerField()
+
 
 
 class ProductImage(models.Model):

@@ -187,7 +187,7 @@
                                                     {% get_sub_cat sub_category as sub_sub_categorys%}
                                                     <ul>
                                                         {% for sub_sub_category in sub_sub_categorys %}
-                                                            <li><a href="shop-fullwidth-banner.html">{{sub_sub_category.name}}</a></li>
+                                                            <li><a href="{% url 'product:product_list' sub_sub_category.name %}">{{sub_sub_category.name}}</a></li>
                                                         {% endfor %}
                                                     </ul>
                                                 </li>
@@ -204,7 +204,7 @@
                                     <select id="category" name="category">
                                         <option value="">تمام دسته بندی ها</option>
                                         {% for category in p_category %}
-                                        <option value="4">{{category.name}} </option>
+                                        <option value="{{category.name}}">{{category.name}} </option>
                                         {%endfor%}
                                     </select>
                                 </div>
