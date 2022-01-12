@@ -8,7 +8,6 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('Product', '0003_category_is_parent'),
         ('Product', '0003_product_img_product_product_slug_and_more'),
 
     ]

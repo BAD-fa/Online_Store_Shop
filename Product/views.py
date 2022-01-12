@@ -45,7 +45,7 @@ def search(request):
     qp = request.POST.get('search', '')
     cat = request.POST.get('category', '')
 
-    products = Product.objects.filter(Q(name__icontain=qp) & Q(cateqory__name=cat))
+    products = Product.objects.filter(Q(name__icontains=qp) & Q(category__name=cat))
     ctx = {'products': products}
     return render(request, 'product/shop.html', context=ctx)
 

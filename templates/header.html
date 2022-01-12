@@ -199,7 +199,8 @@
                                         
                                 </div>
                             </div>
-                            <form method="POST" action="#" class="header-search hs-expanded hs-round d-none d-md-flex input-wrapper mr-4 ml-4">
+                            <form method="POST" action="{% url 'product:search' %}" class="header-search hs-expanded hs-round d-none d-md-flex input-wrapper mr-4 ml-4">
+                                {% csrf_token %}
                                 <div class="select-box">
                                     <select id="category" name="category">
                                         <option value="">تمام دسته بندی ها</option>
