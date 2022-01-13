@@ -7,19 +7,16 @@ register = template.Library()
 
 @register.simple_tag
 def random_products(p_cat,number):
+    print(p_cat)
     sub_category = []
     print(p_cat.sub_cat.all())
-    for elm in p_cat.sub_cat.all() :
-        if len(elm.sub_cat.all())>=1:
-            sub_category.append(elm.sub_cat.all()[0])
-    try:
-        print(sub_category)
-        product = list(Product.objects.filter(category__in=list(sub_category)))
-        print(product)
-        products = sample(product,number)
-        print(2)
-        print(products)
+    for elm in p_cat.sub_cat.all():
         print(1)
-        return products
-    except:
-        return None
+        for item in elm.sub_cat.all():
+            print(2)
+            sub_category.append(item)
+
+    
+    product = list(Product.objects.filter(category__in=sub_category))
+    products = sample(product,number)
+    return product
