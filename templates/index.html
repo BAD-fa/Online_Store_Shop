@@ -509,7 +509,7 @@
                 </div>
                 <!-- End of Vendor Wrapper -->
                 {%random_sampel p_category 1 as random_category%}
-                {%random_products random_category 6 as random_products%}
+                {%random_products random_category 7 as random_products%}
                 <div class="tab tab-with-title tab-nav-boxed appear-animate">
                     <h2 class="title">{{random_category.name}}</h2>
                 </div>
@@ -521,9 +521,9 @@
                                 <div class="product text-center">
                                     <figure class="product-media">
                                         <a href="product-default.html">
-                                            <img src="assets/images/demos/demo2/products/3-1-1.jpg" alt="Product"
+                                            <img src="{{random_products.0.img.url}}" alt="Product"
                                                 width="300" height="338">
-                                            <img src="assets/images/demos/demo2/products/3-1-2.jpg" alt="Product"
+                                            <img src="{{random_products.0.img.url}}" alt="Product"
                                                 width="300" height="338">
                                         </a>
                                         <div class="product-action-vertical">
@@ -541,7 +541,7 @@
                                         </div>
                                     </figure>
                                     <div class="product-details">
-                                        <h4 class="product-name"><a href="product-default.html">{{random_products.0.name}}</a>
+                                        <h4 class="product-name"><a href="{%url 'product:product_detail' random_products.0.product_slug %}">{{random_products.0.name}}</a>
                                         </h4>
                                         <div class="ratings-container">
                                             <div class="ratings-full">
@@ -556,15 +556,15 @@
                                     </div>
                                 </div>
                             </div>
-                            {{random_products.0.pop}}
-                            {% for product  in random_products %}
+                            {{random_products.pop.0}}
+                            {% for product  in random_products%}
                             <div class="product-wrap sm-item">
                                 <div class="product text-center">
                                     <figure class="product-media">
                                         <a href="product-default.html">
-                                            <img src="assets/images/demos/demo2/products/3-2-1.jpg" alt="Product"
+                                            <img src="{{product.img.url}}" alt="Product"
                                                 width="300" height="338">
-                                            <img src="assets/images/demos/demo2/products/3-2-2.jpg" alt="Product"
+                                            <img src="{{product.img.url}}" alt="Product"
                                                 width="300" height="338">
                                         </a>
                                         <div class="product-action-vertical">
@@ -577,12 +577,9 @@
                                             <a href="#" class="btn-product-icon btn-compare w-icon-compare"
                                                 title="افزودن برای مقایسه"></a>
                                         </div>
-                                        <div class="product-label-group">
-                                            <label class="product-label label-new">جدید </label>
-                                        </div>
                                     </figure>
                                     <div class="product-details">
-                                        <h4 class="product-name"><a href="product-default.html">ساعت طلا</a></h4>
+                                        <h4 class="product-name"><a href="{% url 'product:product_detail' product.product_slug %}">{{product.name}}</a></h4>
                                         <div class="ratings-container">
                                             <div class="ratings-full">
                                                 <span class="ratings" style="width: 80%;"></span>
@@ -591,7 +588,7 @@
                                             <a href="product-default.html" class="rating-reviews">(3 نظر )</a>
                                         </div>
                                         <div class="product-price">
-                                            <ins class="new-price">17000 تومان</ins><del class="old-price">19000 تومان</del>
+                                            <del class="old-price">{{product.price}}</del>
                                         </div>
                                     </div>
                                 </div>
