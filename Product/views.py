@@ -21,7 +21,6 @@ class ProductDetail(DetailView):
         images = self.object.images.all()
         ctx['comments'] = comments
         ctx['images'] = images
-
         return ctx
 
 
@@ -45,7 +44,7 @@ def search(request):
     qp = request.POST.get('search', '')
     cat = request.POST.get('category', '')
 
-    products = Product.objects.filter(Q(name__icontains=qp) & Q(category__name=cat))
+    products = Product.objects.filter(Q(name__icontains=qp))
     ctx = {'products': products}
     return render(request, 'product/shop.html', context=ctx)
 
