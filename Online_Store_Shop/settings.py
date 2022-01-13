@@ -141,3 +141,7 @@ EMAIL_HOST_PASSWORD = '0jhooliajhot0'
 EMAIL_PORT = 587
 
 LOGIN_REDIRECT_URL = '/'
+
+AUTHENTICATION_BACKENDS = (
+        'django.contrib.auth.backends.ModelBackend',
+    )
