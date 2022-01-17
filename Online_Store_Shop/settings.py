@@ -84,6 +84,18 @@ DATABASES = {
     }
 }
 
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient"
+        },
+        "KEY_PREFIX": "example"
+    }
+}
+
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -134,14 +146,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL ='User.Profile'
 
-EMAIL_USE_TLS = True
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'barchooni@gmail.com'
-EMAIL_HOST_PASSWORD = '0jhooliajhot0'
+EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-
-LOGIN_REDIRECT_URL = '/'
-
-AUTHENTICATION_BACKENDS = (
-        'django.contrib.auth.backends.ModelBackend',
-    )
+EMAIL_HOST_USER = os.environ.get("EMAIL_USERNAME")
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
