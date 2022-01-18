@@ -129,7 +129,7 @@
                         <div class="category category-ellipse">
                             <figure class="category-media">
                                 <a href="{% url 'product:product_list' cat.name %}">
-                                    <img src="{{cat.image.url}}" alt="Categroy"
+                                    <img src="{{cat.img.url}}" alt="Categroy"
                                          width="190" height="190" style="background-color: #5C92C0;"/>
                                 </a>
                             </figure>
@@ -254,7 +254,7 @@
                 <!-- Start of Shop Main Content -->
                 <div class="main-content">
                     <nav class="toolbox sticky-toolbox sticky-content fix-top">
-                        <form action="{% url 'product:filter_params' %}" method="GET">
+                        <form action="#" method="GET">
                         <div class="toolbox-left">
                             <div class="toolbox-item toolbox-sort select-box text-dark">
                                 <label>مرتب سازی بر اساس: </label>
