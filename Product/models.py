@@ -1,6 +1,7 @@
 from django.db import models
+
+from Salesman.models import SalesmanProfile
 from User.models import Profile, Customer
-from Salesman.models import Salesman
 
 
 class Category(models.Model):
@@ -16,7 +17,7 @@ class Category(models.Model):
 
 class Product(models.Model):
     category = models.ForeignKey(Category, related_name='categories', on_delete=models.CASCADE, null=True)
-    salesman = models.ForeignKey(Salesman, related_name='salesmen', on_delete=models.CASCADE)
+    salesman = models.ForeignKey(SalesmanProfile, related_name='salesmen', on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     price = models.BigIntegerField(null=True)
     video = models.FileField(upload_to="Product/video", null=True, blank=True)
