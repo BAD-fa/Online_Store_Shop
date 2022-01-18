@@ -1,6 +1,8 @@
 from django.contrib.auth.models import AnonymousUser
 from django.core.cache import caches
 
+import json
+
 
 def add_to_cart(request, product):
     redis_cache = caches['default']
@@ -9,3 +11,9 @@ def add_to_cart(request, product):
         redis_client.hset(request.user.email, mapping=product)
     else:
         redis_client.hset(request.session.session_key, mapping=product)
+
+def dict_decoder(bainry_dict):
+    data = {}
+    for k,v in bainry_dict:
+        data[k.dcode("utf_8")] = json.loads(v)
+    return data

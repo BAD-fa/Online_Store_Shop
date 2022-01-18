@@ -1,6 +1,8 @@
 from django.db import models
 from User.models import Customer
+from django.contrib.auth import get_user_model
 
+User = get_user_model()
 
 class History(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
@@ -12,3 +14,8 @@ class History(models.Model):
 
     def __str__(self):
         return f"{self.customer.username} --- {self.purchase_date}"
+
+class Wallet(models.Model):
+    
+    holding = models.BigIntegerField()
+    owner  = models.ForeignKey(User,on_delete=models.CASCADE)
