@@ -1,12 +1,13 @@
 from django.db import models
-from User.models import Customer
+
 from Salesman.models import SalesmanProfile
+from User.models import Profile, Customer
 
 
 class Category(models.Model):
     name = models.CharField(max_length=32)
     cat = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name="sub_cat")
-    img = models.ImageField(upload_to="category", null=True)
+    img = models.ImageField(upload_to="category", null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -34,7 +35,7 @@ class Product(models.Model):
 class ProductComment(models.Model):
     date = models.DateField(auto_now_add=True)
     content = models.TextField()
-    author = models.ForeignKey(Customer, on_delete=models.DO_NOTHING)
+    author = models.ForeignKey(Profile, on_delete=models.DO_NOTHING)
     rate = models.IntegerField(null=True, blank=True)
     product = models.ForeignKey(Product, related_name='comments', on_delete=models.CASCADE)
 
