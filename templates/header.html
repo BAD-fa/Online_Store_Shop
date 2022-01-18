@@ -97,43 +97,25 @@
                             <div class="cart-overlay"></div>
                             <a href="#" class="cart-toggle label-down link">
                                 <i class="w-icon-cart">
-                                    <span class="cart-count">2</span>
+                                    <span class="cart-count"></span>
                                 </i>
                                 <span class="cart-label">سبد خرید </span>
                             </a>
                             <div class="dropdown-box">
                                 <div class="products">
+                                    {% for product in cart %}
                                     <div class="product product-cart">
                                         <div class="product-detail">
-                                            <a href="product-default.html" class="product-name">لوازم آرایشی <br>با کیف چرم </a>
+                                            <a href="{%url 'product_detail' cart.product.3 %}" class="product-name">{{product}}</a>
                                             <div class="price-box">
-                                                <span class="product-quantity">1</span>
-                                                <span class="product-price">250000 تومان</span>
+                                                <span class="product-quantity">{{cart.product.0}}</span>
+                                                <span class="product-price">{{cart.product.2}}</span>
                                             </div>
                                         </div>
                                         <figure class="product-media">
-                                            <a href="product-default.html">
-                                                <img src="assets/images/cart/product-1.jpg" alt="product" height="84"
+                                            <a href="{%url 'product_detail' cart.product.3 %}">
+                                                <img src="{{cart.product1}}" alt="product" height="84"
                                                     width="94" />
-                                            </a>
-                                        </figure>
-                                        <button class="btn btn-link btn-close">
-                                            <i class="fas fa-times"></i>
-                                        </button>
-                                    </div>
-
-                                    <div class="product product-cart">
-                                        <div class="product-detail">
-                                            <a href="product-default.html" class="product-name">زود پز <br>استیل برقی </a>
-                                            <div class="price-box">
-                                                <span class="product-quantity">1</span>
-                                                <span class="product-price">320000 تومان</span>
-                                            </div>
-                                        </div>
-                                        <figure class="product-media">
-                                            <a href="product-default.html">
-                                                <img src="assets/images/cart/product-2.jpg" alt="product" width="84"
-                                                    height="94" />
                                             </a>
                                         </figure>
                                         <button class="btn btn-link btn-close">

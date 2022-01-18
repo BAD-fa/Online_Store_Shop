@@ -24,12 +24,12 @@
                                 <th class="product-quantity"><span>تعداد</span></th>
                                 <th class="product-subtotal"><span>جمع کل</span></th>
                             </tr>
-                            {% for elm in  cart  %}##
+                            {% for product in  cart %}
                             <td class="product-thumbnail">
                                 <div class="p-relative">
-                                    <a href="product-default.html">
+                                    <a href="{%url 'product_detail' cart.product.3 %}">
                                         <figure>
-                                            <img src="{% static 'assets/images/shop/12.jpg' %}" alt="product"
+                                            <img src="{{cart.product.1}}" alt="product"
                                                 width="300" height="338">
                                         </figure>
                                     </a>
@@ -39,19 +39,19 @@
                             </td>
                             <td class="product-name">
                                 <a href="product-default.html">
-                                    {{elm.name}}
+                                    {{product}}
                                 </a>
                             </td>
-                            <td class="product-price"><span class="amount">{{elm.price}}</span></td>
+                            <td class="product-price"><span class="amount">{{cart.product.2}}</span></td>
                             <td class="product-quantity">
                                 <div class="input-group">
-                                    <input class="quantity form-control" type="number" min="1" max="{{elm.amount}}">
+                                    <input class="quantity form-control" type="number" min="1" max="1000000">
                                     <button class="quantity-plus w-icon-plus"></button>
                                     <button class="quantity-minus w-icon-minus"></button>
                                 </div>
                             </td>
                             <td class="product-subtotal">
-                                <span class="amount">{{(elm.price)*number}}</span>
+                                <span class="amount">to be balnk</span>
                             </td>
                         </tr>
                         {% endfor %}
@@ -72,7 +72,7 @@
                                     <h3 class="cart-title text-uppercase">مجموع سبد خرید</h3>
                                     <div class="cart-subtotal d-flex align-items-center justify-content-between">
                                         <label class="ls-25">جمع کل</label>
-                                    <span>{{cart.price}}</span>
+                                    <span>cart.price</span>
                                     </div>
                                     <hr class="divider">
 
