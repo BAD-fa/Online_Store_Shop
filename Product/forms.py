@@ -16,9 +16,9 @@ class CommentFrom(forms.ModelForm):
         }
 
     def save(self, *args, **kwargs):
-        user = kwargs.pop('user')
+        author = kwargs.pop('author')
         commit = kwargs.get('commit', True)
         product = kwargs.pop('product')
-        self.instance.author = user
+        self.instance.author = author
         self.instance.product = product
         return super().save(commit=commit)
