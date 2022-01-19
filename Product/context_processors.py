@@ -4,7 +4,7 @@ from .utils import dict_decoder
 
 def cart(request):
     redis_cache = caches['default']
-    redis_client = redis_cache.get_client()
+    redis_client = redis_cache.client.get_client()
 
     if not isinstance(request.user,AnonymousUser):
 

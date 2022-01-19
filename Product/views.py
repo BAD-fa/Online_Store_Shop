@@ -65,14 +65,15 @@ def add_comment(request, product_slug):
             return redirect(reverse("product:product_detail", kwargs={"slug": product_slug}))
 
 
-def test(request, product_slug):
+def add_cart(request, product_slug):
     name = request.POST.get('name', '')
     amount = request.POST.get('amount', '')
     img = request.POST.get('image', '')
     price = request.POST.get('price', '')
     product = {name: json.dumps([amount, img, price, product_slug])}
     add_to_cart(request, product)
-    redis_cache = caches['default']
-    redis_client = redis_cache.client.get_client()
-    print(redis_client.hgetall(request.user.email), 'lllllllllllllllllllllllllllllllllllllllllllllllllll')
     return redirect(reverse("product:product_detail", kwargs={"slug": product_slug}))
+
+
+def show_cart(request):
+    return render(request, 'product/cart.html')

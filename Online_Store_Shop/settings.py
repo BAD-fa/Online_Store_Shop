@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'Salesman',
     'User',
     'django_extensions',
-    'azbankgateways',
 ]
 
 MIDDLEWARE = [
@@ -65,8 +64,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'Online_Store_Shop.context_processors.show_category'
-                'Product.context_processors.cart'
+                'Online_Store_Shop.context_processors.show_category',
+                'Product.context_processors.cart',
             ],
         },
     },
@@ -89,10 +88,7 @@ CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
         "LOCATION": "redis://127.0.0.1:6379/1",
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient"
-        },
-        "KEY_PREFIX": "example"
+        "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"},
     }
 }
 
