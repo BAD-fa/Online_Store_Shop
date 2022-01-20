@@ -15,7 +15,7 @@ user = get_user_model()
 
 class ProductDetail(DetailView):
     model = Product
-    template_name = 'product/product_deatil.html'
+    template_name = 'product/product_detail.html'
     slug_field = 'product_slug'
     context_object_name = 'product'
 
@@ -73,7 +73,3 @@ def add_cart(request, product_slug):
     product = {name: json.dumps([amount, img, price, product_slug])}
     add_to_cart(request, product)
     return redirect(reverse("product:product_detail", kwargs={"slug": product_slug}))
-
-
-def show_cart(request):
-    return render(request, 'product/cart.html')

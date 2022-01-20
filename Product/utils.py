@@ -13,8 +13,8 @@ def add_to_cart(request, product):
         redis_client.hset(request.session.session_key, mapping=product)
 
 
-def dict_decoder(bainry_dict):
+def dict_decoder(binary_dict):
     data = {}
-    for k, v in bainry_dict.items():
+    for k, v in binary_dict.items():
         data[k.decode("utf-8")] = json.loads(v)
     return data

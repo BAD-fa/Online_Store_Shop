@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import ProductDetail, ProductList, search, add_comment, add_cart, show_cart
+from .views import ProductDetail, ProductList, search, add_comment, add_cart
 
 app_name = 'product'
 
@@ -10,6 +10,5 @@ urlpatterns = [
     path('', search, name="search"),
     # path('filter_params/', test, name="filter_params"),
     path('add_comment/<str:product_slug>', add_comment, name="add_comment"),
-    path('add_to_cart/<str:product_slug>', add_cart, name="add_to_cart"),
-    path('cart/', show_cart, name="show_cart")
+    path('add_to_cart/<str:product_slug>', add_cart, name="add_to_cart")
 ]

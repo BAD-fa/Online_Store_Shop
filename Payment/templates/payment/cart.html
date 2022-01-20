@@ -1,6 +1,7 @@
 {% extends "base.html" %}
-{%load price_of_cart%}
 {% load static %}
+{% load price_of_cart %}
+
 
 {% block head %}
 <link rel="stylesheet" type="text/css" href="{% static 'assets/css/style.min.css' %}">
@@ -12,8 +13,8 @@
     <nav class="breadcrumb-nav">
         <div class="container">
             <ul class="breadcrumb shop-breadcrumb bb-no">
-                <li class="active"><a href="{% url 'product:show_cart' %}">سبد خرید فروشگاه  </a></li>
-                <li><a href="#">پرداخت </a></li>
+                <li class="active"><a href="{% url 'Payment:show_cart' %}">سبد خرید فروشگاه  </a></li>
+                <li><a href="{% url 'Payment:checkout' %}">پرداخت </a></li>
                 <li><a href="#">سفارش کامل شد</a></li>
             </ul>
         </div>
@@ -160,7 +161,7 @@
                                 <label>مجموع خرید</label>
                                 <span class="ls-50">{{cart_price}}</span>
                             </div>
-                            <a href="{%url 'Payment:darga' cart_price %}"
+                            <a href="{%url 'Payment:gateway' cart_price %}"
                                class="btn btn-block btn-dark btn-icon-right btn-rounded  btn-checkout">
                                 برای تسویه حساب ادامه دهید<i class="w-icon-long-arrow-left"></i></a>
                         </div>
@@ -171,5 +172,3 @@
     </div>
 </main>
 {% endblock content %}
-
-{% endwith %}

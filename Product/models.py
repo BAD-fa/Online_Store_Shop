@@ -54,7 +54,7 @@ class Cart(models.Model):
     def __str__(self):
         return f"{self.customer.username} --- {self.date}"
 
-  
+
 class WishList(models.Model):
     customer = models.OneToOneField(Customer, on_delete=models.CASCADE)
     product = models.ManyToManyField(Product)

@@ -1,19 +1,29 @@
 {% extends "base.html" %}
+{% load static %}
+{% load price_of_cart %}
+
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{% static 'assets/css/style.min.css' %}">
+{% endblock head %}
 
 {% block content %}
-<body>
         <!-- Start of Main -->
         <main class="main checkout">
             <!-- Start of Breadcrumb -->
             <nav class="breadcrumb-nav">
                 <div class="container">
                     <ul class="breadcrumb shop-breadcrumb bb-no">
-                        <li class="passed"><a href="cart.html">سبد خرید فروشگاه  </a></li>
-                        <li class="active"><a href="checkout.html">پرداخت </a></li>
+                        <li class="passed"><a href="{% url 'Payment:show_cart' %}">سبد خرید فروشگاه  </a></li>
+                        <li class="active"><a href="{% url 'Payment:checkout' %}">پرداخت </a></li>
                         <li><a href="order.html">سفارش کامل شد</a></li>
                     </ul>
                 </div>
             </nav>
+            <!-- End of Breadcrumb -->
+
+
+            <!-- Start of PageContent -->
             <div class="page-content">
                 <div class="container">
                     <div class="login-toggle">
@@ -223,26 +233,19 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                            {% for  in  %}
+                                                {% for product, detail in  cart.items %}
                                                 <tr class="bb-no">
-                                                    <td class="product-name">ژاکت چاپ نخل <i
+                                                    <td class="product-name">{{product}} <i
                                                             class="fas fa-times"></i> <span
-                                                            class="product-quantity">1</span></td>
-                                                    <td class="product-total">40000 تومان</td>
-                                            {% endfor %}
-                                                <tr class="cart-subtotal bb-no">
-                                                    <td>
-                                                        <b>فرعی </b>
-                                                    </td>
-                                                    <td>
-                                                        <b>100000 تومان</b>
-                                                    </td>
+                                                            class="product-quantity">{{detail.0}}</span></td>
+                                                    <td class="product-total">{{detail.2}}</td>
                                                 </tr>
+                                                {% endfor %}
                                             </tbody>
                                             <tfoot>
                                                 <tr class="shipping-methods">
                                                     <td colspan="2" class="text-left">
-                                                        <h4 class="title title-simple bb-no mb-1 pb-0 pt-3">حمل و نقل 
+                                                        <h4 class="title title-simple bb-no mb-1 pb-0 pt-3">حمل و نقل
                                                         </h4>
                                                         <ul id="shipping-method" class="mb-4">
                                                             <li>
@@ -273,11 +276,12 @@
                                                     </td>
                                                 </tr>
                                                 <tr class="order-total">
+                                                    {%sum_of_cart cart as cart_price%}
                                                     <th>
                                                         <b>مجموع </b>
                                                     </th>
                                                     <td>
-                                                        <b>100000 تومان</b>
+                                                        <b>{{cart_price}}</b>
                                                     </td>
                                                 </tr>
                                             </tfoot>
@@ -320,9 +324,9 @@
                                                     <div class="card-header">
                                                         <a href="#paypal" class="expand">پی پال </a>
                                                     </div>
-                                                    <a href="https://www.paypal.com/us/webapps/mpp/paypal-popup" class="text-primary paypal-que" 
+                                                    <a href="https://www.paypal.com/us/webapps/mpp/paypal-popup" class="text-primary paypal-que"
                                                         onclick="javascript:window.open('https://www.paypal.com/us/webapps/mpp/paypal-popup','WIPaypal',
-                                                        'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=1060, height=700'); 
+                                                        'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=1060, height=700');
                                                         return false;">PayPal چیست؟
                                                     </a>
                                                     <div id="paypal" class="card-body collapsed">
@@ -335,7 +339,9 @@
                                         </div>
 
                                         <div class="form-group place-order pt-6">
-                                            <button type="submit" class="btn btn-dark btn-block btn-rounded">ثبت سفارش</button>
+                                            <a href="{%url 'Payment:gateway' cart_price %}"
+                                            class="btn btn-block btn-dark btn-icon-right btn-rounded  btn-checkout">
+                                            پرداخت<i class="w-icon-long-arrow-left"></i></a>
                                         </div>
                                     </div>
                                 </div>
@@ -344,5 +350,7 @@
                     </form>
                 </div>
             </div>
-</html>
+            <!-- End of PageContent -->
+        </main>
+        <!-- End of Main -->
 {% endblock content %}
