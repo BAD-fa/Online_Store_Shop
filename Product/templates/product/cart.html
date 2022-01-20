@@ -1,6 +1,6 @@
 {% extends "base.html" %}
+{%load price_of_cart%}
 {% load static %}
-{% with sum=0 %}
 
 {% block head %}
 <link rel="stylesheet" type="text/css" href="{% static 'assets/css/style.min.css' %}">
@@ -63,7 +63,6 @@
                                     <span class="amount">{% widthratio detail.0 1 detail.2 as p %}{{p}}</span>
                                 </td>
                             </tr>
-                            {{sum|add:p}}
                             {% endfor %}
                         </tbody>
                     </table>
@@ -154,13 +153,14 @@
                                     <button type="submit" class="btn btn-dark btn-outline btn-rounded">بروز کردن سبد</button>
                                 </form>
                             </div>
+                            {%sum_of_cart cart as cart_price%}
 
                             <hr class="divider mb-6">
                             <div class="order-total d-flex justify-content-between align-items-center">
                                 <label>مجموع خرید</label>
-                                <span class="ls-50">{{sum}}</span>
+                                <span class="ls-50">{{cart_price}}</span>
                             </div>
-                            <a href="#"
+                            <a href="{%url 'Payment:darga' cart_price %}"
                                class="btn btn-block btn-dark btn-icon-right btn-rounded  btn-checkout">
                                 برای تسویه حساب ادامه دهید<i class="w-icon-long-arrow-left"></i></a>
                         </div>

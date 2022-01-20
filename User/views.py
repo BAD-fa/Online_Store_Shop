@@ -11,10 +11,10 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.conf import settings
 from django.utils.encoding import force_bytes, force_str
 from django.core.mail import send_mail
-
 from .models import Profile
 from .forms import EmailSignUpForm, CompleteProfileForm, LoginForm
 from .utils import account_activation_token
+from django.core.cache import caches
 
 User = get_user_model()
 
@@ -79,7 +79,14 @@ def login(request):
         password = form.cleaned_data.get("password")
         user = authenticate(request, email=email, password=password)
         if user is not None:
+            redis_cache = caches['default']
+            redis_client = redis_cache.client.get_client()
             _login(request, user)
+            if redis_client.EXISTS(request.session.session_key):
+                cart = redis_client.hgetall(request.session.session_key)
+                redis_client.hset(request.session.session_key,mapping=cart)
+            else:
+                pass
             return redirect(reverse('user:done'))
         else:
             return redirect('user:login')
