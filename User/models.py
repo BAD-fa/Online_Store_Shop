@@ -8,7 +8,7 @@ class Profile(AbstractUser):
     email = models.EmailField(unique=True,null=True)
     phone_number = models .CharField(max_length=11,null=True,unique=True)
     is_active = models.BooleanField(default=False)
-    
+    is_salesman = models.BooleanField(default=False)
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 

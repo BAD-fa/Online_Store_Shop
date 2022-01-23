@@ -400,8 +400,10 @@
                                         </div>
                                     </figure>
                                     <div class="product-details">
+                                        {% if random_products %}
                                         <h4 class="product-name"><a href="{%url 'product:product_detail' random_products.0.product_slug %}">{{random_products.0.name}}</a>
                                         </h4>
+                                        {% endif %}
                                         <div class="ratings-container">
                                             <div class="ratings-full">
                                                 <span class="ratings" style="width: 100%;"></span>
