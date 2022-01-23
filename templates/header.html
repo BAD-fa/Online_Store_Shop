@@ -95,25 +95,26 @@
                         </a>
                         <div class="dropdown cart-dropdown mr-0 mr-lg-2">
                             <div class="cart-overlay"></div>
-                            <a href="#" class="cart-toggle label-down link">
+                            <a href="{% url 'Payment:show_cart' %}" class="cart-toggle label-down link">
                                 <i class="w-icon-cart">
-                                    <span class="cart-count">2</span>
+                                    <span class="cart-count"></span>
                                 </i>
                                 <span class="cart-label">سبد خرید </span>
                             </a>
                             <div class="dropdown-box">
                                 <div class="products">
+                                    {% for product, detail in cart.items %}
                                     <div class="product product-cart">
                                         <div class="product-detail">
-                                            <a href="product-default.html" class="product-name">لوازم آرایشی <br>با کیف چرم </a>
+                                            <a href="{% url 'product:product_detail' detail.3 %}" class="product-name">{{product}}</a>
                                             <div class="price-box">
-                                                <span class="product-quantity">1</span>
-                                                <span class="product-price">250000 تومان</span>
+                                                <span class="product-quantity">{{detail.0}}</span>
+                                                <span class="product-price">{{detail.2}}</span>
                                             </div>
                                         </div>
                                         <figure class="product-media">
-                                            <a href="product-default.html">
-                                                <img src="assets/images/cart/product-1.jpg" alt="product" height="84"
+                                            <a href="{% url 'product:product_detail' detail.3 %}">
+                                                <img src="{{detail.1}}" alt="product" height="84"
                                                     width="94" />
                                             </a>
                                         </figure>
@@ -121,25 +122,7 @@
                                             <i class="fas fa-times"></i>
                                         </button>
                                     </div>
-
-                                    <div class="product product-cart">
-                                        <div class="product-detail">
-                                            <a href="product-default.html" class="product-name">زود پز <br>استیل برقی </a>
-                                            <div class="price-box">
-                                                <span class="product-quantity">1</span>
-                                                <span class="product-price">320000 تومان</span>
-                                            </div>
-                                        </div>
-                                        <figure class="product-media">
-                                            <a href="product-default.html">
-                                                <img src="assets/images/cart/product-2.jpg" alt="product" width="84"
-                                                    height="94" />
-                                            </a>
-                                        </figure>
-                                        <button class="btn btn-link btn-close">
-                                            <i class="fas fa-times"></i>
-                                        </button>
-                                    </div>
+                                    {% endfor %}
                                 </div>
 
                                 <div class="cart-total">
@@ -148,7 +131,7 @@
                                 </div>
 
                                 <div class="cart-action">
-                                    <a href="cart.html" class="btn btn-dark btn-outline btn-rounded">نمایش سبد </a>
+                                    <a href="{% url 'Payment:show_cart' %}" class="btn btn-dark btn-outline btn-rounded">نمایش سبد </a>
                                     <a href="checkout.html" class="btn btn-primary  btn-rounded">پرداخت </a>
                                 </div>
                             </div>

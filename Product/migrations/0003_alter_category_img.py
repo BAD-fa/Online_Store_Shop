@@ -5,7 +5,6 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('Salesman', '0002_initial'),
         ('Product', '0002_initial'),
@@ -15,7 +14,8 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='product',
             name='salesman',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='salesmen', to='Salesman.salesmanprofile'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='salesmen',
+                                    to='Salesman.salesmanprofile'),
         ),
 
         migrations.AlterField(

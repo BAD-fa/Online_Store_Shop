@@ -1,0 +1,177 @@
+{% extends "base.html" %}
+{%load price_of_cart%}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{% static 'assets/css/style.min.css' %}">
+{% endblock head %}
+
+{% block content %}
+        <!-- Start of Main -->
+        <main class="main order">
+            <!-- Start of Breadcrumb -->
+            <nav class="breadcrumb-nav">
+                <div class="container">
+                    <ul class="breadcrumb shop-breadcrumb bb-no">
+                        <li class="passed"><a href="">سبد خرید فروشگاه  </a></li>
+                        <li class="passed"><a href="">پرداخت </a></li>
+                        <li class="active"><a href="">سفارش کامل شد</a></li>
+                    </ul>
+                </div>
+            </nav>
+            <!-- End of Breadcrumb -->
+
+            <!-- Start of PageContent -->
+            <div class="page-content mb-10 pb-2">
+                <div class="container">
+                    <div class="order-success text-center font-weight-bolder text-dark">
+                        <i class="fas fa-check"></i>
+                        متشکرم. سفارش شما دریافت شد.
+                    </div>
+                    <!-- End of Order Success -->
+
+                    <ul class="order-view list-style-none">
+                        <li>
+                            <label>شماره سفارش</label>
+                            <strong>{{history.tracking_code}}</strong>
+                        </li>
+                        <li>
+                            <label>وضعیت</label>
+                            <strong>درحال انجام</strong>
+                        </li>
+                        <li>
+                            <label>تاریخ</label>
+                            <strong>{{history.purchase_date}}</strong>
+                        </li>
+                        <li>
+                            <label>مجموع</label>
+                            <strong>{{history.price}}</strong>
+                        </li>
+                        <li>
+                            <label>روش پرداختی</label>
+                            <strong>{{history.payment_method}}</strong>
+                        </li>
+                    </ul>
+                    <!-- End of Order View -->
+
+                    <div class="order-details-wrapper mb-5">
+                        <h4 class="title text-uppercase ls-25 mb-5">جزئیات سفارش </h4>
+                        <table class="order-table">
+                            <thead>
+                                <tr>
+                                    <th class="text-dark">محصول </th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for product, detail in  paid_cart.items %}
+                                <tr>
+                                    <td>
+                                        <a href="{% url 'product:product_detail' detail.3 %}">{{product}}</a>&nbsp;<strong>x {{detail.0}}</strong><br>
+                                        فروشنده :  <a href="#">فروشنده  1</a>
+                                    </td>
+                                    <td>{{detail.2}}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>مجموع کل: </th>
+                                    <td>{{history.price}}</td>
+                                </tr>
+                                <tr>
+                                    <th>حمل و نقل :</th>
+                                    <td>نرخ ثابت </td>
+                                </tr>
+                                <tr>
+                                    <th>روش پرداختی:</th>
+                                    <td>{{history.payment_method}}</td>
+                                </tr>
+                                <tr class="total">
+                                    <th class="border-no">مجموع :</th>
+                                    <td class="border-no">{{history.price}}</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <!-- End of Order Details -->
+
+                    <div id="account-addresses">
+                        <div class="row">
+                            <div class="col-sm-6 mb-8">
+                                <div class="ecommerce-address billing-address">
+                                    <h4 class="title title-underline ls-25 font-weight-bold">آدرس قبض </h4>
+                                    <address class="mb-4">
+                                        <table class="address-table">
+                                            <tbody>
+                                                <tr>
+                                                    <td>جعفر عباسی</td>
+                                                </tr>
+                                                <tr>
+                                                    <td> تم فایل</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>خیابان دانش</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>شاهین دژ</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>ایران </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>92020</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>1112223334</td>
+                                                </tr>
+                                                <tr class="email">
+                                                    <td>nicework125@gmail.com</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </address>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 mb-8">
+                                <div class="ecommerce-address shipping-address">
+                                    <h4 class="title title-underline ls-25 font-weight-bold">آدرس حمل و نقل</h4>
+                                    <address class="mb-4">
+                                        <table class="address-table">
+                                            <tbody>
+                                                <tr>
+                                                    <td>جعفر عباسی</td>
+                                                </tr>
+                                                <tr>
+                                                    <td> تم فایل</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>خیابان دانش</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>شاهین دژ</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>ایران </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>92020</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </address>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End of Account Address -->
+
+                    <a href="#" class="btn btn-dark btn-rounded btn-icon-left btn-back mt-6"><i class="w-icon-long-arrow-left"></i>برگشت به لیست</a>
+                </div>
+            </div>
+            <!-- End of PageContent -->
+        </main>
+        <!-- End of Main -->
+
+{% endblock content %}
+

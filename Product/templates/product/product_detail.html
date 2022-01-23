@@ -53,13 +53,13 @@
                                             <figure class="product-image">
                                                 <img src="{{product.img.url}}"
                                                      data-zoom-image="{{product.img.url}}"
-                                                     alt="نشانگر صدا میز میز" width="800" height="900">
+                                                     alt="{{product.name}}" width="800" height="900">
                                             </figure>
                                             {% for img in images %}
                                             <figure class="product-image">
                                                 <img src="{{img.img.url}}"
                                                      data-zoom-image="{{img.img.url}}"
-                                                     alt="نشانگر صدا میز میز" width="800" height="900">
+                                                     alt="{{product.name}}" width="800" height="900">
                                             </figure>
                                             {% endfor %}
                                         </div>
@@ -114,56 +114,28 @@
                                         </div>
 
                                         <hr class="product-divider">
-
-                                        <div class="product-form product-variation-form product-image-swatch">
-                                            <label>رنگ:</label>
-                                            <div class="d-flex align-items-center product-variations">
-                                                <a href="#" class="image"><img
-                                                        src="assets/images/products/swatch/1-800x900.jpg"
-                                                        alt="Product Swatch" width="24" height="24" /></a>
-                                                <a href="#" class="image"><img
-                                                        src="assets/images/products/swatch/7-800x900.jpg"
-                                                        alt="Product Swatch" width="24" height="24" /></a>
-                                                <a href="#" class="image"><img
-                                                        src="assets/images/products/swatch/8-800x900.jpg"
-                                                        alt="Product Swatch" width="24" height="24" /></a>
-                                                <a href="#" class="image"><img
-                                                        src="assets/images/products/swatch/14-800x900.jpg"
-                                                        alt="Product Swatch" width="24" height="24" /></a>
-                                            </div>
-                                        </div>
-                                        <div class="product-form product-variation-form product-size-swatch">
-                                            <label class="mb-1">سایز :</label>
-                                            <div class="flex-wrap d-flex align-items-center product-variations">
-                                                <a href="#" class="size">کوچک </a>
-                                                <a href="#" class="size">متوسط </a>
-                                                <a href="#" class="size">بزرگ </a>
-                                                <a href="#" class="size">خیلی بزرگ </a>
-                                            </div>
-                                            <a href="#" class="product-variation-clean">حذف همه </a>
-                                        </div>
-
-                                        <div class="product-variation-price">
-                                            <span></span>
-                                        </div>
-
                                         <div class="fix-bottom product-sticky-content sticky-content">
-                                            <div class="product-form container">
-                                                <div class="product-qty-form">
-                                                    <div class="input-group">
-                                                        <input class="quantity form-control" type="number" name="amount" min="1"
-                                                            max="10000000">
-                                                        <button class="quantity-plus w-icon-plus"></button>
-                                                        <button class="quantity-minus w-icon-minus"></button>
+                                            <form method="post" action="{% url 'product:add_to_cart' product.product_slug %}">
+                                                {% csrf_token %}
+                                                <div class="product-form container">
+                                                    <div class="product-qty-form">
+                                                        <div class="input-group">
+                                                            <input class="quantity form-control" type="number" name="amount" min="1"
+                                                                max="10000000">
+                                                            <button type="button" class="quantity-plus w-icon-plus"></button>
+                                                            <button type="button" class="quantity-minus w-icon-minus"></button>
+                                                        </div>
                                                     </div>
+                                                    <input type="hidden" name="image" value="{{product.img.url}}">
+                                                    <input type="hidden" name="price" value="{{product.price}}">
+                                                    <input type="hidden" name="name" value="{{product.name}}">
+                                                    <button type="submit" class="btn btn-primary btn">
+                                                        <i class="w-icon-cart"></i>
+                                                        <span>افزودن به سبد </span>
+                                                    </button>
                                                 </div>
-                                                <button class="btn btn-primary btn-cart">
-                                                    <i class="w-icon-cart"></i>
-                                                    <span>افزودن به سبد </span>
-                                                </button>
-                                            </div>
+                                            </form>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
@@ -418,7 +390,7 @@
                                                                 id="save-checkbox">
                                                             <label for="save-checkbox">نام ، ایمیل و وب سایت من را برای دفعه بعد که نظر می دهم در این مرورگر ذخیره کنید.</label>
                                                         </div>
-                                                        <button type="submit" class="btn btn-dark"> نظر </button>
+                                                        <button type="submit" class="btn btn-dark"> ارسال نظر </button>
                                                     </form>
                                                 </div>
                                             </div>
@@ -867,8 +839,8 @@
                 </div>
 
                 <div class="cart-action">
-                    <a href="cart.html" class="btn btn-dark btn-outline btn-rounded">نمایش سبد </a>
-                    <a href="checkout.html" class="btn btn-primary  btn-rounded">پرداخت </a>
+                    <a href="{% url 'Payment:show_cart' %}" class="btn btn-dark btn-outline btn-rounded">نمایش سبد </a>
+                    <a href="{% url 'Payment:checkout' %}" class="btn btn-primary  btn-rounded">پرداخت </a>
                 </div>
             </div>
             <!-- End of Dropdown Box -->
