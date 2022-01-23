@@ -1,9 +1,10 @@
+from wsgiref.simple_server import WSGIRequestHandler
 from django.contrib.auth import get_user_model
 from django.shortcuts import render, get_object_or_404, redirect, reverse
-from django.views.generic import DetailView, ListView
+from django.views.generic import DetailView, ListView, CreateView, DeleteView
 from django.db.models import Q
 
-from .models import Product, ProductImage, ProductComment, Category
+from .models import Product, ProductImage, ProductComment, Category, WishList, WishListDetail
 from .forms import CommentFrom
 
 user = get_user_model()
@@ -65,3 +66,22 @@ def add_comment(request, product_slug):
         #         "form": form
         #     }
         #     return render(request, "books/book_detail.html", ctnx)
+
+#----------------------------------------------------------------
+#    ---- wish list ------
+
+class WishListCreateView(CreateView):
+    model = WishList
+    template_name = 'wish_list/create.html'
+
+
+class WishListDetailView(DetailView):
+    pass
+
+
+class WishListDeleteView(DeleteView):
+    pass
+
+
+class WishListListView(ListView):
+    pass

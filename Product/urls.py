@@ -9,5 +9,6 @@ urlpatterns = [
     path('product_list/<str:category>/', ProductList.as_view(), name="product_list"),
     path('', search, name="search"),
     # path('filter_params/', filter_params, name="filter_params"),
-    path('add_comment/<str:slug>', add_comment, name="add_comment")
+    path('add_comment/<str:slug>', add_comment, name="add_comment"),
+
 ]

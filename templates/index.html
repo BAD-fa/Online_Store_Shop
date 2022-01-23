@@ -368,7 +368,9 @@
                 </div>
                 <!-- End of Vendor Wrapper -->
                 {%random_sampel p_category 1 as random_category%}
+                {% if random_products and random_category%}
                 {%random_products random_category 7 as random_products%}
+                {% endif %}
                 <div class="tab tab-with-title tab-nav-boxed appear-animate">
                     <h2 class="title">{{random_category.name}}</h2>
                 </div>
@@ -400,8 +402,10 @@
                                         </div>
                                     </figure>
                                     <div class="product-details">
+                                        {% if random_products %}
                                         <h4 class="product-name"><a href="{%url 'product:product_detail' random_products.0.product_slug %}">{{random_products.0.name}}</a>
                                         </h4>
+                                        {% endif %}
                                         <div class="ratings-container">
                                             <div class="ratings-full">
                                                 <span class="ratings" style="width: 100%;"></span>

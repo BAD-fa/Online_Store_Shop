@@ -22,7 +22,7 @@ class CustomSalesmanAdminPannel(UserAdmin):
         ('اطلاعات اصلی', {'fields': ('first_name', 'last_name', 'shop_name',
          'rating', 'email', 'password', 'phone_number','registration_date','img','shop_logo')}),
         ('Permissions', {
-         'fields': ('is_staff', 'is_active','isvalid', 'user_permissions')}),
+         'fields': ('is_staff', 'is_active','isvalid', 'is_salesman', 'user_permissions')}),
     )
     add_fieldsets = (
         ("اطلاعات کاربری", {

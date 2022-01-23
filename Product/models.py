@@ -2,6 +2,8 @@ from django.db import models
 from User.models import Customer
 from Salesman.models import SalesmanProfile
 
+#mohammad javad aqa zade
+#api 
 
 class Category(models.Model):
     name = models.CharField(max_length=32)
@@ -38,7 +40,7 @@ class ProductComment(models.Model):
     rate = models.IntegerField(null=True, blank=True)
     product = models.ForeignKey(Product, related_name='comments', on_delete=models.CASCADE)
 
-
+#aksay ezafi??
 class ProductImage(models.Model):
     img = models.ImageField(upload_to="Product/image", null=True, blank=True)
     product = models.ForeignKey(Product, related_name='images', on_delete=models.CASCADE)
@@ -56,4 +58,10 @@ class Cart(models.Model):
   
 class WishList(models.Model):
     customer = models.OneToOneField(Customer, on_delete=models.CASCADE)
+
+
+class WishListDetail(models.Model):
     product = models.ManyToManyField(Product)
+    quantity = models.IntegerField(default=1)
+    wishlist = models.ForeignKey(WishList, on_delete=models.CASCADE)
+

@@ -1,3 +1,4 @@
+from urllib import request
 from django import forms
 from .models import SalesmanProfile
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
@@ -43,6 +44,7 @@ class SalesmanEmailSignupForm(UserCreationForm):
         override user create form to create profile after register!
         '''
         salesman = super().save(commit=False)
+        salesman.is_salesman = True
         salesman.set_password(self.cleaned_data["password1"])
         salesman.save()
         

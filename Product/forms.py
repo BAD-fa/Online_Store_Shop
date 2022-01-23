@@ -1,6 +1,7 @@
+from pyexpat import model
 from django import forms
 
-from .models import ProductComment
+from .models import ProductComment, Product
 
 
 class CommentFrom(forms.ModelForm):
@@ -22,3 +23,9 @@ class CommentFrom(forms.ModelForm):
         self.instance.author = user
         self.instance.product = product
         return super().save(commit=commit)
+
+
+class AddProductForm(forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = ['category', 'name']
