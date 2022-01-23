@@ -84,7 +84,7 @@ def login(request):
             _login(request, user)
             if redis_client.EXISTS(request.session.session_key):
                 cart = redis_client.hgetall(request.session.session_key)
-                redis_client.hset(request.session.session_key,mapping=cart)
+                redis_client.hset(request.session.session_key, mapping=cart)
             else:
                 pass
             return redirect(reverse('user:done'))
