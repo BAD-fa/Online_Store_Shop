@@ -1,3 +1,4 @@
+import email
 from django.contrib.auth.views import PasswordChangeDoneView
 from django.db.models import fields
 from django.forms import forms
@@ -18,14 +19,9 @@ class LoginFormm(AuthenticationForm):
             )
 
 
-class LoginForm(forms.ModelForm):
-
-    class Meta:
-        model = Profile
-        fields = [
-            'email', 
-            'password',
-            ]
+class LoginForm(forms.Form):
+    email = forms.EmailField()
+    password = forms.CharField(max_length=100)
             
     
 

@@ -5,6 +5,9 @@ from .utils import dict_decoder
 
 
 def cart(request):
+    if not request.session or not request.session.session_key:
+        request.session.save()
+
     redis_cache = caches['default']
     redis_client = redis_cache.client.get_client()
 

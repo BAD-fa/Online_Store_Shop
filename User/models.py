@@ -1,3 +1,5 @@
+from operator import truediv
+from pickle import TRUE
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from .managers import CustomUserManager
@@ -45,3 +47,13 @@ class CustomerAddress(models.Model):
     postal_code = models.CharField(max_length=10)
     geographical_location = models.CharField(max_length=50)
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+
+
+class UserDevice(models.Model):
+    device_type = models.CharField(max_length=256,null=True)
+    browser_type = models.CharField(max_length=256,null=True)
+    browser_version = models.CharField(max_length=256,null=True)
+    os_type = models.CharField(max_length=256,null=True)
+    os_version = models.CharField(max_length=256,null=True)
+    session = models.CharField(max_length=256,null=True)
+    user = models.ForeignKey(Profile,on_delete=models.CASCADE,related_name="device")
