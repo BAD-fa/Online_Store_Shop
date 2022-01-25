@@ -1,10 +1,11 @@
+from wsgiref.simple_server import WSGIRequestHandler
 from django.contrib.auth import get_user_model
 from django.shortcuts import render, get_object_or_404, redirect, reverse
-from django.views.generic import DetailView, ListView
+from django.views.generic import DetailView, ListView, CreateView, DeleteView
 from django.db.models import Q
 from django.core.cache import caches
 
-from .models import Product, ProductImage, ProductComment, Category
+from .models import Product, ProductImage, ProductComment, Category, WishList, WishListDetail
 from .forms import CommentFrom
 from .utils import add_to_cart
 
@@ -63,6 +64,23 @@ def add_comment(request, product_slug):
             customer = get_object_or_404(user, email=form.cleaned_data.get('email', ''))
             form.save(author=customer, product=product)
             return redirect(reverse("product:product_detail", kwargs={"slug": product_slug}))
+
+
+class WishListCreateView(CreateView):
+    model = WishList
+    template_name = 'wish_list/create.html'
+
+
+class WishListDetailView(DetailView):
+    pass
+
+
+class WishListDeleteView(DeleteView):
+    pass
+
+
+class WishListListView(ListView):
+    pass
 
 
 def add_cart(request, product_slug):

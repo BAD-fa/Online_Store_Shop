@@ -11,10 +11,13 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.conf import settings
 from django.utils.encoding import force_bytes, force_str
 from django.core.mail import send_mail
+
+
 from .models import Profile
-from .forms import EmailSignUpForm, CompleteProfileForm, LoginForm
+from .forms import EmailSignUpForm,CompleteProfileForm,LoginForm
 from .utils import account_activation_token
 from django.core.cache import caches
+
 
 User = get_user_model()
 
@@ -38,7 +41,6 @@ class SignUpView(CreateView):
         send_mail(mail_subject, message, settings.EMAIL_HOST_USER, [to_email])
 
         return HttpResponseRedirect(self.get_success_url())
-
 
 def activate(request, uidb64, token):
     try:
@@ -91,46 +93,7 @@ def login(request):
         else:
             return redirect('user:login')
 
-
+          
 class SigninView(LoginView):
     template_name = 'login.html'
     form_class = LoginForm
-
-# def signin_view(request):
-#     if request.method == 'POST':
-#         form = LoginForm(data=request.POST)
-#         if form.is_valid():
-#             email = form.cleaned_data.get('email')
-#             password = form.cleaned_data.get('password')
-#             user = authenticate(request, email=email, password=password)
-#             if user is not None:
-#                 print("im in authhhhhhhhhhh")
-#                 auth_login(request, user)
-#             return redirect('/')
-#     form = LoginForm()
-#     return render(request, 'newlogin.html', {'form':form})
-# ____________________________________________________________________________
-
-#     if request.method == 'POST':
-#         form = AuthenticationForm(request=request, data=request.POST)
-#         if form.is_valid():
-#             email = form.cleaned_data.get('email')
-#             password = form.cleaned_data.get('password')
-#             user = authenticate(username=email, password=password)
-#             if user is not None:
-#                 print('im here!1')
-#                 login(request, user)
-#                 messages.info(request, f"You are now logged in as {email}")
-#                 return HttpResponseRedirect(reverse('user:done'))
-#             else:
-#                 print('im here!2')
-#                 messages.error(request, "Invalid username or password.")
-#         else:
-#             print('im here!3')
-#             messages.error(request, "Invalid username or password.")
-
-#     else:
-#         form = AuthenticationForm()
-#         return render(request = request,
-#                     template_name = "newlogin.html",
-#                     context={"form":form})

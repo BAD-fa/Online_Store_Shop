@@ -1,7 +1,11 @@
-{% extends 'base.html' %}  
-  
-{% block content %}  
-  
+
+{% extends "admin/change_list.html" %}
+
+{% block content_title %}
+    <h1> ثبت محصول جدید </h1>
+{% endblock %}
+
+{% block result_list %}
 <div class = "login">  
   
     {% if messages %}  
@@ -12,18 +16,22 @@
         </ul>   
     {% endif %}  
       
-    <h1>Register Here</h1>  
+    <h1>ثبت محصول جدید</h1>  
   
-         <form method="post" >  
+    <form method="post" enctype="multipart/form-data">
              {% csrf_token %}  
              <table>  
                 {{ form.as_table }}  
                  <tr>  
                     <td></td>  
-                    <td><input type="submit" name="submit" value="Register" /></td>  
+                    <td><input type="submit" name="submit" value="ثبت" /></td>  
                 </tr>  
              </table>  
          </form>  
      </div>  
   
-{% endblock content %}  
+
+
+{% endblock %}
+
+{% block pagination %}{% endblock %}
