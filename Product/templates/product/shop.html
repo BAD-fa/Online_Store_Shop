@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load query_params %}
 
 {% block head %}
 <link rel="stylesheet" type="text/css" href="{% static 'assets/css/style.min.css' %}">
@@ -25,7 +26,7 @@
         <div class="container">
             <!-- Start of Shop Banner -->
             <div class="shop-default-banner banner d-flex align-items-center mb-5 br-xs"
-                 style="background-image: url(assets/images/shop/banner1.jpg); background-color: #FFC74E;">
+                 style="background-image: {% static 'assets/images/shop/banner1.jpg' %}; background-color: #FFC74E;">
                 <div class="banner-content">
                     <h4 class="banner-subtitle font-weight-bold">مجموعه لوازم جانبی</h4>
                     <h3 class="banner-title text-white text-uppercase font-weight-bolder ls-normal">مچ دست هوشمند</h3>
@@ -129,7 +130,7 @@
                         <div class="category category-ellipse">
                             <figure class="category-media">
                                 <a href="{% url 'product:product_list' cat.name %}">
-                                    <img src="{{cat.img.url}}" alt="Categroy"
+                                    <img src="#" alt="Categroy"
                                          width="190" height="190" style="background-color: #5C92C0;"/>
                                 </a>
                             </figure>
@@ -159,24 +160,15 @@
                         <div class="sticky-sidebar">
                             <div class="filter-actions">
                                 <label>فیلتر : </label>
-                                <a href="#" class="btn btn-dark btn-link filter-clean">حذف همه </a>
+                                <a href="{% url 'product:product_list' request.session.category %}" class="btn btn-dark btn-link filter">حذف همه </a>
                             </div>
                             <!-- Start of Collapsible widget -->
                             <div class="widget widget-collapsible">
                                 <h3 class="widget-title"><label>تمام دسته بندیها</label></h3>
                                 <ul class="widget-body filter-items search-ul">
-                                    <li><a href="#">تجهیزات جانبی </a></li>
-                                    <li><a href="#">کودکانه </a></li>
-                                    <li><a href="#">زیبایی </a></li>
-                                    <li><a href="#">تزیین </a></li>
-                                    <li><a href="#">الکترونیک </a></li>
-                                    <li><a href="#">مدل </a></li>
-                                    <li><a href="#">غذا </a></li>
-                                    <li><a href="#">مبلمان </a></li>
-                                    <li><a href="#">آشپزخانه </a></li>
-                                    <li><a href="#">پزشکی </a></li>
-                                    <li><a href="#">ورزشی </a></li>
-                                    <li><a href="#">ساعت مچی </a></li>
+                                    {% for cat in category %}
+                                    <li><a href="{% url 'product:product_list' cat.name %}">{{cat.name}}</a></li>
+                                    {% endfor %}
                                 </ul>
                             </div>
                             <!-- End of Collapsible Widget -->
@@ -186,64 +178,29 @@
                                 <h3 class="widget-title"><label>قیمت </label></h3>
                                 <div class="widget-body">
                                     <ul class="filter-items search-ul">
-                                        <li><a href="#">0 تومان - 100000 تومان</a></li>
-                                        <li><a href="#">100000 تومان - 200000 تومان</a></li>
-                                        <li><a href="#">200000 تومان - 300000 تومان</a></li>
-                                        <li><a href="#">300000 تومان - 590000 تومان</a></li>
-                                        <li><a href="#">590000 تومان+</a></li>
+                                        <li><a href="{% url_add_query request.get_full_path price='1000000' %}">0 تومان - 1000000 تومان</a></li>
+                                        <li><a href="{% url_add_query request.get_full_path price='2000000' %}">1000000 تومان - 2000000 تومان</a></li>
+                                        <li><a href="{% url_add_query request.get_full_path price='3000000' %}">2000000 تومان - 3000000 تومان</a></li>
+                                        <li><a href="{% url_add_query request.get_full_path price='6000000' %}">3000000 تومان - 6000000 تومان</a></li>
+                                        <li><a href="{% url_add_query request.get_full_path price='50000000' %}">6000000 تومان+</a></li>
                                     </ul>
-                                    <form class="price-range">
-                                        <input type="number" name="min_price" class="min_price text-center"
-                                               placeholder="حداقل به تومان"><span class="delimiter">-</span><input
-                                            type="number" name="max_price" class="max_price text-center"
-                                            placeholder="حداکثر به تومان"><a href="#"
-                                                                             class="btn btn-primary btn-rounded">برو </a>
-                                    </form>
                                 </div>
                             </div>
                             <!-- End of Collapsible Widget -->
-
+                            {% for property, detail in cat_details.items %}
                             <!-- Start of Collapsible Widget -->
                             <div class="widget widget-collapsible">
-                                <h3 class="widget-title"><label>سایز </label></h3>
-                                <ul class="widget-body filter-items item-check mt-1">
-                                    <li><a href="#">خیلی بزرگ </a></li>
-                                    <li><a href="#">بزرگ </a></li>
-                                    <li><a href="#">متوسط </a></li>
-                                    <li><a href="#">کوچک </a></li>
+                                <h3 class="widget-title"><label>{{property}}</label></h3>
+                                <div class="widget-body">
+                                    <ul class="filter-items search-ul item-check mt-1">
+                                    {% for d in detail %}
+                                    <li><a href="{% url_add_query request.get_full_path property=d %}">{{d}}</a></li>
+                                    {% endfor %}
                                 </ul>
+                                </div>
                             </div>
                             <!-- End of Collapsible Widget -->
-
-                            <!-- Start of Collapsible Widget -->
-                            <div class="widget widget-collapsible">
-                                <h3 class="widget-title"><label>برند </label></h3>
-                                <ul class="widget-body filter-items item-check mt-1">
-                                    <li><a href="#">گروه خودروهای شیک</a></li>
-                                    <li><a href="#">علف سبز </a></li>
-                                    <li><a href="#">نود Js</a></li>
-                                    <li><a href="#">NS8</a></li>
-                                    <li><a href="#">قرمز </a></li>
-                                    <li><a href="#">Skysuite تکنولوژی </a></li>
-                                    <li><a href="#">استرلینگ</a></li>
-                                </ul>
-                            </div>
-                            <!-- End of Collapsible Widget -->
-
-                            <!-- Start of Collapsible Widget -->
-                            <div class="widget widget-collapsible">
-                                <h3 class="widget-title"><label>رنگ </label></h3>
-                                <ul class="widget-body filter-items item-check mt-1">
-                                    <li><a href="#">مشکی </a></li>
-                                    <li><a href="#">آبی </a></li>
-                                    <li><a href="#">قهوه ای </a></li>
-                                    <li><a href="#">سبز </a></li>
-                                    <li><a href="#">خاکستری </a></li>
-                                    <li><a href="#">نارنجی </a></li>
-                                    <li><a href="#">زرد </a></li>
-                                </ul>
-                            </div>
-                            <!-- End of Collapsible Widget -->
+                            {% endfor %}
                         </div>
                         <!-- End of Sidebar Content -->
                     </div>
@@ -253,18 +210,16 @@
 
                 <!-- Start of Shop Main Content -->
                 <div class="main-content">
+                    <form action="{% url 'product:search' %}" method="GET">
                     <nav class="toolbox sticky-toolbox sticky-content fix-top">
-                        <form action="#" method="GET">
                         <div class="toolbox-left">
                             <div class="toolbox-item toolbox-sort select-box text-dark">
                                 <label>مرتب سازی بر اساس: </label>
                                 <select name="orderby" class="form-control">
-                                    <option value="default" selected="selected">مرتب سازی پیش فرض</option>
-                                    <option value="popularity">مرتب سازی بر اساس محبوبیت</option>
-                                    <option value="rating">مرتب سازی بر اساس رتبه بندی متوسط</option>
-                                    <option value="date">مرتب سازی بر اساس آخرین</option>
-                                    <option value="price">مرتب سازی بر اساس قیمت: کم به زیاد</option>
-                                    <option value="-price">مرتب سازی بر اساس قیمت: بالا به پایین</option>
+                                    <option value="default">مرتب سازی پیش فرض</option>
+                                    <option value="rate">مرتب سازی بر اساس رتبه بندی</option>
+                                    <option value="-price">مرتب سازی بر اساس قیمت: کم به زیاد</option>
+                                    <option value="price">مرتب سازی بر اساس قیمت: بالا به پایین</option>
                                 </select>
                             </div>
                         </div>
@@ -281,8 +236,8 @@
                                 <button type="submit">filter</button>
                             </div>
                         </div>
-                        </form>
                     </nav>
+                    </form>
                     <div class="product-wrapper row cols-md-3 cols-sm-2 cols-2">
                         {% for product in products %}
                         <div class="product-wrap">
