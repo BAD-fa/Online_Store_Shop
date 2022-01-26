@@ -12,12 +12,10 @@ from django.conf import settings
 from django.utils.encoding import force_bytes, force_str
 from django.core.mail import send_mail
 
-
 from .models import Profile
-from .forms import EmailSignUpForm,CompleteProfileForm,LoginForm
+from .forms import EmailSignUpForm, CompleteProfileForm, LoginForm
 from .utils import account_activation_token
 from django.core.cache import caches
-
 
 User = get_user_model()
 
@@ -41,6 +39,7 @@ class SignUpView(CreateView):
         send_mail(mail_subject, message, settings.EMAIL_HOST_USER, [to_email])
 
         return HttpResponseRedirect(self.get_success_url())
+
 
 def activate(request, uidb64, token):
     try:
@@ -86,14 +85,14 @@ def login(request):
             _login(request, user)
             if redis_client.EXISTS(request.session.session_key):
                 cart = redis_client.hgetall(request.session.session_key)
-                redis_client.hset(request.session.session_key,mapping=cart)
+                redis_client.hset(request.session.session_key, mapping=cart)
             else:
                 pass
             return redirect(reverse('user:done'))
         else:
             return redirect('user:login')
 
-          
+
 class SigninView(LoginView):
     template_name = 'login.html'
     form_class = LoginForm

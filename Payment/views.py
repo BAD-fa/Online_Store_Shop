@@ -68,8 +68,8 @@ def callback_gateway_view(request, cart_price):
             redis_client.hdel(request.user.email, key)
         user = get_object_or_404(User, email=request.user.email)
         history = History.objects.create(customer=user, cart=json.dumps(paid_cart), price=cart_price,
-                               payment_method="درگاه بانکی",
-                               tracking_code=tracking_code)
+                                         payment_method="درگاه بانکی",
+                                         tracking_code=tracking_code)
         ctx = {
             'history': history,
             "paid_cart": paid_cart
