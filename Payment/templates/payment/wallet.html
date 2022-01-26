@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2>Log In</h2>
+<h2>موجودی{{holding}}ریال</h2>
 <form method="post">
   {% csrf_token %}
   {{ form.as_p }}
   {{form.errors}}
-  <button type="submit">Log In</button>
+  <button type="submit">send</button>
 </form>
 
 {% endblock content %}

@@ -1,14 +1,10 @@
-from django.contrib.auth.views import PasswordChangeDoneView
-from django.db.models import fields
-from django.forms import forms
-from django.forms.models import ModelForm
 from django import forms
-from django.core.validators import EmailValidator
-from django.contrib.auth.forms import UserCreationForm
-from django.core.exceptions import ValidationError
+from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import UserCreationForm 
 from django.contrib.auth.forms import AuthenticationForm
 
-from .models import Profile
+
+User = get_user_model()
 
 
 class LoginFormm(AuthenticationForm):
@@ -17,25 +13,35 @@ class LoginFormm(AuthenticationForm):
             raise forms.ValidationError("Please confirm your email so you can log in.", code='inactive')
 
 
-class LoginForm(forms.ModelForm):
-    class Meta:
-        model = Profile
-        fields = [
-            'email',
-            'password',
-        ]
+class LoginForm(forms.Form):
+    email = forms.EmailField()
+    password = forms.CharField(max_length=100)
 
 
 class EmailSignUpForm(UserCreationForm):
     class Meta:
-        model = Profile
+        model = User 
         fields = ['email']
 
 
 class CompleteProfileForm(forms.ModelForm):
     class Meta:
-        model = Profile
+        model = User
         fields = [
-            'first_name',
-            'last_name',
-        ]
+            'first_name', 
+            'last_name', 
+            ]
+
+
+class RestPasswordForm(forms.Form):
+    email = forms.EmailField()
+
+    def clean_email(self):
+        email = self.cleaned_data.get("email")
+        user = User.objects.get(email=email)
+        if user :
+            self.cleaned_data["user"] = user
+            return self.cleaned_data['email']
+        else:
+            raise forms.ValidationError("user not found")
+ 
