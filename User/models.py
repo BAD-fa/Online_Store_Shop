@@ -51,9 +51,7 @@ class CustomerAddress(models.Model):
 
 class UserDevice(models.Model):
     device_type = models.CharField(max_length=256,null=True)
-    browser_type = models.CharField(max_length=256,null=True)
-    browser_version = models.CharField(max_length=256,null=True)
     os_type = models.CharField(max_length=256,null=True)
-    os_version = models.CharField(max_length=256,null=True)
-    session = models.CharField(max_length=256,null=True)
+    device_brand = models.CharField(max_length=256,null=True)
     user = models.ForeignKey(Profile,on_delete=models.CASCADE,related_name="device")
+    check_field = models.CharField(max_length=256,null=True)
