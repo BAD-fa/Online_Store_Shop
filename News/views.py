@@ -7,7 +7,7 @@ from .models import News
 from .forms import NewsForm
 
 
-class CreateNewsBySalesmanView(LoginRequiredMixin,CreateView):
+class CreateNewsBySalesmanView(LoginRequiredMixin, CreateView):
     form_class = NewsForm
     template_name = 'create_news.html'
     success_url = reverse_lazy('news:done')
@@ -20,5 +20,4 @@ def done(request):
 class SalesmansBlog(ListView):
     pass
 
-
-#salesman baray newsayi ke sm daran
+# salesman baray newsayi ke sm daran
