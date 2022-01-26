@@ -42,10 +42,15 @@
                         <a href="blog.html" class="d-lg-show">وبلاگ </a>
                         <a href="contact-us.html" class="d-lg-show">تماس با ما </a>
                         <a href="my-account.html" class="d-lg-show">حساب کاربری من </a>
-                        <a href="assets/ajax/login.html" class="d-lg-show login sign-in"><i
+                        {% if request.user.email %}
+                        <a href="{% url 'user:logout' %}" class="d-lg-show"><i
+                                class="w-icon-account"></i>خروج  </a>
+                        {% else %}
+                        <a href="{% url 'user:login' %}" class="d-lg-show"><i
                                 class="w-icon-account"></i>ورود  </a>
                         <span class="delimiter d-lg-show">/</span>
-                        <a href="{%static 'assets/ajax/login.html'%}" class="ml-0 d-lg-show login register">ثبت نام </a>
+                        <a href="{% url 'user:signup' %}" class="ml-0 d-lg-show">ثبت نام </a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
