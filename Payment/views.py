@@ -12,7 +12,7 @@ from azbankgateways.exceptions import AZBankGatewaysException
 
 from Product.utils import dict_decoder
 from .models import History,Wallet
-from .forms import WalletForm
+from .forms import WalletCreationForm,WalletUpdateForm
 
 
 User = get_user_model()
@@ -110,16 +110,22 @@ def checkout(request):
     return render(request, 'payment/checkout.html')
 
 
-class WalletView(View):
+class WalletCreationView(View):
 
     def get(self,request):
-        wallet_holding = Wallet.objects.get(user__email=request.user.email).holding
-        form = WalletForm()
-        ctx = {"holding":wallet_holding,"form":form}
-        return render(request,"payment/wallet.html",ctx)
+        form = WalletCreationForm()
+        ctx = {"form":form}
+        return render(request,"payment/walletcreation.html",ctx)
+
 
     def post(self,request):
-        form = WalletForm(request.POST)
+        form = WalletCreationForm(request.POST)
         if form.is_valid():
-            amount = form.cleaned_data.get("amount")
-            return redirect("Payment:gateway",amount= amount, flag="wallet")
+            wallet = form.save(commit=False)
+            wallet.user = User.objects.get(email=request.user.email)
+            wallet.save()
+            return redirect("user:profile")
+        else :
+            return render(request,"payment/walletcreation.html",{"form":form})
+
+    
