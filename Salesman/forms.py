@@ -8,36 +8,35 @@ User = get_user_model()
 
 
 class SalesmanEmailSignupForm(UserCreationForm):
-
     class Meta:
         model = SalesmanProfile
-        fields = ['first_name','last_name','email','img',
+        fields = ['first_name', 'last_name', 'email', 'img',
                   'password1', 'password2',
-                  'store_address', 'store_postal_code', 'shop_name','shop_logo',
+                  'store_address', 'store_postal_code', 'shop_name', 'shop_logo',
                   'residenceـaddress',
-                  'phone_number','home_postal_code',]
+                  'phone_number', 'home_postal_code', ]
         labels = {
             "email": "ایمیل",
             "password1": "رمز عبور",
             "password2": "تکرار رمز عبور",
             'shop_name': "نام فروشگاه",
-            'store_postal_code':'کد پستی',
-            'store_address':' آدرس فروشگاه',
-            'residenceـaddress':"آدرس محل سکونت",
-            'first_name':'نام',
-            'last_name':'نام خانوادگی',
-            'phone_number':'شماره همراه',
+            'store_postal_code': 'کد پستی',
+            'store_address': ' آدرس فروشگاه',
+            'residenceـaddress': "آدرس محل سکونت",
+            'first_name': 'نام',
+            'last_name': 'نام خانوادگی',
+            'phone_number': 'شماره همراه',
             'home_postal_code': 'کد پستی محل سکونت',
-            'img':'عکس',
-            'shop_logo':'لوگوی فروشگاه',
+            'img': 'عکس',
+            'shop_logo': 'لوگوی فروشگاه',
 
-            }
+        }
 
         help_texts = {
             "email": "لطفا از ایمیل معتبر استفاده کنید",
-            "phone_number":"شماره تلفن معتبر وارد کنید",
+            "phone_number": "شماره تلفن معتبر وارد کنید",
 
-            }
+        }
 
     def save(self, commit=True):
         '''
@@ -47,19 +46,11 @@ class SalesmanEmailSignupForm(UserCreationForm):
         salesman.is_salesman = True
         salesman.set_password(self.cleaned_data["password1"])
         salesman.save()
-        
+
         return salesman
 
 
-
-
 class SalesmanChangeForm(UserChangeForm):
-
     class Meta:
         model = SalesmanProfile
         fields = ('residenceـaddress', 'home_postal_code', 'password', 'phone_number',)
-
-
-
-
-

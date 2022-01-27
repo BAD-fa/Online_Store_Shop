@@ -9,6 +9,7 @@ from django.conf import settings
 from django.contrib.auth.forms import SetPasswordForm
 from django.http.response import JsonResponse
 
+
 from Payment.models import Wallet ,History
 from .forms import EmailSignUpForm, CompleteProfileForm, LoginForm, RestPasswordForm
 from .utils import genrate_user_device, email_genrator, token_validator
@@ -52,7 +53,6 @@ class LoginRegisterView(View):
 
         elif status == 'signup':
             register_form = EmailSignUpForm(request.POST)
-            print(register_form)
             if register_form.is_valid():
                 user = register_form.save(commit=False)
                 user.is_active = False
@@ -149,12 +149,5 @@ class Factor(View):
 
 
 
-
-
-class CompleteProfileView(UpdateView):
-    model = User
-    form_class = CompleteProfileForm
-    success_url = reverse_lazy('home')
-    template_name = 'user/completeprofile.html'
 
 
