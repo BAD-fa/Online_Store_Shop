@@ -1,14 +1,13 @@
 from django.core.mail import send_mail
 from django.core.cache import caches
 from django.contrib.auth import get_user_model
-from django.contrib.auth import authenticate,login as _login
-from django.utils.encoding import force_str
+from django.contrib.auth import authenticate, login as _login, logout as _logout
+from django.contrib.auth.forms import SetPasswordForm
 from django.shortcuts import redirect, render
 from django.http.response import HttpResponseRedirect
 from django.views.generic import CreateView, UpdateView, View
 from django.urls import reverse_lazy, reverse
 from django.conf import settings
-from django.contrib.auth.forms import SetPasswordForm
 
 from Payment.models import Wallet
 from .models import Profile
@@ -20,7 +19,7 @@ User = get_user_model()
 
 class SignUpView(CreateView):
     form_class = EmailSignUpForm
-    template_name = 'signup.html'
+    template_name = 'user/signup_login.html'
     success_url = reverse_lazy('user:verify')
 
     def form_valid(self, form):
@@ -42,13 +41,13 @@ def activate(request, uidb64, token):
         _login(request, user)
         return redirect('home')
     else:
-        return redirect("user:signup")
+        return redirect("user:signup_login")
 
 
 def login(request):
     if request.method == "GET":
         form = LoginForm()
-        return render(request, "login.html", {'form': form})
+        return render(request, "user/signup_login.html", {'form': form})
     elif request.method == "POST":
         form = LoginForm(request.POST)
         if form.is_valid():
@@ -66,8 +65,12 @@ def login(request):
                 _login(request, user)
                 redis_client.hset(request.user.USERNAME_FIELD, mapping=cart)
                 return redirect(reverse('home'))
+            else:
+                form.errors['user'] = 'User not found'
+                return render(request, "user/signup_login.html", {"form": form})
         else:
-            return render(request,"login.html",{"form":form})
+            return render(request, "user/signup_login.html", {"form": form})
+
 
 
 class ForgetPassword(View):
