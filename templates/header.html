@@ -41,7 +41,7 @@
                         <span class="divider d-lg-show"></span>
                         <a href="blog.html" class="d-lg-show">وبلاگ </a>
                         <a href="contact-us.html" class="d-lg-show">تماس با ما </a>
-                        <a href="my-account.html" class="d-lg-show">حساب کاربری من </a>
+                        <a href="{% url 'user:profile' %}" class="d-lg-show">حساب کاربری من </a>
                         {% if request.user.email %}
                         <a href="{% url 'user:logout' %}" class="d-lg-show"><i
                                 class="w-icon-account"></i>خروج  </a>
