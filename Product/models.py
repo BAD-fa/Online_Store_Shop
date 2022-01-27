@@ -3,8 +3,9 @@ from django.db import models
 from Salesman.models import SalesmanProfile
 from User.models import Profile, Customer
 
-#mohammad javad aqa zade
-#api 
+
+# mohammad javad aqa zade
+# api
 
 class Category(models.Model):
     name = models.CharField(max_length=32)
@@ -14,7 +15,13 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
-    # property description
+
+class CategoryDetail(models.Model):
+    property = models.CharField(max_length=50)
+    category = models.ForeignKey(Category, related_name='cat_properties', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.property
 
 
 class Product(models.Model):
@@ -38,23 +45,23 @@ class ProductComment(models.Model):
     date = models.DateField(auto_now_add=True)
     content = models.TextField()
     author = models.ForeignKey(Profile, on_delete=models.DO_NOTHING)
-    rate = models.IntegerField(null=True, blank=True)
+    rate = models.FloatField(null=True, blank=True)
     product = models.ForeignKey(Product, related_name='comments', on_delete=models.CASCADE)
 
-#aksay ezafi??
+
+# aksay ezafi??
 class ProductImage(models.Model):
     img = models.ImageField(upload_to="Product/image", null=True, blank=True)
     product = models.ForeignKey(Product, related_name='images', on_delete=models.CASCADE)
 
 
-class Cart(models.Model):
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    product = models.ManyToManyField(Product)
-    price = models.IntegerField()
-    date = models.DateField(auto_now_add=True)
+class ProductDetails(models.Model):
+    property = models.CharField(max_length=50)
+    detail = models.CharField(max_length=50)
+    product = models.ForeignKey(Product, related_name='details', on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.customer.username} --- {self.date}"
+        return self.property
 
 
 class WishList(models.Model):
@@ -65,4 +72,3 @@ class WishListDetail(models.Model):
     product = models.ManyToManyField(Product)
     quantity = models.IntegerField(default=1)
     wishlist = models.ForeignKey(WishList, on_delete=models.CASCADE)
-

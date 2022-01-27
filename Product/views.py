@@ -1,11 +1,9 @@
-from wsgiref.simple_server import WSGIRequestHandler
 from django.contrib.auth import get_user_model
 from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.views.generic import DetailView, ListView, CreateView, DeleteView
 from django.db.models import Q
-from django.core.cache import caches
 
-from .models import Product, ProductImage, ProductComment, Category, WishList, WishListDetail
+from .models import Product, ProductImage, ProductComment, ProductDetails, Category, WishList, WishListDetail
 from .forms import CommentFrom
 from .utils import add_to_cart
 
@@ -24,9 +22,11 @@ class ProductDetail(DetailView):
         ctx = super().get_context_data(**kwargs)
         comments = self.object.comments.all()
         images = self.object.images.all()
+        details = self.object.details.all()
         form = CommentFrom()
         ctx['comments'] = comments
         ctx['images'] = images
+        ctx['details'] = details
         ctx['form'] = form
         return ctx
 
@@ -34,9 +34,22 @@ class ProductDetail(DetailView):
 class ProductList(ListView):
     template_name = 'product/shop.html'
     context_object_name = 'products'
+    paginate_by = 12
 
     def get(self, request, *args, **kwargs):
-        self.queryset = Product.objects.filter(category__name=kwargs.get('category'))
+        if 'count' in request.GET:
+            self.paginate_by = int(request.GET['count'])
+
+        if 'orderby' in request.GET:
+            self.queryset = Product.objects.filter(category__name=kwargs.get('category')).order_by(
+                request.GET['orderby'])
+
+        if 'price' in request.GET:
+            self.queryset = self.queryset.filter(price__lte=int(request.GET['price']))
+
+        else:
+            self.queryset = Product.objects.filter(category__name=kwargs.get('category'))
+
         self.request.session['category'] = kwargs.get('category')
         self.request.session.save()
         return super().get(self, request, *args, **kwargs)
@@ -44,16 +57,42 @@ class ProductList(ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         ctx = super().get_context_data(object_list=None, **kwargs)
         current_cat = get_object_or_404(Category, name=self.request.session.get('category'))
-        category = Category.objects.filter(name=current_cat.cat.name)
+        category = Category.objects.filter(cat__name=current_cat.cat.name)
+        cat_property = current_cat.cat_properties.all()
+        cat_details = {}
+        for elm in cat_property:
+            details = list(ProductDetails.objects.filter(property=elm.property).values_list('detail', flat=True))
+            cat_details[elm.property] = details
         ctx['category'] = category
+        ctx['cat_details'] = cat_details
+
         return ctx
 
 
-def search(request):
-    qp = request.POST.get('search', '')
-    products = Product.objects.filter(Q(name__icontains=qp))
-    ctx = {'products': products}
-    return render(request, 'product/shop.html', context=ctx)
+class Search(ListView):
+    template_name = 'product/shop.html'
+    context_object_name = 'products'
+    paginate_by = 12
+
+    def get(self, request, *args, **kwargs):
+        qp = request.POST.get('search', '')
+
+        if 'count' in request.GET:
+            self.paginate_by = int(request.GET['count'])
+
+        if 'orderby' in request.GET:
+            if request.GET['orderby'] == 'default':
+                pass
+            else:
+                self.queryset = Product.objects.filter(Q(name__icontains=qp)).order_by(
+                    request.GET['orderby'])
+
+        if 'price' in request.GET:
+            self.queryset = self.queryset.filter(price__lte=int(request.GET['price']))
+
+        else:
+            self.queryset = Product.objects.filter(Q(name__icontains=qp))
+        return super().get(self, request, *args, **kwargs)
 
 
 def add_comment(request, product_slug):

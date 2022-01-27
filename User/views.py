@@ -14,6 +14,7 @@ from .models import Profile
 from .forms import EmailSignUpForm, CompleteProfileForm, LoginForm,RestPasswordForm
 from .utils import account_activation_token,genrate_user_device,email_genrator,token_validator
 
+
 User = get_user_model()
 
 
@@ -114,14 +115,6 @@ class PasswordReset(View):
             render (request,"reset_password.html",{"form":form})
 
 
-
-
-
-
-
-
-
-
 class WaitingForVerify(View):
 
     def get(self, request):
@@ -133,7 +126,3 @@ class CompleteProfile(UpdateView):
     form_class = CompleteProfileForm
     success_url = reverse_lazy('home')
     template_name = 'completeprofile.html'
-
-
-
-
