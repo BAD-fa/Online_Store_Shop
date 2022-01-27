@@ -3,11 +3,12 @@ from django.core.cache import caches
 from django.contrib.auth import get_user_model
 from django.contrib.auth import authenticate, login as _login, logout as _logout
 from django.shortcuts import redirect, render
-from django.http.response import HttpResponseRedirect
-from django.views.generic import CreateView, UpdateView, View
+from django.views.generic import UpdateView, View
 from django.urls import reverse_lazy, reverse
 from django.conf import settings
 from django.contrib.auth.forms import SetPasswordForm
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
 from Payment.models import Wallet
 from .models import Profile
@@ -52,15 +53,11 @@ class LoginRegisterView(View):
                 return render(request, "user/signup_login.html", {"login_form": login_form})
 
         elif status == 'signup':
-            print(1)
             register_form = EmailSignUpForm(request.POST)
-            print(register_form)
             if register_form.is_valid():
-                print(2)
                 user = register_form.save(commit=False)
                 user.is_active = False
                 user.save()
-                print(user)
                 mail_subject = 'Activate your blog account.'
                 message = email_genrator(request, user, "user/acc_active_email.html")
                 to_email = register_form.cleaned_data.get('email', "")
@@ -128,6 +125,7 @@ class WaitingForVerify(View):
         return render(request, "user/verify.html", {})
 
 
+@method_decorator(login_required(login_url=reverse_lazy('user:login_register')), name='dispatch')
 class CompleteProfile(UpdateView):
     model = Profile
     form_class = CompleteProfileForm
