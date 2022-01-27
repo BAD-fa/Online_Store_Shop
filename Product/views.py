@@ -1,9 +1,11 @@
 from django.contrib.auth import get_user_model
 from django.shortcuts import render, get_object_or_404, redirect, reverse
+from django.urls import reverse_lazy
 from django.views.generic import DetailView, ListView, CreateView, DeleteView
 from django.db.models import Q
+from django.contrib.auth.decorators import login_required
 
-from .models import Product, ProductImage, ProductComment, ProductDetails, Category, WishList, WishListDetail
+from .models import Product, ProductDetails, Category, WishList
 from .forms import CommentFrom
 from .utils import add_to_cart
 
@@ -95,6 +97,7 @@ class Search(ListView):
         return super().get(self, request, *args, **kwargs)
 
 
+@login_required(login_url=reverse_lazy('user:login_register'))
 def add_comment(request, product_slug):
     if request.method == "POST":
         form = CommentFrom(request.POST)
