@@ -8,7 +8,7 @@
             <!-- Start of Page Header -->
             <div class="page-header">
                 <div class="container">
-                    <h1 class="page-title mb-0">حساب کاربری من </h1>
+                    <h1 class="page-title mb-0">حساب کاربری {{request.user.email}} </h1>
                 </div>
             </div>
             <!-- End of Page Header -->
@@ -17,7 +17,7 @@
             <nav class="breadcrumb-nav">
                 <div class="container">
                     <ul class="breadcrumb">
-                        <li><a href="demo1.html">صفحه اصلی </a></li>
+                        <li><a href="{% url 'home' %}">صفحه اصلی </a></li>
                         <li>حساب کاربری من</li>
                     </ul>
                 </div>
@@ -48,16 +48,14 @@
                                 <a href="wishlist.html">علاقه مندیها </a>
                             </li>
                             <li class="link-item">
-                                <a href="login.html">خروج </a>
+                                <a href="{% url 'user:logout' %}">خروج </a>
                             </li>
                         </ul>
 
                         <div class="tab-content mb-6">
                             <div class="tab-pane active in" id="account-dashboard">
-                                <p class="greeting"> سلام 
-                                    <span class="text-dark font-weight-bold">جعفر عباسی </span>نیستی
-                                    <span class="text-dark font-weight-bold">جعفر عباسی </span>?
-                                    <a href="#" class="text-primary">خروج؟</a>)
+                                <p class="greeting"> سلام {{request.user.email}} 
+                                    <a href="{% url 'user:logout' %}" class="text-primary">خروج؟</a>)
                                 </p>
 
                                 <p class="mb-4">
@@ -159,82 +157,51 @@
                                         <tr>
                                             <th class="order-id">سفارش </th>
                                             <th class="order-date">تاریخ </th>
-                                            <th class="order-status">وضعیت </th>
-                                            <th class="order-total">مجموع </th>
-                                            <th class="order-actions">اقدامات </th>
+                                            <th class="order-status">روش پرداخت </th>
+                                            <th class="order-total"> مجموع </th>
+                                            <th class="order-actions"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td class="order-id">#2321</td>
-                                            <td class="order-date">شهریور 1400</td>
-                                            <td class="order-status">در حال پردازش </td>
+                                            {% for factor in factors %}
+                                            
+                                            <td class="order-id">{{factor.tracking_code}}</td>
+                                            <td class="order-date">{{factor.purchase_date}}</td>
+                                            <td class="order-status">{{factor.payment_method}}</td>
                                             <td class="order-total">
-                                                <span class="order-price">2120000 تومان</span> برای 
-                                                <span class="order-quantity"> 1</span> آیتم 
+                                                <span class="order-price">{{factor.price}}</span>   
                                             </td>
                                             <td class="order-action">
-                                                <a href="#"
-                                                    class="btn btn-outline btn-default btn-block btn-sm btn-rounded">نمایش </a>
+                                                <a href="{% url 'user:factor' factor.id %}"
+                                                class="btn btn-outline btn-default btn-block btn-sm btn-rounded">نمایش </a>
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td class="order-id">#2321</td>
-                                            <td class="order-date">شهریور 1400</td>
-                                            <td class="order-status">در حال پردازش </td>
-                                            <td class="order-total">
-                                                <span class="order-price">150000 تومان</span> برای 
-                                                <span class="order-quantity"> 1</span> آیتم 
-                                            </td>
-                                            <td class="order-action">
-                                                <a href="#"
-                                                    class="btn btn-outline btn-default btn-block btn-sm btn-rounded">نمایش </a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="order-id">#2319</td>
-                                            <td class="order-date">شهریور 1400</td>
-                                            <td class="order-status">در حال پردازش </td>
-                                            <td class="order-total">
-                                                <span class="order-price">355000 تومان</span> برای 
-                                                <span class="order-quantity"> 1</span> آیتم 
-                                            </td>
-                                            <td class="order-action">
-                                                <a href="#"
-                                                    class="btn btn-outline btn-default btn-block btn-sm btn-rounded">نمایش </a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="order-id">#2318</td>
-                                            <td class="order-date">شهریور 1400</td>
-                                            <td class="order-status">در حال پردازش </td>
-                                            <td class="order-total">
-                                                <span class="order-price">3159999 تومان</span> برای 
-                                                <span class="order-quantity"> 1</span> آیتم 
-                                            </td>
-                                            <td class="order-action">
-                                                <a href="#"
-                                                    class="btn btn-outline btn-default btn-block btn-sm btn-rounded">نمایش </a>
-                                            </td>
-                                        </tr>
+                                        {% endfor %}
                                     </tbody>
                                 </table>
 
                                 <a href="shop-banner-sidebar.html" class="btn btn-dark btn-rounded btn-icon-right">برو فروشگاه<i class="w-icon-long-arrow-left"></i></a>
                             </div>
-
                             <div class="tab-pane" id="account-downloads">
                                 <div class="icon-box icon-box-side icon-box-light">
                                     <span class="icon-box-icon icon-downloads mr-2">
                                         <i class="w-icon-download"></i>
                                     </span>
                                     <div class="icon-box-content">
-                                        <h4 class="icon-box-title ls-normal">دانلودها </h4>
+                                        <h4 class="icon-box-title ls-normal">کیف پول  </h4>
                                     </div>
                                 </div>
-                                <p class="mb-4">هنوز بارگیری در دسترس نیست.</p>
-                                <a href="shop-banner-sidebar.html" class="btn btn-dark btn-rounded btn-icon-right">برو فروشگاه<i class="w-icon-long-arrow-left"></i></a>
-                            </div>
+                                {% if wallet %}
+                                    <p>{{wallet.name}}</p>
+                                    <p>{{wallet.holding}}</p>
+                                    <p>wallet.create_date</p>
+                                        {% else %}
+                                        <p class="mb-4">شما هیچ کیف پولی ندارید</p>
+                                        <a href="{% url 'Payment:walletcreation' %}" class="btn btn-dark btn-rounded btn-icon-right">اولین کیف پول خود را درست کنید<i class="w-icon-long-arrow-left"></i></a>
+                                    </div>
+                                </tbody>
+                            </table>
 
                             <div class="tab-pane" id="account-addresses">
                                 <div class="icon-box icon-box-side icon-box-light">

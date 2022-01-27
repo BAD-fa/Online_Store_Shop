@@ -1,5 +1,17 @@
 from django import forms
 
-class WalletForm(forms.Form):
+from Payment.models import Wallet
+
+
+class WalletUpdateForm(forms.Form):
         
     amount = forms.IntegerField()
+
+
+class WalletCreationForm(forms.ModelForm):
+
+
+
+    class Meta:
+        model = Wallet
+        fields = ["name"]

@@ -14,8 +14,9 @@ import logging
 import json
 
 from Product.utils import dict_decoder
-from .models import History, Wallet
-from .forms import WalletForm
+from .models import History,Wallet
+from .forms import WalletCreationForm,WalletUpdateForm
+
 
 User = get_user_model()
 
@@ -115,16 +116,20 @@ def checkout(request):
 
 
 @method_decorator(login_required(login_url=reverse_lazy('user:login_register')), name='dispatch')
-class WalletView(View):
+class WalletCreationView(View):
 
-    def get(self, request):
-        wallet_holding = Wallet.objects.get(user__email=request.user.email).holding
-        form = WalletForm()
-        ctx = {"holding": wallet_holding, "form": form}
-        return render(request, "payment/wallet.html", ctx)
+    def get(self,request):
+        form = WalletCreationForm()
+        ctx = {"form":form}
+        return render(request,"payment/walletcreation.html",ctx)
 
-    def post(self, request):
-        form = WalletForm(request.POST)
+
+    def post(self,request):
+        form = WalletCreationForm(request.POST)
         if form.is_valid():
-            amount = form.cleaned_data.get("amount")
-            return redirect("Payment:gateway", amount=amount, flag="wallet")
+            wallet = form.save(commit=False)
+            wallet.user = User.objects.get(email=request.user.email)
+            wallet.save()
+            return redirect("user:profile")
+        else :
+            return render(request,"payment/walletcreation.html",{"form":form})

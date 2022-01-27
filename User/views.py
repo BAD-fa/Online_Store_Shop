@@ -3,15 +3,14 @@ from django.core.cache import caches
 from django.contrib.auth import get_user_model
 from django.contrib.auth import authenticate, login as _login, logout as _logout
 from django.shortcuts import redirect, render
-from django.views.generic import UpdateView, View
+from django.views.generic import  UpdateView, View 
 from django.urls import reverse_lazy, reverse
 from django.conf import settings
 from django.contrib.auth.forms import SetPasswordForm
-from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
+from django.http.response import JsonResponse
 
-from Payment.models import Wallet
-from .models import Profile
+
+from Payment.models import Wallet ,History
 from .forms import EmailSignUpForm, CompleteProfileForm, LoginForm, RestPasswordForm
 from .utils import genrate_user_device, email_genrator, token_validator
 
@@ -68,12 +67,16 @@ class LoginRegisterView(View):
                 return render(request, "user/signup_login.html", {"register_form": register_form})
 
 
+def logout(request):
+    _logout(request)
+    return redirect('home')
+
+
 def activate(request, uidb64, token):
     user = token_validator(uidb64, token)
     if user:
         user.is_active = True
         user.save()
-        Wallet.objects.create(user=user, holding=0)
         _login(request, user)
         return redirect('home')
     else:
@@ -125,14 +128,26 @@ class WaitingForVerify(View):
         return render(request, "user/verify.html", {})
 
 
-@method_decorator(login_required(login_url=reverse_lazy('user:login_register')), name='dispatch')
-class CompleteProfile(UpdateView):
-    model = Profile
-    form_class = CompleteProfileForm
-    success_url = reverse_lazy('home')
-    template_name = 'user/completeprofile.html'
+class UserProfileView(View):
+
+    def get(self,request):
+        factors = History.objects.filter(customer_id=request.user.id)
+        wallet = Wallet.objects.get(user_id = request.user.id)
+        ctx = {"factors":factors,"wallet":wallet}
+        return render(request,"user/profile.html",context=ctx)
 
 
-def logout(request):
-    _logout(request)
-    return redirect('home')
+class Factor(View):
+
+    def get(request,id):
+        factor = History.objects.get(id=id).values_list()
+        return JsonResponse({"data":factor})
+
+
+
+
+
+
+
+
+
