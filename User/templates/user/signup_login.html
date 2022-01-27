@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="login-popup" style="width: 50%; margin: 0 auto;">
+    <div class="tab tab-nav-boxed tab-nav-center tab-nav-underline">
+        <ul class="nav nav-tabs text-uppercase" role="tablist">
+            <li class="nav-item">
+                <a href="#sign-in" class="nav-link active">ورود</a>
+            </li>
+            <li class="nav-item">
+                <a href="#sign-up" class="nav-link">ثبت نام</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="sign-in">
+                <form method="post" action="{% url 'user:login_register' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="status" value="login">
+                    {{login_form.errors.user}}
+                    <div class="form-group">
+                        {{login_form.email.errors}}
+                        <label>ایمیل : *</label>
+                        {{login_form.email}}
+                    </div>
+                    <div class="form-group mb-0">
+                        {{login_form.password.errors}}
+                        <label>رمز عبور : *</label>
+                        {{login_form.password}}
+                    </div>
+                    <div class="form-checkbox d-flex align-items-center justify-content-between">
+                        <input type="checkbox" class="custom-checkbox" id="remember" name="remember">
+                        <label for="remember">مرا به خاطر بسپار</label>
+                        <a href="{% url 'user:forget_password' %}">فراموشی رمز عبور</a>
+                    </div>
+                    <button type="submit" class="btn btn-primary">ورود</button>
+                </form>
+            </div>
+            <div class="tab-pane" id="sign-up">
+                <form method="post" action="{% url 'user:login_register' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="status" value="signup">
+                    <div class="form-group">
+                        {{register_form.email.errors}}
+                        <label>ایمیل : *</label>
+                        {{register_form.email}}
+                    </div>
+                    <div class="form-group mb-5">
+                        {{register_form.password1.errors}}
+                        <label>رمز عبور *</label>
+                        {{register_form.password1}}
+                    </div>
+                    <div class="form-group mb-5">
+                        {{register_form.password2.errors}}
+                        <label>تکرار رمز عبور *</label>
+                        {{register_form.password2}}
+                    </div>
+                    <p>اطلاعات شخصی شما برای پشتیبانی از تجربه شما در سراسر این وب سایت، برای مدیریت دسترسی به حساب شما
+                        و سایر اهدافی که در ما توضیح داده شده است، استفاده خواهد شد. <a href="#" class="text-primary">سیاست حفظ حریم خصوصی</a>.</p>
+                    <a href="{% url 'salesman:signup' %}" class="d-block mb-5 text-primary">ثبت نام به عنوان فروشنده</a>
+                    <div class="form-checkbox d-flex align-items-center justify-content-between mb-5">
+                        <input type="checkbox" class="custom-checkbox" id="agree" name="agree" required="">
+                        <label for="agree" class="font-size-md">با <a href="#"
+                                                                                  class="text-primary font-size-md">سیاست حفظ حریم خصوصی</a> موافقم </label>
+                    </div>
+                    <button type="submit" class="btn btn-primary">ثبت نام</button>
+                </form>
+            </div>
+        </div>
+        <p class="text-center">ثبت نام با حساب های اجتماعی</p>
+        <div class="social-icons social-icon-border-color d-flex justify-content-center">
+            <a href="#" class="social-icon social-facebook w-icon-facebook"></a>
+            <a href="#" class="social-icon social-twitter w-icon-twitter"></a>
+            <a href="#" class="social-icon social-google fab fa-google"></a>
+        </div>
+    </div>
+</div>
+{% endblock content %}

@@ -19,7 +19,6 @@ User = get_user_model()
 
 
 def go_to_gateway_view(request, amount, flag):
-    
     # خواندن مبلغ از هر جایی که مد نظر است
     amount = amount
     # تنظیم شماره موبایل کاربر از هر جایی که مد نظر است

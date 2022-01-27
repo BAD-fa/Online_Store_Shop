@@ -1,6 +1,6 @@
 {%load static%}
 {% load sub_category_tag %}
-{% load price_of_cart %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -41,17 +41,15 @@
                         <span class="divider d-lg-show"></span>
                         <a href="blog.html" class="d-lg-show">وبلاگ </a>
                         <a href="contact-us.html" class="d-lg-show">تماس با ما </a>
-                        {% if request.user.email %}
                         <a href="my-account.html" class="d-lg-show">حساب کاربری من </a>
-                        {% endif %}
                         {% if request.user.email %}
                         <a href="{% url 'user:logout' %}" class="d-lg-show"><i
                                 class="w-icon-account"></i>خروج  </a>
                         {% else %}
-                        <a href="{% url 'user:login' %}" class="d-lg-show"><i
+                        <a href="{% url 'user:login_register' %}" class="d-lg-show"><i
                                 class="w-icon-account"></i>ورود  </a>
                         <span class="delimiter d-lg-show">/</span>
-                        <a href="{% url 'user:signup' %}" class="ml-0 d-lg-show">ثبت نام </a>
+                        <a href="{% url 'user:login_register' %}" class="ml-0 d-lg-show">ثبت نام </a>
                         {% endif %}
                     </div>
                 </div>
@@ -104,7 +102,7 @@
                             <div class="cart-overlay"></div>
                             <a href="{% url 'Payment:show_cart' %}" class="cart-toggle label-down link">
                                 <i class="w-icon-cart">
-                                    <span class="cart-count">{{cart|length}}</span>
+                                    <span class="cart-count"></span>
                                 </i>
                                 <span class="cart-label">سبد خرید </span>
                             </a>
@@ -131,10 +129,10 @@
                                     </div>
                                     {% endfor %}
                                 </div>
-                                {%sum_of_cart cart as cart_price%}   
+
                                 <div class="cart-total">
                                     <label>مجموع کل: </label>
-                                    <span class="price">{{cart_price}} تومان</span>
+                                    <span class="price">570000 تومان</span>
                                 </div>
 
                                 <div class="cart-action">
