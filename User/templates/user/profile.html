@@ -183,43 +183,23 @@
 
                                 <a href="shop-banner-sidebar.html" class="btn btn-dark btn-rounded btn-icon-right">برو فروشگاه<i class="w-icon-long-arrow-left"></i></a>
                             </div>
-
                             <div class="tab-pane" id="account-downloads">
                                 <div class="icon-box icon-box-side icon-box-light">
                                     <span class="icon-box-icon icon-downloads mr-2">
                                         <i class="w-icon-download"></i>
                                     </span>
                                     <div class="icon-box-content">
-                                        <h4 class="icon-box-title ls-normal">کیف پول ها </h4>
+                                        <h4 class="icon-box-title ls-normal">کیف پول  </h4>
                                     </div>
                                 </div>
-                                <table class="shop-table account-orders-table mb-6">
-                                    <thead>
-                                        <tr>
-                                            <th class="order-id">کیف پول </th>
-                                            <th class="order-date">تاریخ ایجاد </th>
-                                            <th class="order-total"> موجودی </th>
-                                            <th class="order-actions"></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            {% for wallet in wallets %}                                            
-                                            <td class="order-id">{{wallet.name}}</td>
-                                            <td class="order-date">{{wallet.create_date}}</td>
-                                            <td class="order-total">
-                                                <span class="order-price">{{wallet.holding}}</span>   
-                                            </td>
-                                            <td class="order-action">
-                                                <a href="{% url 'Payment:walletcreation' %}"
-                                                class="btn btn-outline btn-default btn-block btn-sm btn-rounded">ایجاد کیف پول جدید </a>
-                                            </td>
-                                        </tr>
-                                        {% empty %}
+                                {% if wallet %}
+                                    <p>{{wallet.name}}</p>
+                                    <p>{{wallet.holding}}</p>
+                                    <p>wallet.create_date</p>
+                                        {% else %}
                                         <p class="mb-4">شما هیچ کیف پولی ندارید</p>
                                         <a href="{% url 'Payment:walletcreation' %}" class="btn btn-dark btn-rounded btn-icon-right">اولین کیف پول خود را درست کنید<i class="w-icon-long-arrow-left"></i></a>
                                     </div>
-                                    {% endfor %}
                                 </tbody>
                             </table>
 

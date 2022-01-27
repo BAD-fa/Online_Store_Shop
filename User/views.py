@@ -132,8 +132,8 @@ class UserProfileView(View):
 
     def get(self,request):
         factors = History.objects.filter(customer_id=request.user.id)
-        wallets = Wallet.objects.filter(user_id = request.user.id)
-        ctx = {"factors":factors,"wallets":wallets}
+        wallet = Wallet.objects.get(user_id = request.user.id)
+        ctx = {"factors":factors,"wallet":wallet}
         return render(request,"user/profile.html",context=ctx)
 
 

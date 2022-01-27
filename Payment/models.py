@@ -21,6 +21,6 @@ class History(models.Model):
 
 class Wallet(models.Model):
     holding = models.BigIntegerField(default=0)
-    user = models.ForeignKey(User, on_delete=models.CASCADE,related_name="wallet",null=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE,related_name="wallet",null=True)
     name = models.CharField(max_length=50,null=True)
     create_date = models.DateField(auto_now=True)
