@@ -1,6 +1,7 @@
-from django.contrib.auth import get_user_model
 import logging
 import json
+
+from django.contrib.auth import get_user_model
 from django.shortcuts import render, get_object_or_404,redirect
 from django.core.cache import caches
 from django.http import HttpResponse, Http404
@@ -128,4 +129,17 @@ class WalletCreationView(View):
         else :
             return render(request,"payment/walletcreation.html",{"form":form})
 
-    
+class WalletUpdateView(View):
+
+    def get(self,request):
+        form = WalletUpdateForm()
+        return render(request,"payment/wallet.html",{"form":form})
+
+    def post(self,request):
+        form = WalletUpdateForm(request.POST)
+        if form.is_valid():
+            wallet = User.objects.get(email=request.user.email)
+            wallet.save()
+            return redirect("user:profile")
+        else :
+            return render(request,"payment/walletcreation.html",{"form":form})

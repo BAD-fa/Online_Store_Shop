@@ -10,8 +10,6 @@ class WalletUpdateForm(forms.Form):
 
 class WalletCreationForm(forms.ModelForm):
 
-
-
     class Meta:
         model = Wallet
         fields = ["name"]

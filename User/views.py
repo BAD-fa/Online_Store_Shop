@@ -8,10 +8,13 @@ from django.urls import reverse_lazy, reverse
 from django.conf import settings
 from django.contrib.auth.forms import SetPasswordForm
 from django.http.response import JsonResponse
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
 
 from Payment.models import Wallet ,History
-from .forms import EmailSignUpForm, CompleteProfileForm, LoginForm, RestPasswordForm
+from .forms import EmailSignUpForm,LoginForm, RestPasswordForm,UserUpdateProfile
 from .utils import genrate_user_device, email_genrator, token_validator
+
 
 User = get_user_model()
 
@@ -29,6 +32,7 @@ class LoginRegisterView(View):
 
         if status == 'login':
             login_form = LoginForm(request.POST)
+            next_url = request.POST.get("next_url")
             if login_form.is_valid():
                 email = login_form.cleaned_data.get("email")
                 password = login_form.cleaned_data.get("password")
@@ -43,7 +47,10 @@ class LoginRegisterView(View):
                     except:
                         pass
                     _login(request, user)
-                    return redirect(reverse('home'))
+                    if next_url:
+                        return redirect(next_url)
+                    else :
+                        return redirect(reverse('home'))
                 else:
                     login_form.errors['user'] = 'User not found'
                     return render(request, "user/signup_login.html", {"login_form": login_form})
@@ -52,7 +59,6 @@ class LoginRegisterView(View):
 
         elif status == 'signup':
             register_form = EmailSignUpForm(request.POST)
-            print(register_form)
             if register_form.is_valid():
                 user = register_form.save(commit=False)
                 user.is_active = False
@@ -62,7 +68,6 @@ class LoginRegisterView(View):
                 to_email = register_form.cleaned_data.get('email', "")
                 send_mail(mail_subject, message, settings.EMAIL_HOST_USER, [to_email])
                 return redirect('user:verify')
-
             else:
                 return render(request, "user/signup_login.html", {"register_form": register_form})
 
@@ -77,8 +82,7 @@ def activate(request, uidb64, token):
     if user:
         user.is_active = True
         user.save()
-        _login(request, user)
-        return redirect('home')
+        return redirect('user:login_register')
     else:
         return redirect("user:signup")
 
@@ -128,13 +132,22 @@ class WaitingForVerify(View):
         return render(request, "user/verify.html", {})
 
 
+@method_decorator(login_required,name="dispatch")
 class UserProfileView(View):
+    login_url = reverse_lazy("user:login_register")
 
     def get(self,request):
-        factors = History.objects.filter(customer_id=request.user.id)
-        wallet = Wallet.objects.get(user_id = request.user.id)
-        ctx = {"factors":factors,"wallet":wallet}
+        user = User.objects.get(id=request.user.id)
+        factors = History.objects.filter(customer=user)
+        ctx = {"factors":factors}
+        try :
+            wallet = Wallet.objects.get(user=user)
+            ctx["wallet"] = wallet
+        except:
+            pass
+        ctx["devices"] = user.device.all()
         return render(request,"user/profile.html",context=ctx)
+
 
 
 class Factor(View):
@@ -150,10 +163,9 @@ class Factor(View):
 
 
 
-
 class CompleteProfileView(UpdateView):
     model = User
-    form_class = CompleteProfileForm
+    form_class = UserUpdateProfile
     success_url = reverse_lazy('home')
     template_name = 'user/completeprofile.html'
 

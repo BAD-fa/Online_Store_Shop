@@ -1,7 +1,8 @@
+import json
+
 from django.contrib.auth.models import AnonymousUser
 from django.core.cache import caches
 
-import json
 
 
 def add_to_cart(request, product):

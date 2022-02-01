@@ -1,3 +1,4 @@
+from time import time
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.utils import six
 from django.contrib.sites.shortcuts import get_current_site
@@ -6,6 +7,7 @@ from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_decode
 from django.contrib.auth import get_user_model
+from django.utils import timezone
 
 User = get_user_model()
 
@@ -36,6 +38,8 @@ def genrate_user_device(request,user):
     check_field = hash(os_type+device_type+device_brand)
     user_device = list(user.device.all().values_list('check_field'))
     if check_field in user_device:
+        device = UserDevice.objects.get(check_field=check_field).last_loging = timezone.now()
+        device.save()
         return None
     else:
         return UserDevice.objects.create(device_type=device_type,os_type=os_type,user=user,check_field=check_field,device_brand=device_brand)
