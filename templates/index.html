@@ -204,7 +204,7 @@
 
                 <div class="title-link-wrapper mb-3 appear-animate">
                     <h2 class="title title-deals mb-1">برترین محصولات سایت</h2>
-                    <a href="shop-boxed-banner.html" class="font-weight-bold ls-25">محصولات بیشتر <i
+                    <a href="{% url 'product:search' %}" class="font-weight-bold ls-25">محصولات بیشتر <i
                             class="w-icon-long-arrow-left"></i></a>
                 </div>
                 <!-- End of .title-link-wrapper -->
@@ -232,34 +232,30 @@
                         }
                     }
                 }">
-                {% for product in top_product  %}
+                    {% for product in top_product  %}
                     <div class="product-wrap">
                         <div class="product text-center">
                             <figure class="product-media">
-                                <a href="product-default.html">
+                                <a href="{% url 'product:product_detail' product.product_slug %}">
                                     <img src="{{product.img.url}}" alt="{{product.name}}" width="300"
                                         height="338">
                                     <img src="{{product.img.url}}" alt="{{product.name}}" width="300"
                                         height="338">
                                 </a>
                                 <div class="product-action-vertical">
-                                    <a href="#" class="btn-product-icon btn-cart w-icon-cart" title="افزودن به سبد خرید"></a>
+                                    <a href="{% url 'product:add_to_cart' product.product_slug %}" class="btn-product-icon btn-cart w-icon-cart" title="افزودن به سبد خرید"></a>
                                     <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
                                         title="افزودن به علاقه مندیها"></a>
-                                    <a href="#" class="btn-product-icon btn-quickview w-icon-search"
-                                        title="نمایش سریع"></a>
-                                    <a href="#" class="btn-product-icon btn-compare w-icon-compare"
-                                        title="افزودن برای مقایسه"></a>
                                 </div>
                             </figure>
                             <div class="product-details">
-                                <h4 class="product-name"><a href="{%url 'product:product_detail' product.product_slug%}">{{product.name}}</a></h4>
+                                <h4 class="product-name"><a href="{%url 'product:product_detail' product.product_slug %}">{{product.name}}</a></h4>
                                 <div class="ratings-container">
                                     <div class="ratings-full">
                                         <span class="ratings" style="width: 100%;"></span>
                                         <span class="tooltiptext tooltip-top"></span>
                                     </div>
-                                    <a href="product-default.html" class="rating-reviews">(3 نظر )</a>
+                                    <a href="{% url 'product:product_detail' product.product_slug %}" class="rating-reviews">(3 نظر )</a>
                                 </div>
                                 <div class="product-price">
                                     <ins class="new-price">{{product.price}}</ins>
@@ -267,13 +263,12 @@
                             </div>
                         </div>
                     </div>
-                    {%endfor%}
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div>
                 <!-- End of Product Deals Warpper -->
+
                 <div class="row category-wrapper electronics-cosmetics appear-animate mb-7">
-                {%random_sampel p_category 2 as random_categorys%}
+                {%random_sampel p_category 2 as random_categorys %}
                 {% for category in random_categorys %}
                     <div class="col-md-6 mb-4">
                         <div class="banner banner-fixed br-sm">
@@ -284,7 +279,9 @@
                             <div class="banner-content y-50">
                                 <h3 class="banner-title text-white ls-25 mb-0">{{category.name}} </h3>
                                 <hr class="banner-divider bg-white" />
-                                <a href="shop-banner-sidebar.html"></a>
+                                <a href="{% url 'product:product_list' category.name %}"
+                                    class="btn btn-white btn-link btn-underline btn-icon-right">
+                                    اکنون میخرم <i class="w-icon-long-arrow-left"></i></a>
                             </div>
                         </div>
                     </div>
@@ -319,7 +316,7 @@
                         <div class="vendor-products grid-type">
                             <div class="vendor-product lg-item">
                                 <figure class="product-media">
-                                    <a href="product-default.html">
+                                    <a href="#">
                                         <img src="{{top_product.0.img.url}}" alt="{{top_product.0.name}}"
                                             width="300" height="338">
                                     </a>
@@ -327,7 +324,7 @@
                             </div>
                             <div class="vendor-product sm-item">
                                 <figure class="product-media">
-                                    <a href="product-default.html">
+                                    <a href="#">
                                         <img src="{{top_product.1.img.url}}" alt="{{top_product.1.name}}"
                                             width="300" height="338">
                                     </a>
@@ -335,7 +332,7 @@
                             </div>
                             <div class="vendor-product sm-item">
                                 <figure class="product-media">
-                                    <a href="product-default.html">
+                                    <a href="#">
                                         <img src="{{top_product.2.img.url}}" alt="{{top_product.2.name}}"
                                             width="300" height="338">
                                     </a>
@@ -344,14 +341,14 @@
                         </div>
                         <div class="vendor-details">
                             <figure class="vendor-logo">
-                                <a href="vendor-dokan-store.html">
+                                <a href="#">
                                     <img src="{{salesman.img.url}}" alt="لوگوی فروشنده" width="70"
                                         height="70">
                                 </a>
                             </figure>
                             <div class="vendor-personal">
                                 <h4 class="vendor-name">
-                                    <a href="vendor-dokan-store.html">{{salesman.shop_name}}</a>
+                                    <a href="#">{{salesman.shop_name}}</a>
                                 </h4>
                                 <span class="vendor-product-count">({{ top_product|length }} محصول  )</span>
                                 <div class="ratings-container">
@@ -379,7 +376,7 @@
                             <div class="product-wrap lg-item">
                                 <div class="product text-center">
                                     <figure class="product-media">
-                                        <a href="product-default.html">
+                                        <a href="{% url 'product:product_detail' random_products.0.product_slug %}">
                                             <img src="{{random_products.0.img.url}}" alt="Product"
                                                 width="300" height="338">
                                             <img src="{{random_products.0.img.url}}" alt="Product"
@@ -422,7 +419,7 @@
                             <div class="product-wrap sm-item">
                                 <div class="product text-center">
                                     <figure class="product-media">
-                                        <a href="product-default.html">
+                                        <a href="{% url 'product:product_detail' products.product_slug %}">
                                             <img src="{{product.img.url}}" alt="Product"
                                                 width="300" height="338">
                                             <img src="{{product.img.url}}" alt="Product"

@@ -11,6 +11,7 @@ from django.http.response import JsonResponse
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 
+
 from Payment.models import Wallet ,History
 from .forms import EmailSignUpForm,LoginForm, RestPasswordForm,UserUpdateProfile
 from .utils import genrate_user_device, email_genrator, token_validator
@@ -168,5 +169,6 @@ class CompleteProfileView(UpdateView):
     form_class = UserUpdateProfile
     success_url = reverse_lazy('home')
     template_name = 'user/completeprofile.html'
+
 
 
