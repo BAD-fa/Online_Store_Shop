@@ -33,8 +33,6 @@ INSTALLED_APPS = [
     'django_user_agents',
 
 
-    'azbankgateways',
-
     'News',
     'Payment',
     'Product',
@@ -113,25 +111,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AZ_IRANIAN_BANK_GATEWAYS = {
-    'GATEWAYS': {
-        'IDPAY': {
-            'MERCHANT_CODE': os.environ.get("API_KEY", ""),
-            'METHOD': 'POST',  # GET or POST
-            'X_SANDBOX': 1,  # 0 disable, 1 active
-        },
-    },
-    'IS_SAMPLE_FORM_ENABLE': True,  # اختیاری و پیش فرض غیر فعال است
-    'DEFAULT': 'IDPAY',
-    'CURRENCY': 'IRR',  # اختیاری
-    'TRACKING_CODE_QUERY_PARAM': 'tc',  # اختیاری
-    'TRACKING_CODE_LENGTH': 16,  # اختیاری
-    'SETTING_VALUE_READER_CLASS': 'azbankgateways.readers.DefaultReader',  # اختیاری
-    'BANK_PRIORITIES': [
-        'IDPAY',
-    ],  # اختیاری
-}
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
@@ -167,3 +146,5 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = os.environ.get("EMAIL_USERNAME")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
+
+LOGIN_URL ='/user/login_register/'

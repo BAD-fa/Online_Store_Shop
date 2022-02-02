@@ -19,12 +19,13 @@
             </ul>
         </div>
     </nav>
-
+    
     <div class="page-content">
         <div class="container">
             <div class="row gutter-lg mb-10">
                 <div class="col-lg-8 pr-lg-4 mb-6">
                     <table class="shop-table cart-table">
+                        {% if cart %}
                         <thead>
                             <tr>
                                 <th class="product-name"><span>محصول </span></th>
@@ -34,6 +35,7 @@
                                 <th class="product-subtotal"><span>جمع کل</span></th>
                             </tr>
                         </thead>
+                        {% endif %}
                         <tbody>
                             {% for product, detail in  cart.items %}
                             <tr>
@@ -64,9 +66,15 @@
                                     <span class="amount">{% widthratio detail.0 1 detail.2 as p %}{{p}}</span>
                                 </td>
                             </tr>
+                            {%empty%}
+                        <div>
+                            <h3><strong>سبد خرید شما خالی است!</strong></h3>
+                            <h4> می‌توانید برای مشاهده محصولات بیشتر به فروشگاه  بروید. </h4> <a href="{% url 'home' %}" class="btn btn-primary cart-btn-transform m-3" data-abc="true">فروشگاه</a>
+                        </div>
                             {% endfor %}
                         </tbody>
                     </table>
+                    {% if cart %}
                     <div class="cart-action mb-6">
                         <button type="submit" class="btn btn-rounded btn-default btn-clear" name="clear_cart" value="پاک کردن سبد">پاک کردن سبد </button>
                         <button type="submit" class="btn btn-rounded btn-update disabled" name="update_cart" value="بروزرسانی سبد">بروزرسانی سبد</button>
@@ -161,14 +169,16 @@
                                 <label>مجموع خرید</label>
                                 <span class="ls-50">{{cart_price}}</span>
                             </div>
-                            <a href="{%url 'Payment:gateway' cart_price %}"
+                            <a href="{%url 'Payment:gateway' cart_price cart%}"
                                class="btn btn-block btn-dark btn-icon-right btn-rounded  btn-checkout">
                                 برای تسویه حساب ادامه دهید<i class="w-icon-long-arrow-left"></i></a>
-                        </div>
+                            </div>
+                            {% else %}
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </main>
+{% endif %}
 {% endblock content %}

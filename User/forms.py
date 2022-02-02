@@ -1,7 +1,9 @@
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm,UserChangeForm
+
+from User.models import Customer
 
 User = get_user_model()
 
@@ -29,15 +31,6 @@ class EmailSignUpForm(UserCreationForm):
         }
 
 
-class CompleteProfileForm(forms.ModelForm):
-    class Meta:
-        model = User
-        fields = [
-            'first_name',
-            'last_name',
-        ]
-
-
 class RestPasswordForm(forms.Form):
     email = forms.EmailField()
 
@@ -49,3 +42,24 @@ class RestPasswordForm(forms.Form):
             return self.cleaned_data['email']
         else:
             raise forms.ValidationError("user not found")
+
+
+class UserUpdateProfile(forms.Form):
+    first_name = forms.CharField(max_length=256)
+    last_name = forms.CharField(max_length=256)
+    eamil = forms.EmailField()
+    password1 = forms.CharField(max_length=100)
+    password2 = forms.CharField(max_length=100)
+    old_password = forms.CharField(max_length=100)
+
+class UserUpdateForm(UserChangeForm):
+    password = None
+
+    class Meta:
+        model = Customer
+        fields = ['email','phone_number','type','img','first_name','last_name']
+        widgets = {
+            'email': forms.TextInput(attrs={'readonly': 'readonly'}),
+            'type':forms.TextInput(attrs={'readonly': 'readonly'})
+        }
+

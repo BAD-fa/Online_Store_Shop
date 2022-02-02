@@ -4,7 +4,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 from .views import Home
-from azbankgateways.urls import az_bank_gateways_urls
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -14,7 +14,6 @@ urlpatterns = [
     path('salesman/', include('Salesman.urls', namespace="salesman")),
     path('user/', include('User.urls', namespace="user")),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('bankgateways/', az_bank_gateways_urls()),
     path('payment/', include('Payment.urls', namespace="Payment"))
 ]
 

@@ -1,5 +1,3 @@
-from statistics import mode
-import django
 from django.db import models
 from django.contrib.auth import get_user_model
 
@@ -20,7 +18,22 @@ class History(models.Model):
 
 
 class Wallet(models.Model):
-    holding = models.BigIntegerField(default=0)
+    cash = models.BigIntegerField(default=0)
     user = models.OneToOneField(User, on_delete=models.CASCADE,related_name="wallet",null=True)
-    name = models.CharField(max_length=50,null=True)
     create_date = models.DateField(auto_now=True)
+    is_active = models.BooleanField(default=False)
+
+
+class GateWaysModel(models.Model):
+
+    order_id = models.TextField()
+    payment_id = models.TextField()
+    amount = models.IntegerField()
+    date = models.TextField(default='-')
+    card_number = models.TextField(default="****")
+    idpay_track_id = models.IntegerField(default=0000)
+    bank_track_id = models.TextField(default=0000)
+    status = models.IntegerField(default=0)
+
+    def __str__(self):
+        return str(self.pk) + "  |  " + self.order_id + "  |  " + str(self.status)

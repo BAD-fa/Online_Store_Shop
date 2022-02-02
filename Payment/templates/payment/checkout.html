@@ -8,6 +8,7 @@
 {% endblock head %}
 
 {% block content %}
+    {%sum_of_cart cart as cart_price%}
         <!-- Start of Main -->
         <main class="main checkout">
             <!-- Start of Breadcrumb -->
@@ -212,13 +213,16 @@
                                         </div>
                                     </div>
                                 </div>
-
+                                <form action="{% url 'Payment:payment_start' %}" id="cart-form">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="amount" value="{{cart_price}}">
                                 <div class="form-group mt-3">
                                     <label for="order-notes">یادداشت های سفارش (اختیاری)</label>
-                                    <textarea class="form-control mb-0" id="order-notes" name="order-notes" cols="30"
+                                    <textarea class="form-control mb-0" id="order-desc" name="desc" cols="30"
                                         rows="4"
                                         placeholder="یادداشت هایی در مورد سفارش شما ، به عنوان مثال یادداشت های ویژه برای تحویل"></textarea>
                                 </div>
+                                </form>
                             </div>
                             <div class="col-lg-5 mb-4 sticky-sidebar-wrapper">
                                 <div class="order-summary-wrapper sticky-sidebar">
@@ -276,7 +280,6 @@
                                                     </td>
                                                 </tr>
                                                 <tr class="order-total">
-                                                    {%sum_of_cart cart as cart_price%}
                                                     <th>
                                                         <b>مجموع </b>
                                                     </th>
@@ -339,9 +342,7 @@
                                         </div>
 
                                         <div class="form-group place-order pt-6">
-                                            <a href="{%url 'Payment:gateway' cart_price cart %}"
-                                            class="btn btn-block btn-dark btn-icon-right btn-rounded  btn-checkout">
-                                            پرداخت<i class="w-icon-long-arrow-left"></i></a>
+                                            <button id="cart-form"type="submit" class="btn btn-block btn-dark btn-icon-right btn-rounded  btn-checkout">پرداخت</button>
                                         </div>
                                     </div>
                                 </div>
