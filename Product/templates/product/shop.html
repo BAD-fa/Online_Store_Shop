@@ -194,9 +194,10 @@
                                 <div class="widget-body">
                                     <ul class="filter-items search-ul item-check mt-1">
                                     {% for d in detail %}
-                                    <li><a href="{% url_add_query request.get_full_path property=d %}">{{d}}</a></li>
+                                        <li><input type="submit" name="{{property}}" value="{{d}}"><a href="{% url_add_query request.get_full_path property=property detail=d %}">{{d}}</a></li>
+
                                     {% endfor %}
-                                </ul>
+                                    </ul>
                                 </div>
                             </div>
                             <!-- End of Collapsible Widget -->

@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 
 from .models import Product, ProductDetails, Category, WishList
 from .forms import CommentFrom
-from .utils import add_to_cart
+from .utils import add_to_cart, params_creator
 
 import json
 
@@ -23,10 +23,13 @@ class ProductDetail(DetailView):
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
         comments = self.object.comments.all()
+        count_of_comments = comments.count()
+        print(count_of_comments)
         images = self.object.images.all()
         details = self.object.details.all()
         form = CommentFrom()
         ctx['comments'] = comments
+        ctx['count'] = count_of_comments
         ctx['images'] = images
         ctx['details'] = details
         ctx['form'] = form
@@ -39,6 +42,8 @@ class ProductList(ListView):
     paginate_by = 12
 
     def get(self, request, *args, **kwargs):
+        params = params_creator(request)
+
         if 'count' in request.GET:
             self.paginate_by = int(request.GET['count'])
 
@@ -47,7 +52,8 @@ class ProductList(ListView):
                 request.GET['orderby'])
 
         if 'price' in request.GET:
-            self.queryset = self.queryset.filter(price__lte=int(request.GET['price']))
+            qs = Product.objects.filter(category__name=kwargs.get('category'))
+            self.queryset = qs.filter(price__lte=int(request.GET['price']))
 
         else:
             self.queryset = Product.objects.filter(category__name=kwargs.get('category'))
