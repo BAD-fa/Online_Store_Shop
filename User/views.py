@@ -11,9 +11,9 @@ from django.http.response import JsonResponse
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 
-
+from User.models import UserDevice
 from Payment.models import Wallet ,History
-from .forms import EmailSignUpForm,LoginForm, RestPasswordForm,UserUpdateProfile
+from .forms import EmailSignUpForm,LoginForm, RestPasswordForm,UserUpdateForm
 from .utils import genrate_user_device, email_genrator, token_validator
 
 
@@ -138,16 +138,22 @@ class UserProfileView(View):
     login_url = reverse_lazy("user:login_register")
 
     def get(self,request):
-        user = User.objects.get(id=request.user.id)
-        factors = History.objects.filter(customer=user)
+        factors = History.objects.filter(customer_id=request.user.id)
+        wallet = Wallet.objects.get(user_id=request.user.id)
+        form = UserUpdateForm(instance=request.user)
         ctx = {"factors":factors}
-        try :
-            wallet = Wallet.objects.get(user=user)
-            ctx["wallet"] = wallet
-        except:
-            pass
-        ctx["devices"] = user.device.all()
+        ctx["form"] = form
+        ctx["wallet"] = wallet
+        ctx["devices"] = UserDevice.objects.filter(user_id=request.user.id)
         return render(request,"user/profile.html",context=ctx)
+
+    def post(self,request):
+        form = UserUpdateForm(request.POST,instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect("user:profile")
+        else:
+            return redirect("user:profile",kwargs={"form":form})
 
 
 
@@ -157,18 +163,6 @@ class Factor(View):
         factor = History.objects.get(id=id).values_list()
         return JsonResponse({"data":factor})
 
-
-
-
-
-
-
-
-class CompleteProfileView(UpdateView):
-    model = User
-    form_class = UserUpdateProfile
-    success_url = reverse_lazy('home')
-    template_name = 'user/completeprofile.html'
 
 
 

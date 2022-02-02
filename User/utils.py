@@ -1,4 +1,3 @@
-from time import time
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.utils import six
 from django.contrib.sites.shortcuts import get_current_site
@@ -35,14 +34,11 @@ def genrate_user_device(request,user):
 
     os_type = request.user_agent.os.family
     device_brand = request.user_agent.device.family
-    check_field = hash(os_type+device_type+device_brand)
-    user_device = list(user.device.all().values_list('check_field'))
-    if check_field in user_device:
-        device = UserDevice.objects.get(check_field=check_field).last_loging = timezone.now()
-        device.save()
-        return None
-    else:
-        return UserDevice.objects.create(device_type=device_type,os_type=os_type,user=user,check_field=check_field,device_brand=device_brand)
+    device = UserDevice.objects.get_or_create(device_type=device_type,os_type=os_type,user=user,device_brand=device_brand)
+    if device[1]==False:
+        device[0].last_login = timezone.now()
+    return None
+
 
 def email_genrator(request,user,template):
         current_site = get_current_site(request)

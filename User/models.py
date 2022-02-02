@@ -1,5 +1,4 @@
-from operator import truediv
-from pickle import TRUE
+
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
@@ -59,5 +58,7 @@ class UserDevice(models.Model):
     os_type = models.CharField(max_length=256,null=True)
     device_brand = models.CharField(max_length=256,null=True)
     user = models.ForeignKey(Profile,on_delete=models.CASCADE,related_name="device")
-    check_field = models.CharField(max_length=256,null=True)
     last_login = models.DateField(auto_now=True,null=True)
+
+    class Meta:
+        unique_together = ('device_type', 'os_type','device_brand')

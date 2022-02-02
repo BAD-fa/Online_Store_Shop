@@ -7,9 +7,3 @@ class WalletUpdateForm(forms.Form):
         
     amount = forms.IntegerField()
 
-
-class WalletCreationForm(forms.ModelForm):
-
-    class Meta:
-        model = Wallet
-        fields = ["name"]

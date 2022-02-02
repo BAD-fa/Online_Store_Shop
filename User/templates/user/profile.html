@@ -143,7 +143,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="tab-pane mb-4" id="account-device">
                             <div class="icon-box icon-box-side icon-box-light">
                                 <span class="icon-box-icon icon-orders">
@@ -171,8 +170,6 @@
                                         <td class="order-status">{{device.device_brand}}</td>
                                         <td class="order-date">{{device.last_login}}</td>
                                         <td class="order-action">
-                                            <a href="#"
-                                            class="btn btn-outline btn-default btn-block btn-sm btn-rounded">پاک کردن </a>
                                         </td>
                                     </tr>
                                     {% endfor %}
@@ -234,18 +231,15 @@
                                     <h4 class="icon-box-title ls-normal">کیف پول </h4>
                                 </div>
                             </div>
-                            {% if wallet %}
-                                <p>اسم کیف پول : {{wallet.name}}</p>
-                                <p>موجودی : {{wallet.holding}} ریال</p>
+                            {% if wallet.is_active %}
+                                <p>موجودی : {{wallet.cash}} ریال</p>
                                 <p>تاریخ ایجاد : {{wallet.create_date}}</p>
-                                <a href="shop-banner-sidebar.html" class="btn btn-dark btn-rounded btn-icon-right">موجودی خود را افزایش دهید <i class="w-icon-long-arrow-left"></i></a>
+                                <a href="#" class="btn btn-dark btn-rounded btn-icon-right">موجودی خود را افزایش دهید <i class="w-icon-long-arrow-left"></i></a>
                             {% else %}
-                                <h1 style="text-align: center;">شما هیچ کیف پولی ندارید</h1>
-                                <a href="{% url 'Payment:walletcreation' %}" class="btn btn-dark btn-rounded btn-icon-right">یک کیف پول اضافه کنید</a>
-                            </div>
+                                <h1 style="text-align: center;">کیف پول شما هنوز غیر فعال است</h1>
+                                <a href="{% url 'Payment:wallet_activation' %}" class="btn btn-dark btn-rounded btn-icon-right">کیف پول خود رافعال کنید</a>
                             {% endif %}
                         </div>
-
                         <div class="tab-pane" id="account-addresses">
                             <div class="icon-box icon-box-side icon-box-light">
                                 <span class="icon-box-icon icon-map-marker">
@@ -337,64 +331,10 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="tab-pane" id="account-details">
-                            <div class="icon-box icon-box-side icon-box-light">
-                                <span class="icon-box-icon icon-account mr-2">
-                                    <i class="w-icon-user"></i>
-                                </span>
-                                <div class="icon-box-content">
-                                    <h4 class="icon-box-title mb-0 ls-normal">جزئیات حساب </h4>
-                                </div>
-                            </div>
-                            <form class="form account-details-form" action="#" method="post">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="firstname">نام کوچک  *</label>
-                                            <input type="text" id="firstname" name="firstname" placeholder="جعفر"
-                                                class="form-control form-control-md">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="lastname">نام خانوادگی *</label>
-                                            <input type="text" id="lastname" name="lastname" placeholder="عباسی"
-                                                class="form-control form-control-md">
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group mb-3">
-                                    <label for="display-name">نام نمایشی *</label>
-                                    <input type="text" id="display-name" name="display_name" placeholder="جعفر عباسی"
-                                        class="form-control form-control-md mb-0">
-                                    <p>به این ترتیب نام شما در بخش حساب و در بررسی ها نمایش داده می شود</p>
-                                </div>
-
-                                <div class="form-group mb-6">
-                                    <label for="email_1">آدرس ایمیل *</label>
-                                    <input type="email" id="email_1" name="email_1"
-                                        class="form-control form-control-md">
-                                </div>
-                              
-                                <h4 class="title title-password ls-25 font-weight-bold">تغییر رمز عبور </h4>
-                                <div class="form-group">
-                                    <label class="text-dark" for="cur-password">گذرواژه فعلی را خالی بگذارید تا بدون تغییر باقی بماند</label>
-                                    <input type="password" class="form-control form-control-md"
-                                        id="cur-password" name="cur_password">
-                                </div>
-                                <div class="form-group">
-                                    <label class="text-dark" for="new-password">گذرواژه جدید خالی می ماند تا بدون تغییر باقی بماند</label>
-                                    <input type="password" class="form-control form-control-md"
-                                        id="new-password" name="new_password">
-                                </div>
-                                <div class="form-group mb-10">
-                                    <label class="text-dark" for="conf-password">تایید رمز عبور </label>
-                                    <input type="password" class="form-control form-control-md"
-                                        id="conf-password" name="conf_password">
-                                </div>
-                                <button type="submit" class="btn btn-dark btn-rounded btn-sm mb-4">ذخیره تغییرات </button>
+                           <form action="{% url 'user:profile' %}" method="post" >
+                               {{form.as_p}}
+                               <input type="submit" value="update">
                             </form>
                         </div>
                     </div>

@@ -3,6 +3,8 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import AuthenticationForm,UserChangeForm
 
+from User.models import Customer
+
 User = get_user_model()
 
 
@@ -49,4 +51,15 @@ class UserUpdateProfile(forms.Form):
     password1 = forms.CharField(max_length=100)
     password2 = forms.CharField(max_length=100)
     old_password = forms.CharField(max_length=100)
+
+class UserUpdateForm(UserChangeForm):
+    password = None
+
+    class Meta:
+        model = Customer
+        fields = ['email','phone_number','type','img','first_name','last_name']
+        widgets = {
+            'email': forms.TextInput(attrs={'readonly': 'readonly'}),
+            'type':forms.TextInput(attrs={'readonly': 'readonly'})
+        }
 

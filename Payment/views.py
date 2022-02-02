@@ -9,14 +9,15 @@ from django.views.generic import View
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponseRedirect
 
 from decouple import config
 from idpay.api import IDPayAPI
 
 
 from Product.utils import dict_decoder
-from .models import GateWaysModel,History
-from .forms import WalletCreationForm,WalletUpdateForm
+from .models import GateWaysModel,History, Wallet
+from .forms import WalletUpdateForm
 
 
 User = get_user_model()
@@ -153,38 +154,18 @@ def checkout(request):
     return render(request, 'payment/checkout.html')
 
 
-@method_decorator(login_required(login_url=reverse_lazy('user:login_register')), name='dispatch')
-class WalletCreationView(View):
+def wallet_activation(request):
+    if request.method=="GET":
+        wallet = Wallet.objects.get(user_id=request.user.id)
+        wallet.is_active = True
+        wallet.save()
+        return redirect("user:profile")
+
+
+class increaseـwallet_cash(View):
 
     def get(self,request):
-        form = WalletCreationForm()
-        ctx = {"form":form}
-        return render(request,"payment/walletcreation.html",ctx)
-
+        pass
 
     def post(self,request):
-        form = WalletCreationForm(request.POST)
-        if form.is_valid():
-            wallet = form.save(commit=False)
-            wallet.user = User.objects.get(email=request.user.email)
-            wallet.save()
-            return redirect("user:profile")
-        else :
-            return render(request,"payment/walletcreation.html",{"form":form})
-
-
-class WalletUpdateView(View):
-
-    def get(self,request):
-        form = WalletUpdateForm()
-        return render(request,"payment/wallet.html",{"form":form})
-
-    def post(self,request):
-        form = WalletUpdateForm(request.POST)
-        if form.is_valid():
-            wallet = User.objects.get(email=request.user.email)
-            wallet.save()
-            return redirect("user:profile")
-        else :
-            return render(request,"payment/walletcreation.html",{"form":form})
-
+        pass
