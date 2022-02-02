@@ -3,7 +3,7 @@ from django.core.cache import caches
 from django.contrib.auth import get_user_model
 from django.contrib.auth import authenticate, login as _login, logout as _logout
 from django.shortcuts import redirect, render
-from django.views.generic import  UpdateView, View 
+from django.views.generic import UpdateView, View
 from django.urls import reverse_lazy, reverse
 from django.conf import settings
 from django.contrib.auth.forms import SetPasswordForm
@@ -137,7 +137,7 @@ class WaitingForVerify(View):
 class UserProfileView(View):
     login_url = reverse_lazy("user:login_register")
 
-    def get(self,request):
+    def get(self, request):
         factors = History.objects.filter(customer_id=request.user.id)
         wallet = Wallet.objects.get(user_id=request.user.id)
         form = UserUpdateForm(instance=request.user)
@@ -146,6 +146,7 @@ class UserProfileView(View):
         ctx["wallet"] = wallet
         ctx["devices"] = UserDevice.objects.filter(user_id=request.user.id)
         return render(request,"user/profile.html",context=ctx)
+
 
     def post(self,request):
         form = UserUpdateForm(request.POST,instance=request.user)
@@ -159,10 +160,6 @@ class UserProfileView(View):
 
 class Factor(View):
 
-    def get(request,id):
+    def get(request, id):
         factor = History.objects.get(id=id).values_list()
         return JsonResponse({"data":factor})
-
-
-
-

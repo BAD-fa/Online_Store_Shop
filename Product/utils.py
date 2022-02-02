@@ -2,6 +2,9 @@ import json
 
 from django.contrib.auth.models import AnonymousUser
 from django.core.cache import caches
+from django.db.models import Q
+
+from .models import Product
 
 
 
@@ -19,3 +22,26 @@ def dict_decoder(binary_dict):
     for k, v in binary_dict.items():
         data[k.decode("utf-8")] = json.loads(v)
     return data
+
+
+def params_creator(request):
+    properties = request.GET.getlist('property')
+    details = request.GET.getlist('detail')
+    if properties and details:
+        query = Q(property=properties[0])
+        query |= Q(detail=details[0])
+
+        for p, d in zip(properties[1:], details[1:]):
+            query |= Q(property=p)
+            query |= Q(detail=d)
+    else:
+        query = Q()
+
+    qs = Product.objects.all()
+    filtered_qs = Product.objects.none()
+    for p in qs:
+        det = p.details.filter(query)
+        if det:
+            filtered_qs |= p
+
+    return query
