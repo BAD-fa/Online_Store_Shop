@@ -1,113 +1,148 @@
-import logging
+import uuid
 import json
 
 from django.contrib.auth import get_user_model
-from django.shortcuts import render, get_object_or_404,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from django.core.cache import caches
-from django.http import HttpResponse, Http404
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse_lazy
 from django.views.generic import View
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 
-from azbankgateways import bankfactories, models as bank_models, default_settings as settings
-from azbankgateways.exceptions import AZBankGatewaysException
+from decouple import config
+from idpay.api import IDPayAPI
 
-import logging
-import json
 
 from Product.utils import dict_decoder
-from .models import History,Wallet
+from .models import GateWaysModel,History
 from .forms import WalletCreationForm,WalletUpdateForm
 
 
 User = get_user_model()
 
+def payment_init():
+    base_url = config('BASE_URL', default='http://localhost:8000', cast=str)
+    api_key = config('IDPAY_API_KEY', default='1c86dfd5-bb82-4fde-b340-0b33af756e77', cast=str)
+    sandbox = config('IDPAY_SANDBOX', default=True, cast=bool)
 
-@login_required(login_url=reverse_lazy('user:login_register'))
-def go_to_gateway_view(request, amount, flag):
-    # خواندن مبلغ از هر جایی که مد نظر است
-    amount = amount
-    # تنظیم شماره موبایل کاربر از هر جایی که مد نظر است
-    user_mobile_number = '+989112221234'  # اختیاری
+    return IDPayAPI(api_key, base_url, sandbox)
 
-    factory = bankfactories.BankFactory()
-    try:
-        bank = factory.auto_create()  # or factory.create(bank_models.BankType.BMI) or set identifier
-        bank.set_request(request)
-        bank.set_amount(amount)
-        # یو آر ال بازگشت به نرم افزار برای ادامه فرآیند
-        bank.set_client_callback_url(reverse('Payment:callback-gateway', kwargs={"amount": amount, "flag": flag}))
-        bank.set_mobile_number(user_mobile_number)  # اختیاری
+def payment_start(request):
+    if request.method == 'POST':
 
-        # در صورت تمایل اتصال این رکورد به رکورد فاکتور یا هر چیزی که بعدا بتوانید ارتباط بین محصول یا خدمات را با این
-        # پرداخت برقرار کنید.
-        bank_record = bank.ready()
+        order_id = uuid.uuid1()
+        amount = request.POST.get('amount')
 
-        # هدایت کاربر به درگاه بانک
-        return bank.redirect_gateway()
-    except AZBankGatewaysException as e:
-        logging.critical(e)
-        # TODO: redirect to failed page.
-        raise e
+        payer = {
+            'name': request.user.username,
+            'phone': request.user.phone_number,
+            'email': request.user.email,
+            'desc': request.POST.get('desc',""),
+        }
 
 
-@login_required(login_url=reverse_lazy('user:login_register'))
-def callback_gateway_view(request, amount, flag):
-    tracking_code = request.GET.get(settings.TRACKING_CODE_QUERY_PARAM, None)
-    if not tracking_code:
-        logging.debug("این لینک معتبر نیست.")
-        raise Http404
+        record = GateWaysModel(order_id=order_id, amount=int(amount))
+        record.save()
+        call_back_url = reverse_lazy("Payment:payment_return")
+        idpay_payment = payment_init()
+        result = idpay_payment.payment(str(order_id), amount,call_back_url, payer)
 
-    try:
-        bank_record = bank_models.Bank.objects.get(tracking_code=tracking_code)
-        print(bank_record)
-    except bank_models.Bank.DoesNotExist:
-        logging.debug("این لینک معتبر نیست.")
-        raise Http404
+        if 'id' in result:
+            record.status = 1
+            record.payment_id = result['id']
+            record.save()
 
-    # در این قسمت باید از طریق داده هایی که در بانک رکورد وجود دارد، رکورد متناظر یا هر اقدام مقتضی دیگر را انجام دهیم
-    if bank_record.is_success:
-        if flag == "wallet":
-            wallet_holding = Wallet.objects.get(user__email=request.user.email).holding
-            wallet_holding += amount
-            Wallet.objects.filter(user__email=request.user.email).update(holding=wallet_holding)
-            return redirect("Payment:wallet")
+            return redirect(result['link'])
 
-        elif flag == "cart":
-            redis_cache = caches['default']
-            redis_client = redis_cache.client.get_client()
-            paid_cart = dict_decoder(redis_client.hgetall(request.user.email))
-            keys = list(paid_cart.keys())
-            for key in keys:
-                redis_client.hdel(request.user.email, key)
-            user = get_object_or_404(User, email=request.user.email)
-            history = History.objects.create(customer=user, cart=json.dumps(paid_cart), price=amount,
+        else:
+            txt = result['message']
+    else:
+        txt = "Bad Request"
+
+    return render(request, 'error.html', {'txt': txt})
+
+
+@csrf_exempt
+def payment_return(request):
+    if request.method == 'POST':
+
+        pid = request.POST.get('id')
+        status = request.POST.get('status')
+        pidtrack = request.POST.get('track_id')
+        order_id = request.POST.get('order_id')
+        amount = request.POST.get('amount')
+        card = request.POST.get('card_no')
+        date = request.POST.get('date')
+
+        if GateWaysModel.objects.filter(order_id=order_id, payment_id=pid, amount=amount, status=1).count() == 1:
+
+            idpay_payment = payment_init()
+
+            payment = GateWaysModel.objects.get(payment_id=pid, amount=amount)
+            payment.status = status
+            payment.date = str(date)
+            payment.card_number = card
+            payment.idpay_track_id = pidtrack
+            payment.save()
+
+            if str(status) == '10':
+                result = idpay_payment.verify(pid, payment.order_id)
+
+                if 'status' in result:
+
+                    payment.status = result['status']
+                    payment.bank_track_id = result['payment']['track_id']
+                    payment.save()
+
+                    redis_cache = caches['default']
+                    redis_client = redis_cache.client.get_client()
+                    paid_cart = dict_decoder(redis_client.hgetall(request.user.email))
+                    keys = list(paid_cart.keys())
+                    for key in keys:
+                        redis_client.hdel(request.user.email, key)
+                    user = get_object_or_404(User, email=request.user.email)
+                    history = History.objects.create(customer=user, cart=json.dumps(paid_cart), price=amount,
                                              payment_method="درگاه بانکی",
-                                             tracking_code=tracking_code)
-            ctx = {
-                'history': history,
-                "paid_cart": paid_cart
-            }
-            return render(request, "payment/order.html", context=ctx)
+                                             tracking_code=result['payment']['track_id'])
+                    ctx = {
+                    'history': history,
+                    "paid_cart": paid_cart
+                    }
+                    return render(request, "payment/order.html", context=ctx)
 
-    # پرداخت موفق نبوده است. اگر پول کم شده است ظرف مدت ۴۸ ساعت پول به حساب شما بازخواهد گشت.
-    return HttpResponse(
-        "پرداخت با شکست مواجه شده است. اگر پول کم شده است ظرف مدت ۴۸ ساعت پول به حساب شما بازخواهد گشت.")
+                else:
+                    txt = result['message']
+
+            else:
+                txt = "Error Code : " + str(status) + "   |   " + "Description : " + idpay_payment.get_status(status)
+
+        else:
+            txt = "Order Not Found"
+
+    else:
+        txt = "Bad Request"
+
+    return render(request, 'error.html', {'txt': txt})
 
 
-factory = bankfactories.BankFactory()
+def payment_check(request, pk):
 
-# # غیر فعال کردن رکورد های قدیمی
-bank_models.Bank.objects.update_expire_records()
+    payment = GateWaysModel.objects.get(pk=pk)
 
-# # مشخص کردن رکوردهایی که باید تعیین وضعیت شوند
-for item in bank_models.Bank.objects.filter_return_from_bank():
-    bank = factory.create(bank_type=item.bank_type, identifier=item.bank_choose_identifier)
-    bank.verify(item.tracking_code)
-    bank_record = bank_models.Bank.objects.get(tracking_code=item.tracking_code)
-    if bank_record.is_success:
-        logging.debug("This record is verify now.", extra={'pk': bank_record.pk})
+    idpay_payment = payment_init()
+    result = idpay_payment.inquiry(payment.payment_id, payment.order_id)
+
+    if 'status' in result:
+
+        payment.status = result['status']
+        payment.idpay_track_id = result['track_id']
+        payment.bank_track_id = result['payment']['track_id']
+        payment.card_number = result['payment']['card_no']
+        payment.date = str(result['date'])
+        payment.save()
+
+    return render(request, 'error.html', {'txt': result['message']})
 
 
 def show_cart(request):
