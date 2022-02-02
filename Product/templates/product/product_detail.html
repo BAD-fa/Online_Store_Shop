@@ -105,7 +105,7 @@
                                         <span class="ratings" style="width: 80%;"></span>
                                         <span class="tooltiptext tooltip-top"></span>
                                     </div>
-                                    <a href="#" class="rating-reviews">(3 نظر )</a>
+                                    <a href="#" class="rating-reviews">({{count}} نظر )</a>
                                 </div>
 
                                 <div class="product-short-desc">
@@ -153,7 +153,7 @@
                                 <a href="#product-tab-vendor" class="nav-link">اطلاعات فروشنده </a>
                             </li>
                             <li class="nav-item">
-                                <a href="#product-tab-reviews" class="nav-link">نظرات مشتریان (3)</a>
+                                <a href="#product-tab-reviews" class="nav-link">نظرات مشتریان ({{count}})</a>
                             </li>
                         </ul>
                         <div class="tab-content">
@@ -288,7 +288,7 @@
                                     <div class="col-xl-4 col-lg-5 mb-4">
                                         <div class="ratings-wrapper">
                                             <div class="avg-rating-container">
-                                                <h4 class="avg-mark font-weight-bolder ls-50">{{product.rate}}</h4>
+                                                <h4 class="avg-mark font-weight-bolder ls-50">{{product.rate|floatformat}}</h4>
                                                 <div class="avg-rating">
                                                     <p class="text-dark mb-1">میانگین امتیاز </p>
                                                     <div class="ratings-container">
@@ -296,7 +296,7 @@
                                                             <span class="ratings" style="width: 60%;"></span>
                                                             <span class="tooltiptext tooltip-top"></span>
                                                         </div>
-                                                        <a href="#" class="rating-reviews">(3 نظر )</a>
+                                                        <a href="#" class="rating-reviews">({{count}} نظر )</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -382,13 +382,13 @@
                                                 <div class="rating-form">
                                                     <label for="rating">رتبه شما از این محصول :</label>
                                                     <span class="rating-stars">
-                                                                <a class="star-1" href="#">1</a>
-                                                                <a class="star-2" href="#">2</a>
-                                                                <a class="star-3" href="#">3</a>
-                                                                <a class="star-4" href="#">4</a>
-                                                                <a class="star-5" href="#">5</a>
-                                                            </span>
-                                                    <select name="rate" id="rating" required=""
+                                                        <a class="star-1" href="#">1</a>
+                                                        <a class="star-2" href="#">2</a>
+                                                        <a class="star-3" href="#">3</a>
+                                                        <a class="star-4" href="#">4</a>
+                                                        <a class="star-5" href="#">5</a>
+                                                    </span>
+                                                    <select name="rate" id="rating"
                                                             style="display: none;">
                                                         <option value="">امتیاز ...</option>
                                                         <option value="5">عالی</option>
