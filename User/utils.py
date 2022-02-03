@@ -7,11 +7,15 @@ from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_decode
 from django.contrib.auth import get_user_model
 from django.utils import timezone
+from django.conf import settings
+from django.core.mail import send_mail
+
+from User.models import UserDevice
+
 
 User = get_user_model()
 
 
-from User.models import UserDevice
 
 class TokenGenerator(PasswordResetTokenGenerator):
     def _make_hash_value(self, user, timestamp):
@@ -40,7 +44,7 @@ def genrate_user_device(request,user):
     return None
 
 
-def email_genrator(request,user,template):
+def email_text_genrator_sender(request,user,template,to_email,mail_subject):
         current_site = get_current_site(request)
         message = render_to_string(f'{template}', {
             'user': user,
@@ -48,7 +52,7 @@ def email_genrator(request,user,template):
             'uid': urlsafe_base64_encode(force_bytes(user.pk)),
             'token': account_activation_token.make_token(user),
         })
-        return message
+        send_mail(mail_subject, message, settings.EMAIL_HOST_USER, [to_email])
 
 def token_validator(uidb64, token):
     try:

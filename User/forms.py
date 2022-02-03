@@ -24,7 +24,7 @@ class EmailSignUpForm(UserCreationForm):
     password2 = forms.CharField(max_length=100, widget=forms.PasswordInput(attrs={'class': 'form-control'}))
 
     class Meta:
-        model = User
+        model = Customer
         fields = ['email']
         widgets = {
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
