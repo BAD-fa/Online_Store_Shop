@@ -1,5 +1,6 @@
 {%load static%}
 {% load sub_category_tag %}
+{% load price_of_cart %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -102,7 +103,7 @@
                             <div class="cart-overlay"></div>
                             <a href="{% url 'Payment:show_cart' %}" class="cart-toggle label-down link">
                                 <i class="w-icon-cart">
-                                    <span class="cart-count"></span>
+                                    <span class="cart-count">{{cart|length}}</span>
                                 </i>
                                 <span class="cart-label">سبد خرید </span>
                             </a>
@@ -129,10 +130,10 @@
                                     </div>
                                     {% endfor %}
                                 </div>
-
+                                {% sum_of_cart cart as cart_price %}
                                 <div class="cart-total">
                                     <label>مجموع کل: </label>
-                                    <span class="price">570000 تومان</span>
+                                    <span class="price">{{cart_price}} تومان</span>
                                 </div>
 
                                 <div class="cart-action">

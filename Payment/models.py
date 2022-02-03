@@ -34,6 +34,7 @@ class GateWaysModel(models.Model):
     idpay_track_id = models.IntegerField(default=0000)
     bank_track_id = models.TextField(default=0000)
     status = models.IntegerField(default=0)
+    email = models.EmailField(null=True)
 
     def __str__(self):
         return str(self.pk) + "  |  " + self.order_id + "  |  " + str(self.status)

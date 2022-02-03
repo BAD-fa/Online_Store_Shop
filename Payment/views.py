@@ -1,8 +1,8 @@
 import uuid
 import json
 
-from django.contrib.auth import get_user_model
-from django.shortcuts import render,redirect,get_object_or_404
+from django.contrib.auth import get_user_model, login
+from django.shortcuts import render, redirect, get_object_or_404
 from django.core.cache import caches
 from django.urls import reverse_lazy
 from django.views.generic import View
@@ -14,13 +14,12 @@ from django.http import HttpResponseRedirect
 from decouple import config
 from idpay.api import IDPayAPI
 
-
 from Product.utils import dict_decoder
-from .models import GateWaysModel,History, Wallet
+from .models import GateWaysModel, History, Wallet
 from .forms import WalletUpdateForm
 
-
 User = get_user_model()
+
 
 def payment_init():
     base_url = config('BASE_URL', default='http://localhost:8000', cast=str)
@@ -29,6 +28,8 @@ def payment_init():
 
     return IDPayAPI(api_key, base_url, sandbox)
 
+
+@login_required(login_url=reverse_lazy('user:login_register'))
 def payment_start(request):
     if request.method == 'POST':
 
@@ -39,15 +40,13 @@ def payment_start(request):
             'name': request.user.username,
             'phone': request.user.phone_number,
             'email': request.user.email,
-            'desc': request.POST.get('desc',""),
+            'desc': request.POST.get('desc', ""),
         }
 
-
-        record = GateWaysModel(order_id=order_id, amount=int(amount))
+        record = GateWaysModel(order_id=order_id, amount=int(amount), email=request.user.email)
         record.save()
-        call_back_url = reverse_lazy("Payment:payment_return")
         idpay_payment = payment_init()
-        result = idpay_payment.payment(str(order_id), amount,call_back_url, payer)
+        result = idpay_payment.payment(str(order_id), amount, "/payment/return/", payer)
 
         if 'id' in result:
             record.status = 1
@@ -76,6 +75,8 @@ def payment_return(request):
         card = request.POST.get('card_no')
         date = request.POST.get('date')
 
+        # print(email)
+
         if GateWaysModel.objects.filter(order_id=order_id, payment_id=pid, amount=amount, status=1).count() == 1:
 
             idpay_payment = payment_init()
@@ -98,17 +99,18 @@ def payment_return(request):
 
                     redis_cache = caches['default']
                     redis_client = redis_cache.client.get_client()
-                    paid_cart = dict_decoder(redis_client.hgetall(request.user.email))
+                    paid_cart = dict_decoder(redis_client.hgetall(payment.email))
                     keys = list(paid_cart.keys())
                     for key in keys:
-                        redis_client.hdel(request.user.email, key)
-                    user = get_object_or_404(User, email=request.user.email)
+                        redis_client.hdel(payment.email, key)
+                    user = get_object_or_404(User, email=payment.email)
+                    login(request, user)
                     history = History.objects.create(customer=user, cart=json.dumps(paid_cart), price=amount,
-                                             payment_method="درگاه بانکی",
-                                             tracking_code=result['payment']['track_id'])
+                                                     payment_method="درگاه بانکی",
+                                                     tracking_code=result['payment']['track_id'])
                     ctx = {
-                    'history': history,
-                    "paid_cart": paid_cart
+                        'history': history,
+                        "paid_cart": paid_cart
                     }
                     return render(request, "payment/order.html", context=ctx)
 
@@ -128,14 +130,12 @@ def payment_return(request):
 
 
 def payment_check(request, pk):
-
     payment = GateWaysModel.objects.get(pk=pk)
 
     idpay_payment = payment_init()
     result = idpay_payment.inquiry(payment.payment_id, payment.order_id)
 
     if 'status' in result:
-
         payment.status = result['status']
         payment.idpay_track_id = result['track_id']
         payment.bank_track_id = result['payment']['track_id']
@@ -155,17 +155,17 @@ def checkout(request):
 
 
 def wallet_activation(request):
-    if request.method=="GET":
+    if request.method == "GET":
         wallet = Wallet.objects.get(user_id=request.user.id)
         wallet.is_active = True
         wallet.save()
         return redirect("user:profile")
 
 
-class increaseـwallet_cash(View):
+class IncreaseWalletCash(View):
 
-    def get(self,request):
+    def get(self, request):
         pass
 
-    def post(self,request):
+    def post(self, request):
         pass

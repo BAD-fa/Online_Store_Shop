@@ -44,7 +44,7 @@ class Product(models.Model):
 class ProductComment(models.Model):
     date = models.DateField(auto_now_add=True)
     content = models.TextField()
-    author = models.ForeignKey(Profile, on_delete=models.DO_NOTHING)
+    author = models.ForeignKey(Profile, on_delete=models.SET_NULL, null=True)
     rate = models.FloatField(null=True, blank=True)
     product = models.ForeignKey(Product, related_name='comments', on_delete=models.CASCADE)
 

@@ -38,14 +38,14 @@
                                 <div class="form-group">
                                     <label>نام کاربری یا ایمیل *</label>
                                     <input type="text" class="form-control form-control-md" name="name"
-                                        required>
+                                        >
                                 </div>
                             </div>
                             <div class="col-xs-6">
                                 <div class="form-group">
                                     <label>رمز عبور *</label>
                                     <input type="text" class="form-control form-control-md" name="password"
-                                        required>
+                                        >
                                 </div>
                             </div>
                         </div>
@@ -67,7 +67,7 @@
                             <button type="submit" class="btn button btn-rounded btn-coupon mb-2" name="apply_coupon" value="اعمال کد">اعمال کد</button>
                         </div>
                     </div>
-                    <form class="form checkout-form" action="#" method="post">
+                    <form class="form checkout-form" action="{% url 'Payment:payment_start' %}" method="post">
                         <div class="row mb-9">
                             <div class="col-lg-7 pr-lg-4 mb-4">
                                 <h3 class="title billing-title text-uppercase ls-10 pt-1 pb-3 mb-0">
@@ -78,14 +78,14 @@
                                         <div class="form-group">
                                             <label>نام کوچک  *</label>
                                             <input type="text" class="form-control form-control-md" name="firstname"
-                                                required>
+                                                >
                                         </div>
                                     </div>
                                     <div class="col-xs-6">
                                         <div class="form-group">
                                             <label>نام خانوادگی *</label>
                                             <input type="text" class="form-control form-control-md" name="lastname"
-                                                required>
+                                                 >
                                         </div>
                                     </div>
                                 </div>
@@ -109,19 +109,19 @@
                                 <div class="form-group">
                                     <label>آدرس خیابان  *</label>
                                     <input type="text" placeholder="شماره خانه و نام خیابان"
-                                        class="form-control form-control-md mb-2" name="street-address-1" required>
+                                        class="form-control form-control-md mb-2" name="street-address-1"  >
                                     <input type="text" placeholder="آپارتمان ، سوئیت ، واحد و غیره (اختیاری)"
-                                        class="form-control form-control-md" name="street-address-2" required>
+                                        class="form-control form-control-md" name="street-address-2"  >
                                 </div>
                                 <div class="row gutter-sm">
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>شهر / بخش *</label>
-                                            <input type="text" class="form-control form-control-md" name="town" required>
+                                            <input type="text" class="form-control form-control-md" name="town"  >
                                         </div>
                                         <div class="form-group">
                                             <label>کد پستی  *</label>
-                                            <input type="text" class="form-control form-control-md" name="zip" required>
+                                            <input type="text" class="form-control form-control-md" name="zip"  >
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -139,13 +139,13 @@
                                         </div>
                                         <div class="form-group">
                                             <label>تلفن  *</label>
-                                            <input type="text" class="form-control form-control-md" name="phone" required>
+                                            <input type="text" class="form-control form-control-md" name="phone"  >
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-group mb-7">
                                     <label>آدرس ایمیل *</label>
-                                    <input type="email" class="form-control form-control-md" name="email" required>
+                                    <input type="email" class="form-control form-control-md" name="email"  >
                                 </div>
                                 <div class="form-group checkbox-toggle pb-2">
                                     <input type="checkbox" class="custom-checkbox" id="shipping-toggle"
@@ -158,14 +158,14 @@
                                             <div class="form-group">
                                                 <label>نام کوچک  *</label>
                                                 <input type="text" class="form-control form-control-md" name="firstname"
-                                                    required>
+                                                     >
                                             </div>
                                         </div>
                                         <div class="col-xs-6">
                                             <div class="form-group">
                                                 <label>نام خانوادگی *</label>
                                                 <input type="text" class="form-control form-control-md" name="lastname"
-                                                    required>
+                                                     >
                                             </div>
                                         </div>
                                     </div>
@@ -190,39 +190,37 @@
                                     <div class="form-group">
                                         <label>آدرس خیابان  *</label>
                                         <input type="text" placeholder="شماره خانه و نام خیابان"
-                                            class="form-control form-control-md mb-2" name="street-address-1" required>
+                                            class="form-control form-control-md mb-2" name="street-address-1"  >
                                         <input type="text" placeholder="آپارتمان ، سوئیت ، واحد و غیره (اختیاری)"
-                                            class="form-control form-control-md" name="street-address-2" required>
+                                            class="form-control form-control-md" name="street-address-2"  >
                                     </div>
                                     <div class="row gutter-sm">
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>شهر / بخش *</label>
-                                                <input type="text" class="form-control form-control-md" name="town" required>
+                                                <input type="text" class="form-control form-control-md" name="town"  >
                                             </div>
                                             <div class="form-group">
                                                 <label>کد پستی  *</label>
-                                                <input type="text" class="form-control form-control-md" name="postcode" required>
+                                                <input type="text" class="form-control form-control-md" name="postcode"  >
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>کشور (اختیاری)</label>
-                                                <input type="text" class="form-control form-control-md" name="zip" required>
+                                                <input type="text" class="form-control form-control-md" name="zip"  >
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <form action="{% url 'Payment:payment_start' %}" id="cart-form">
                                     {% csrf_token %}
                                     <input type="hidden" name="amount" value="{{cart_price}}">
                                 <div class="form-group mt-3">
-                                    <label for="order-notes">یادداشت های سفارش (اختیاری)</label>
+                                    <label for="order-desc">یادداشت های سفارش (اختیاری)</label>
                                     <textarea class="form-control mb-0" id="order-desc" name="desc" cols="30"
                                         rows="4"
                                         placeholder="یادداشت هایی در مورد سفارش شما ، به عنوان مثال یادداشت های ویژه برای تحویل"></textarea>
                                 </div>
-                                </form>
                             </div>
                             <div class="col-lg-5 mb-4 sticky-sidebar-wrapper">
                                 <div class="order-summary-wrapper sticky-sidebar">
@@ -342,7 +340,7 @@
                                         </div>
 
                                         <div class="form-group place-order pt-6">
-                                            <button id="cart-form"type="submit" class="btn btn-block btn-dark btn-icon-right btn-rounded  btn-checkout">پرداخت</button>
+                                            <button id="cart-form" type="submit" class="btn btn-block btn-dark btn-icon-right btn-rounded  btn-checkout">پرداخت</button>
                                         </div>
                                     </div>
                                 </div>
