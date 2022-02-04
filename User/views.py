@@ -5,17 +5,15 @@ from django.core.cache import caches
 from django.shortcuts import redirect, render
 from django.views.generic import View
 from django.urls import reverse_lazy, reverse
-from django.conf import settings
 from django.contrib.auth.forms import SetPasswordForm
 from django.http.response import JsonResponse
 from django.utils.decorators import method_decorator
 
 from User.models import UserDevice
-from Payment.models import Wallet ,History
-from .forms import EmailSignUpForm,LoginForm, RestPasswordForm,UserUpdateForm
-from .utils import genrate_user_device, token_validator
-from .tasks import email_text_genrator_sender
-
+from Payment.models import Wallet, History
+from .forms import EmailSignUpForm, LoginForm, RestPasswordForm, UserUpdateForm
+from .utils import genrate_user_device, token_validator, email_message_generator
+from .tasks import email_sender
 
 User = get_user_model()
 
@@ -50,7 +48,7 @@ class LoginRegisterView(View):
                     _login(request, user)
                     if next_url:
                         return redirect(next_url)
-                    else :
+                    else:
                         return redirect(reverse('home'))
                 else:
                     login_form.errors['user'] = 'User not found'
@@ -66,7 +64,8 @@ class LoginRegisterView(View):
                 user.save()
                 to_email = register_form.cleaned_data.get('email', "")
                 mail_subject = 'Activate your blog account.'
-                email_text_genrator_sender.delay(request, user, "user/acc_active_email.html",to_email,mail_subject)
+                message = email_message_generator(request, user, "user/acc_active_email.html")
+                email_sender.delay(message, to_email, mail_subject)
                 return redirect('user:verify')
             else:
                 return render(request, "user/signup_login.html", {"register_form": register_form})
@@ -99,7 +98,8 @@ class ForgetPassword(View):
             user = form.cleaned_data.get("user")
             mail_subject = 'reset your password'
             to_email = form.cleaned_data.get("email")
-            email_text_genrator_sender.delay(request, user, "user/reset_password_email.html",to_email,mail_subject)
+            message = email_message_generator(request, user, "user/reset_password_email.html",)
+            email_sender.delay(message, to_email, mail_subject)
             return redirect("user:verify")
         else:
             render(request, "user/forget_password.html", {"form": form})
@@ -131,7 +131,7 @@ class WaitingForVerify(View):
         return render(request, "user/verify.html", {})
 
 
-@method_decorator(login_required,name="dispatch")
+@method_decorator(login_required, name="dispatch")
 class UserProfileView(View):
     login_url = reverse_lazy("user:login_register")
 
@@ -139,25 +139,23 @@ class UserProfileView(View):
         factors = History.objects.filter(customer_id=request.user.id)
         wallet = Wallet.objects.get(user_id=request.user.id)
         form = UserUpdateForm(instance=request.user)
-        ctx = {"factors":factors}
+        ctx = {"factors": factors}
         ctx["form"] = form
         ctx["wallet"] = wallet
         ctx["devices"] = UserDevice.objects.filter(user_id=request.user.id)
-        return render(request,"user/profile.html",context=ctx)
+        return render(request, "user/profile.html", context=ctx)
 
-
-    def post(self,request):
-        form = UserUpdateForm(request.POST,instance=request.user)
+    def post(self, request):
+        form = UserUpdateForm(request.POST, instance=request.user)
         if form.is_valid():
             form.save()
             return redirect("user:profile")
         else:
-            return redirect("user:profile",kwargs={"form":form})
-
+            return redirect("user:profile", kwargs={"form": form})
 
 
 class Factor(View):
 
     def get(request, id):
         factor = History.objects.get(id=id).values_list()
-        return JsonResponse({"data":factor})
+        return JsonResponse({"data": factor})
