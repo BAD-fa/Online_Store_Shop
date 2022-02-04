@@ -5,15 +5,13 @@ from .models import Product, Category, ProductImage, ProductComment, ProductDeta
 
 @admin.register(Product)
 class CustomProductAdmin(admin.ModelAdmin):
-    readonly_fields = ('rate',)
+
     list_display = ('name', 'price', 'category', 'salesman', 'status', 'amount')
-    list_display_links = ('name', 'price', 'category', 'salesman', 'status', 'amount')
+    list_display_links = ('name', 'category', 'salesman',)
     list_filter = ('category', 'salesman', 'amount', 'status', 'rate')
     search_fields = ('name',)
     search_help_text = 'you can search products by their names'
-
-    # autocomplete_fields = ['salesman']
-    # raw_id_fields = ("category",)
+    list_editable = ('status', 'amount', 'price',)
 
     def get_queryset(self, request):
         if request.user.is_superuser or (request.user.is_staff and not request.user.is_salesman):
@@ -22,6 +20,15 @@ class CustomProductAdmin(admin.ModelAdmin):
             qs = Product.objects.filter(salesman=request.user)
             return qs
 
+    def get_readonly_fields(self,request,obj=None):
+        if request.user.is_superuser:
+            return []
+        elif request.user.is_staff and not request.user.is_salesman:
+            return ['rate','salesman']
+        elif request.user.is_staff and request.user.is_salesman:
+            readonly_fields = ['rate','salesman']
+            return readonly_fields
+
 
 admin.site.register(Category)
 admin.site.register(ProductComment)
@@ -29,13 +36,3 @@ admin.site.register(WishList)
 admin.site.register(ProductImage)
 admin.site.register(ProductDetails)
 admin.site.register(CategoryDetail)
-
-# class CustomProductComment(UserAdmin):
-#     readonly_fields = ('rate', 'author', 'date', 'product')
-#     search_fields = ('product',)
-#     ordering = ('rate',)
-
-
-# admin.site.register(Product, CustomAccessToProduct)
-
-# admin.site.register(ProductComment, CustomProductComment)
