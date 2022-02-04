@@ -1,6 +1,7 @@
-from django.core.cache import caches
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 from django.contrib.auth import authenticate, login as _login, logout as _logout
+from django.core.cache import caches
 from django.shortcuts import redirect, render
 from django.views.generic import View
 from django.urls import reverse_lazy, reverse
@@ -8,12 +9,12 @@ from django.conf import settings
 from django.contrib.auth.forms import SetPasswordForm
 from django.http.response import JsonResponse
 from django.utils.decorators import method_decorator
-from django.contrib.auth.decorators import login_required
 
 from User.models import UserDevice
 from Payment.models import Wallet ,History
 from .forms import EmailSignUpForm,LoginForm, RestPasswordForm,UserUpdateForm
-from .utils import genrate_user_device, token_validator,email_text_genrator_sender
+from .utils import genrate_user_device, token_validator
+from .tasks import email_text_genrator_sender
 
 
 User = get_user_model()
@@ -65,7 +66,7 @@ class LoginRegisterView(View):
                 user.save()
                 to_email = register_form.cleaned_data.get('email', "")
                 mail_subject = 'Activate your blog account.'
-                email_text_genrator_sender(request, user, "user/acc_active_email.html",to_email,mail_subject)
+                email_text_genrator_sender.delay(request, user, "user/acc_active_email.html",to_email,mail_subject)
                 return redirect('user:verify')
             else:
                 return render(request, "user/signup_login.html", {"register_form": register_form})
@@ -98,7 +99,7 @@ class ForgetPassword(View):
             user = form.cleaned_data.get("user")
             mail_subject = 'reset your password'
             to_email = form.cleaned_data.get("email")
-            email_text_genrator_sender(request, user, "user/reset_password_email.html",to_email,mail_subject)
+            email_text_genrator_sender.delay(request, user, "user/reset_password_email.html",to_email,mail_subject)
             return redirect("user:verify")
         else:
             render(request, "user/forget_password.html", {"form": form})
