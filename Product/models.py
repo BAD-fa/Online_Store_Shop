@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.text import slugify
 
 from Salesman.models import SalesmanProfile
 from User.models import Profile, Customer
@@ -35,10 +36,15 @@ class Product(models.Model):
     status = models.BooleanField()
     rate = models.FloatField(default=0)
     img = models.ImageField(upload_to="Product/image", null=True)
-    product_slug = models.SlugField(allow_unicode=True, max_length=255, null=True)
+    product_slug = models.SlugField(allow_unicode=True, max_length=255, null=True ,blank=True)
 
     def __str__(self):
         return self.name
+
+    def save(self,*args, **kwargs):
+        if not self.product_slug:
+            self.product_slug = slugify(self.name,allow_unicode=True)
+        return super().save(*args, **kwargs)
 
 
 class ProductComment(models.Model):
