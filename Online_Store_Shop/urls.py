@@ -15,7 +15,7 @@ urlpatterns = [
     path('user/', include('User.urls', namespace="user")),
     path('accounts/', include('django.contrib.auth.urls')),
     path('payment/', include('Payment.urls', namespace="Payment")),
-    path('api/', include('Product.api.urls', namespace='api_product'))
+    path('api/', include('API.urls',namespace="api"))
 ]
 
 if settings.DEBUG:
