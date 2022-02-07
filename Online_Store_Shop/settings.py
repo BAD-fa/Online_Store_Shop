@@ -32,6 +32,8 @@ INSTALLED_APPS = [
     'django_extensions',
     'django_user_agents',
 
+    'rest_framework',
+
 
     'News',
     'Payment',
