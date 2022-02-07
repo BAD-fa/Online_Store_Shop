@@ -20,7 +20,6 @@ add_comment = ProductViewSet.as_view({
 
 router = routers.SimpleRouter()
 router.register('category', CategoryViewset, basename='category')
-router.register('product/', ProductViewSet, basename='product')
 
 urlpatterns = [
                   path('product_list/<str:name>', product_list, name='list'),

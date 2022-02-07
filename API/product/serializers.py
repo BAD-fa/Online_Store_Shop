@@ -5,7 +5,7 @@ from rest_framework import serializers
 from rest_framework.reverse import reverse
 
 
-from ..models import Product, Category, ProductComment, ProductDetails, ProductImage
+from Product.models import Product, Category, ProductComment, ProductDetails, ProductImage
 
 User = get_user_model()
 
@@ -16,7 +16,7 @@ class SubCatHyperlink(serializers.HyperlinkedModelSerializer):
         model = Category
         fields = ['name', 'url']
         extra_kwargs = {
-            'url': {'view_name': 'api_product:list', 'lookup_field': 'name'}
+            'url': {'view_name': 'api:api_product:list', 'lookup_field': 'name'}
         }
 
 
@@ -74,5 +74,5 @@ class ProductListSerializer(serializers.HyperlinkedModelSerializer):
         model = Product
         fields = ['url', 'name', 'price', 'rate']
         extra_kwargs = {
-            'url': {'view_name': 'api_product:detail', 'lookup_field': 'product_slug'}
+            'url': {'view_name': 'api:api_product:detail', 'lookup_field': 'product_slug'}
         }

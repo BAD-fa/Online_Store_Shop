@@ -8,7 +8,7 @@ from rest_framework.decorators import action
 from rest_framework.generics import ListCreateAPIView
 from rest_framework import status
 
-from ..models import Product, Category, ProductComment
+from Product.models import Product, Category, ProductComment
 from .serializers import CategoryListSerializer, ProductSerializer, ProductListSerializer, ProductCommentSerializer
 
 User = get_user_model()
