@@ -28,12 +28,18 @@ class News(models.Model):
         ('al', 'always')]
     validityـduration = models.CharField(max_length=2, choices=VALIDITYCHOICES,default='al')
 
+    class Meta:
+        verbose_name = 'News'
+        verbose_name_plural = 'News'
+        
     def __str__(self) -> str:
         return self.title
 
+    
 
 
-class subscribers(models.Model):
 
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+class Subscribers(models.Model):
+
+    email = models.EmailField()
     joined_date = models.DateTimeField(auto_now=True)

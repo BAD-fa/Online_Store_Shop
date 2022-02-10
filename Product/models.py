@@ -41,6 +41,7 @@ class Product(models.Model):
         return self.name
 
 
+
 class ProductComment(models.Model):
     date = models.DateField(auto_now_add=True)
     content = models.TextField()
@@ -60,15 +61,24 @@ class ProductDetails(models.Model):
     detail = models.CharField(max_length=50)
     product = models.ForeignKey(Product, related_name='details', on_delete=models.CASCADE)
 
+    class Meta:
+        verbose_name = 'Product Detail'
+        verbose_name_plural = 'Product Details'
+        
     def __str__(self):
         return self.property
 
 
+
 class WishList(models.Model):
     customer = models.OneToOneField(Customer, on_delete=models.CASCADE)
+    joined_date = models.DateTimeField(auto_now=True)
 
 
 class WishListDetail(models.Model):
     product = models.ManyToManyField(Product)
     quantity = models.IntegerField(default=1)
     wishlist = models.ForeignKey(WishList, on_delete=models.CASCADE)
+    created_date = models.DateTimeField(auto_now=True)
+
+    

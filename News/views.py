@@ -1,10 +1,11 @@
-from django.http import HttpResponse
-from django.shortcuts import render
-from django.views.generic import CreateView, ListView, DetailView
+from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import redirect, render
+from django.views.generic import CreateView, ListView, DetailView, View
 from django.urls import reverse_lazy
 
-from .models import News
-from .forms import CreateNewsForm
+from User.models import Customer
+from .models import News, Subscribers
+from .forms import CreateNewsForm, AddSubscriberForm
 from Salesman.models import SalesmanProfile
 
 
@@ -34,6 +35,7 @@ class NewsList(ListView):
 
     model = News
     template_name = 'newslist.html'
+    paginate_by = 4
 
 
 class NewsDetail(DetailView):
@@ -42,6 +44,13 @@ class NewsDetail(DetailView):
     context_object_name = 'news'
     template_name = 'news_detail.html'
     slug_field = 'news_slug'
+
+
+class AddSubscriberView(View):
+    def post(self,request):
+        email = request.POST.get('email')
+        subscriber = Subscribers.objects.create(email=email)
+        return HttpResponse('done')
 
 
 
