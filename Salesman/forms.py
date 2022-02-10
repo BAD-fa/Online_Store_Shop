@@ -8,20 +8,19 @@ User = get_user_model()
 
 
 class SalesmanEmailSignupForm(UserCreationForm):
+
     class Meta:
         model = SalesmanProfile
-        fields = ['first_name', 'last_name', 'email', 'img',
-                  'password1', 'password2',
-                  'store_address', 'store_postal_code', 'shop_name', 'shop_logo',
-                  'residenceـaddress',
-                  'phone_number', 'home_postal_code', ]
+        fields = ['email','password1','password2','shop_name','shop_logo','shop_address',
+        'shop_postal_code','phone_number','residenceـaddress','home_postal_code','img']
+
         labels = {
             "email": "ایمیل",
             "password1": "رمز عبور",
             "password2": "تکرار رمز عبور",
             'shop_name': "نام فروشگاه",
-            'store_postal_code': 'کد پستی',
-            'store_address': ' آدرس فروشگاه',
+            'shop_postal_code': 'کد پستی',
+            'shop_address': ' آدرس فروشگاه',
             'residenceـaddress': "آدرس محل سکونت",
             'first_name': 'نام',
             'last_name': 'نام خانوادگی',
@@ -50,7 +49,11 @@ class SalesmanEmailSignupForm(UserCreationForm):
         return salesman
 
 
+
+
 class SalesmanChangeForm(UserChangeForm):
     class Meta:
         model = SalesmanProfile
-        fields = ('residenceـaddress', 'home_postal_code', 'password', 'phone_number',)
+        fields = ('shop_name','shop_logo','shop_address',
+        'shop_postal_code','phone_number','residenceـaddress','home_postal_code','person_img')
+

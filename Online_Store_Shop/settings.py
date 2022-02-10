@@ -39,6 +39,13 @@ INSTALLED_APPS = [
     'Product',
     'Salesman',
     'User',
+    'oauth_app',
+    
+    
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
 ]
 
 MIDDLEWARE = [
@@ -163,6 +170,34 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = os.environ.get("EMAIL_USERNAME")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
+
+LOGIN_URL ='/user/login_register/'
+
+
+########################################################################
+#outh
+# s =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
+# id = 637450281469-6564k8eh7phmr1v10fdbfe9o8761opcb.apps.google
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend'
+]
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    }
+}
+SITE_ID = 2
+
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
 
 
 # CELERY Configuration

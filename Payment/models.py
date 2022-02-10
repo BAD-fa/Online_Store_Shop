@@ -25,7 +25,7 @@ class Wallet(models.Model):
 
 
 class GateWaysModel(models.Model):
-
+    
     order_id = models.TextField()
     payment_id = models.TextField()
     amount = models.IntegerField()

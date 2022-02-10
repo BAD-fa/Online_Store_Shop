@@ -1,16 +1,21 @@
 from django.db import models
+
+from User.models import Customer
 from Salesman.models import SalesmanProfile
 
-
 class News(models.Model):
+    
     title = models.CharField(max_length=255)
-    body = models.TextField()
-    is_allowed = models.BooleanField(default=False)  # verify new
-    create_date = models.DateTimeField(auto_now=True)
+    content = models.TextField()
+    author = models.CharField(max_length=255,blank=True,null=True) # if is_salesman = null else = modirat site
+    salesman = models.ForeignKey(SalesmanProfile, on_delete=models.CASCADE,blank=True,null=True) #if not is_salesman = null
+    created_date = models.DateTimeField(null=True,auto_now=True)
     publish_date = models.DateField()
-    author = models.CharField(max_length=24)  # the news who created by admins
-    salesman = models.ForeignKey(SalesmanProfile, on_delete=models.CASCADE, null=True, blank=True)
-    img = models.ImageField(upload_to="News_news", null=True, blank=True)
+    is_allowed = models.BooleanField(default=False)
+    like = models.IntegerField(default=0)
+    dislike = models.IntegerField(default=0)
+    image = models.ImageField()
+    news_slug = models.SlugField(allow_unicode=True,unique=True,auto_created=True)
 
     VALIDITYCHOICES = [
         ('1h', 'one houre'),
@@ -21,14 +26,20 @@ class News(models.Model):
         ("6m", "six mounth"),
         ("1y", "one year"),
         ('al', 'always')]
-    validityـduration = models.CharField(max_length=2, choices=VALIDITYCHOICES)
+    validityـduration = models.CharField(max_length=2, choices=VALIDITYCHOICES,default='al')
 
-    def __str__(self):
+    class Meta:
+        verbose_name = 'News'
+        verbose_name_plural = 'News'
+        
+    def __str__(self) -> str:
         return self.title
+
+    
+
 
 
 class Subscribers(models.Model):
-    email = models.EmailField()
 
-    def __str__(self):
-        return self.email
+    email = models.EmailField()
+    joined_date = models.DateTimeField(auto_now=True)
