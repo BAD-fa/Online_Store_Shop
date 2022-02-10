@@ -14,6 +14,6 @@ def random_products(p_cat, number):
         for item in elm.sub_cat.all():
             sub_category.append(item)
 
-    product = list(Product.objects.filter(category__in=sub_category))
-    products = sample(product, number)
-    return products
+    category_products = list(Product.objects.filter(category__in=sub_category))
+    random_products_list = sample(category_products, number)
+    return random_products_list

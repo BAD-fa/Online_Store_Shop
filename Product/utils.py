@@ -7,10 +7,15 @@ from django.db.models import Q
 from .models import Product
 
 
-
-def add_to_cart(request, product):
+def redis_client_config():
     redis_cache = caches['default']
     redis_client = redis_cache.client.get_client()
+
+    return redis_client
+
+
+def add_to_cart(request, product):
+    redis_client = redis_client_config()
     if not isinstance(request.user, AnonymousUser):
         redis_client.hset(request.user.email, mapping=product)
     else:
@@ -24,7 +29,7 @@ def dict_decoder(binary_dict):
     return data
 
 
-def params_creator(request):
+def params_creator(request, category):
     properties = request.GET.getlist('property')
     details = request.GET.getlist('detail')
     if properties and details:
@@ -37,11 +42,11 @@ def params_creator(request):
     else:
         query = Q()
 
-    qs = Product.objects.all()
+    qs = Product.objects.filter(category__name=category)
     filtered_qs = Product.objects.none()
     for p in qs:
         det = p.details.filter(query)
         if det:
             filtered_qs |= p
 
-    return query
+    return filtered_qs

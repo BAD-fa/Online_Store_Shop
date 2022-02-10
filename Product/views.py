@@ -1,3 +1,5 @@
+import json
+
 from django.contrib.auth import get_user_model
 from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.urls import reverse_lazy
@@ -7,9 +9,7 @@ from django.contrib.auth.decorators import login_required
 
 from .models import Product, ProductDetails, Category, WishList
 from .forms import CommentFrom
-from .utils import add_to_cart, params_creator
-
-import json
+from .utils import add_to_cart, params_creator, redis_client_config
 
 user = get_user_model()
 
@@ -24,7 +24,6 @@ class ProductDetail(DetailView):
         ctx = super().get_context_data(**kwargs)
         comments = self.object.comments.all()
         count_of_comments = comments.count()
-        print(count_of_comments)
         images = self.object.images.all()
         details = self.object.details.all()
         form = CommentFrom()
@@ -42,23 +41,24 @@ class ProductList(ListView):
     paginate_by = 12
 
     def get(self, request, *args, **kwargs):
-        params = params_creator(request)
+        category = kwargs.get('category')
+        params = params_creator(request, category)
 
         if 'count' in request.GET:
             self.paginate_by = int(request.GET['count'])
 
         if 'orderby' in request.GET:
-            self.queryset = Product.objects.filter(category__name=kwargs.get('category')).order_by(
+            self.queryset = Product.objects.filter(category__name=category).order_by(
                 request.GET['orderby'])
 
         if 'price' in request.GET:
-            qs = Product.objects.filter(category__name=kwargs.get('category'))
+            qs = Product.objects.filter(category__name=category)
             self.queryset = qs.filter(price__lte=int(request.GET['price']))
 
         else:
-            self.queryset = Product.objects.filter(category__name=kwargs.get('category'))
+            self.queryset = Product.objects.filter(category__name=category)
 
-        self.request.session['category'] = kwargs.get('category')
+        self.request.session['category'] = category
         self.request.session.save()
         return super().get(self, request, *args, **kwargs)
 
@@ -139,3 +139,15 @@ def add_cart(request, product_slug):
     product = {name: json.dumps([amount, img, price, product_slug])}
     add_to_cart(request, product)
     return redirect(reverse("product:product_detail", kwargs={"slug": product_slug}))
+
+
+def delete_cart_item(request, product_name):
+    redis_client = redis_client_config()
+
+    if request.user.is_authenticated():
+        redis_client.hdel(request.user.email, product_name)
+
+    else:
+        redis_client.hdel(request.session.session_key, product_name)
+
+    return redirect(request.get_full_path)

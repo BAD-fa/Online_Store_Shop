@@ -24,7 +24,7 @@ urlpatterns = [
     path('o', TemplateView.as_view(template_name="outh.html")),
     path('o/accounts/', include('allauth.urls')),
     path('o/logout', LogoutView.as_view()),
-
+    path('api/', include('API.urls',namespace="api"))
 ]
 
 if settings.DEBUG:

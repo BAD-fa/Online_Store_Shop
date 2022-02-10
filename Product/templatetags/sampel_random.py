@@ -4,10 +4,11 @@ from random import sample
 
 register = template.Library()
 
+
 @register.simple_tag
-def random_sampel(anything,number):
-    if number==1:
-        resualt = random.choice(anything)
+def random_sampel(input_data, number):
+    if number == 1:
+        resualt = random.choice(input_data)
     else:
-        resualt = sample(anything,number)
+        resualt = sample(input_data, number)
     return resualt
