@@ -5,9 +5,6 @@ from Salesman.models import SalesmanProfile
 from User.models import Profile, Customer
 
 
-# mohammad javad aqa zade
-# api
-
 class Category(models.Model):
     name = models.CharField(max_length=32)
     cat = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name="sub_cat")
