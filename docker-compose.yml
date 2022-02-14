@@ -1,0 +1,52 @@
+version: "3.7"
+
+services:
+  django_web:
+    build: .
+    command: >
+      ash -c "python manage.py migrate && gunicorn Online_Store_Shop.wsgi:application --bind 0.0.0.0:8003"
+    volumes:
+      - static:/app/static
+      - media:/app/media
+      - .:/app/
+    env_file:
+      - ./.env
+    depends_on:
+      - postgres_db
+  postgres_db:
+    image: postgres:12.0-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=postgres
+  nginx:
+    build: ./nginx
+    volumes:
+      - static:/app/static
+      - media:/app/media
+    ports:
+      - 8008:80
+    depends_on:
+      - django_web
+  redis:
+    image: redis:alpine
+    volumes:
+      - redis_val:/data
+  celery:
+    restart: always
+    build:
+      context: .
+    command: >
+      ash -c "touch celery.log && celery -A Online_Store_Shop worker -l info &> celery.log"
+    volumes:
+      - .:/app
+    depends_on:
+      - django_web
+      - redis
+volumes:
+  postgres_data:
+  static:
+  media:
+  redis_val:
