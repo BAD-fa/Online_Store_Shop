@@ -9,7 +9,7 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('User', '0009_alter_profile_options_profile_person_img_and_more'),
+
     ]
 
     operations = [
@@ -35,7 +35,6 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('joined_date', models.DateTimeField(auto_now=True)),
-                ('customer', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='User.customer')),
             ],
         ),
     ]

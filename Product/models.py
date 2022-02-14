@@ -44,7 +44,6 @@ class Product(models.Model):
         return super().save(*args, **kwargs)
 
 
-
 class ProductComment(models.Model):
     date = models.DateField(auto_now_add=True)
     content = models.TextField()
@@ -53,7 +52,6 @@ class ProductComment(models.Model):
     product = models.ForeignKey(Product, related_name='comments', on_delete=models.CASCADE)
 
 
-# aksay ezafi??
 class ProductImage(models.Model):
     img = models.ImageField(upload_to="Product/image", null=True, blank=True)
     product = models.ForeignKey(Product, related_name='images', on_delete=models.CASCADE)
@@ -67,10 +65,9 @@ class ProductDetails(models.Model):
     class Meta:
         verbose_name = 'Product Detail'
         verbose_name_plural = 'Product Details'
-        
+
     def __str__(self):
         return self.property
-
 
 
 class WishList(models.Model):
@@ -83,5 +80,3 @@ class WishListDetail(models.Model):
     quantity = models.IntegerField(default=1)
     wishlist = models.ForeignKey(WishList, on_delete=models.CASCADE)
     created_date = models.DateTimeField(auto_now=True)
-
-    

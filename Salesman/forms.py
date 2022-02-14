@@ -8,11 +8,10 @@ User = get_user_model()
 
 
 class SalesmanEmailSignupForm(UserCreationForm):
-
     class Meta:
         model = SalesmanProfile
-        fields = ['email','password1','password2','shop_name','shop_logo','shop_address',
-        'shop_postal_code','phone_number','residenceـaddress','home_postal_code','img']
+        fields = ['email', 'password1', 'password2', 'shop_name', 'shop_logo', 'shop_address',
+                  'shop_postal_code', 'phone_number', 'residenceـaddress', 'home_postal_code', 'img']
 
         labels = {
             "email": "ایمیل",
@@ -49,11 +48,8 @@ class SalesmanEmailSignupForm(UserCreationForm):
         return salesman
 
 
-
-
 class SalesmanChangeForm(UserChangeForm):
     class Meta:
         model = SalesmanProfile
-        fields = ('shop_name','shop_logo','shop_address',
-        'shop_postal_code','phone_number','residenceـaddress','home_postal_code','person_img')
-
+        fields = ('shop_name', 'shop_logo', 'shop_address',
+                  'shop_postal_code', 'phone_number', 'residenceـaddress', 'home_postal_code', 'img')
