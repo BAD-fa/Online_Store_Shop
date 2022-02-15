@@ -1,11 +1,13 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 
 from .Serializer import CartSerializer
 from Product.utils import redis_client_config,dict_decoder
 
 class CartApiView(APIView):
+    permission_classes = (IsAuthenticated,)
 
     def get(self,request):
         if request.user.is_authenticated:

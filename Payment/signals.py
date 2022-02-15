@@ -9,6 +9,3 @@ from .models import Wallet
 def wallet_creation(sender, instance, created, **kwargs):
     if created:
         Wallet.objects.create(user=instance)
-
-    else:
-        pass
