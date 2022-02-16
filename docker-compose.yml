@@ -36,8 +36,9 @@ services:
       - redis_val:/data
   celery:
     restart: always
-    build:
-      context: .
+    image: online_store_shop_django_web
+    # build:
+    #   context: .
     command: >
       ash -c "touch celery.log && celery -A Online_Store_Shop worker -l info &> celery.log"
     volumes:
