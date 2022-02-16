@@ -18,7 +18,7 @@ SECRET_KEY = 'django-insecure-fialsh*_ryy)^=4ime@ruyjbk2&(&ophe%9hib3ywd&j3$o1e-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['217.182.230.17']
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -200,8 +200,9 @@ LOGOUT_REDIRECT_URL = '/'
 
 
 # CELERY Configuration
-CELERY_BROKER_URL = 'redis://127.0.0.1:6379/1'
-CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379/2'
+REDIS_HOST = os.environ.get("REDIS_HOST", "")
+CELERY_BROKER_URL = f'redis://{REDIS_HOST}:6379/1'
+CELERY_RESULT_BACKEND = f'redis://{REDIS_HOST}:6379/2'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'

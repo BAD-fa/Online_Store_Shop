@@ -1,6 +1,5 @@
 from django.db import models
 
-from User.models import Customer
 from Salesman.models import SalesmanProfile
 
 
