@@ -3,8 +3,10 @@ import json
 from django.contrib.auth import get_user_model
 from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.urls import reverse_lazy
-from django.views.generic import DetailView, ListView, CreateView, DeleteView
+from django.views import View
+from django.views.generic import DetailView, ListView
 from django.db.models import Q
+from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 
 from .models import Product, ProductDetails, Category, WishList
@@ -114,21 +116,19 @@ def add_comment(request, product_slug):
             return redirect(reverse("product:product_detail", kwargs={"slug": product_slug}))
 
 
-class WishListCreateView(CreateView):
-    model = WishList
-    template_name = 'wish_list/create.html'
+class WishListView(View):
 
+    def get(self,request):
+        wish_list,created = WishList.objects.get_or_create(customer=request.user.email)
+        wish_list_products = wish_list.wish_list_product.all()
+        ctx = {"wish_list_products":wish_list_products}
+        return render(request,"product/wish_list.html",ctx)
 
-class WishListDetailView(DetailView):
-    pass
-
-
-class WishListDeleteView(DeleteView):
-    pass
-
-
-class WishListListView(ListView):
-    pass
+    def post(self,request):
+        product_id = request.POST.get("product_id")
+        wish_list,created = WishList.objects.get_or_create(customer=request.user.email)
+        wish_list.product.add(Product.objects.get(id=product_id))
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
 def add_cart(request, product_slug):
@@ -142,6 +142,7 @@ def add_cart(request, product_slug):
 
 
 def delete_cart_item(request, product_name):
+
     redis_client = redis_client_config()
 
     if request.user.is_authenticated():
@@ -150,4 +151,4 @@ def delete_cart_item(request, product_name):
     else:
         redis_client.hdel(request.session.session_key, product_name)
 
-    return redirect(request.get_full_path)
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

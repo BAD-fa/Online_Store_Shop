@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% load static %}
+{% load query_params %}
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{% static 'assets/css/style.min.css' %}">
+{% endblock head %}
+
+
+{% block content %}
+        <!-- Start of Main -->
+        <main class="main wishlist-page">
+            <!-- Start of Page Header -->
+            <div class="page-header">
+                <div class="container">
+                    <h1 class="page-title mb-0">علاقه مندیها</h1>
+                </div>
+            </div>
+            <!-- End of Page Header -->
+
+            <!-- Start of Breadcrumb -->
+            <nav class="breadcrumb-nav mb-10">
+                <div class="container">
+                    <ul class="breadcrumb">
+                        <li><a href="{% url 'home'%}">صفحه اصلی </a></li>
+                        <li>علاقه مندیها</li>
+                    </ul>
+                </div>
+            </nav>
+            <!-- End of Breadcrumb -->
+
+            <!-- Start of PageContent -->
+            <div class="page-content">
+                <div class="container">
+                    <h3 class="wishlist-title">علاقه مندیهای من</h3>
+                    <table class="shop-table wishlist-table">
+                        <thead>
+                            <tr>
+                                <th class="product-name"><span>محصول</span></th>
+                                <th></th>
+                                <th class="product-price"><span>قیمت</span></th>
+                                <th class="product-stock-status"><span>وضعیت انبار</span></th>
+                                <th class="wishlist-action">اقدامات </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for product in wish_list_products %}
+                            
+                            <tr>
+                                <td class="product-thumbnail">
+                                    <div class="p-relative">
+                                        <a href="{% url 'product:product_detail' product.product_slug %}">
+                                            <figure>
+                                                <img src="product.img.url" alt="product" width="300"
+                                                height="338">
+                                            </figure>
+                                        </a>
+                                        <button type="submit" class="btn btn-close"><i
+                                            class="fas fa-times"></i></button>
+                                        </div>
+                                    </td>
+                                    <td class="product-name">
+                                        <a href="{% url 'product:product_detail' product.product_slug %}">                                        
+                                            {{product.name}}
+                                        </a>
+                                    </td>
+                                    <td class="product-price">
+                                        <ins class="new-price">{{product.price}}</ins>
+                                    </td>
+                                    <td class="product-stock-status">
+                                        <span class="wishlist-in-stock">to be fixed</span>
+                                    </td>
+                                    <td class="wishlist-action">
+                                        <div class="d-lg-flex">
+                                            <a href="{% url 'product:product_detail' product.product_slug %}"
+                                            class="btn btn-quickview btn-outline btn-default btn-rounded btn-sm mb-2 mb-lg-0">نمایش سریع </a>
+                                            <a href="#" class="btn btn-dark btn-rounded btn-sm ml-lg-2 btn-cart">افزودن به سبد</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+</main>
+<!-- End of Main -->
+{% endblock content %}
