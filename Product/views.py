@@ -8,6 +8,7 @@ from django.views.generic import DetailView, ListView
 from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
 from .models import Product, ProductDetails, Category, WishList
 from .forms import CommentFrom
@@ -115,7 +116,7 @@ def add_comment(request, product_slug):
             form.save(author=customer, product=product)
             return redirect(reverse("product:product_detail", kwargs={"slug": product_slug}))
 
-
+@method_decorator(login_required, name="dispatch")
 class WishListView(View):
 
     def get(self,request):
