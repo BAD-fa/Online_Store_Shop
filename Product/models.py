@@ -1,9 +1,12 @@
 from django.db import models
 from django.utils.text import slugify
+from django.contrib.auth import get_user_model
+
 
 from Salesman.models import SalesmanProfile
-from User.models import Profile, Customer
+from User.models import Customer
 
+User = get_user_model()
 
 class Category(models.Model):
     name = models.CharField(max_length=32)
@@ -47,7 +50,7 @@ class Product(models.Model):
 class ProductComment(models.Model):
     date = models.DateField(auto_now_add=True)
     content = models.TextField()
-    author = models.ForeignKey(Profile, on_delete=models.SET_NULL, null=True)
+    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     rate = models.FloatField(null=True, blank=True)
     product = models.ForeignKey(Product, related_name='comments', on_delete=models.CASCADE)
 
@@ -71,12 +74,5 @@ class ProductDetails(models.Model):
 
 
 class WishList(models.Model):
-    customer = models.OneToOneField(Customer, on_delete=models.CASCADE)
-    joined_date = models.DateTimeField(auto_now=True)
-
-
-class WishListDetail(models.Model):
-    product = models.ManyToManyField(Product)
-    quantity = models.IntegerField(default=1)
-    wishlist = models.ForeignKey(WishList, on_delete=models.CASCADE)
-    created_date = models.DateTimeField(auto_now=True)
+    customer = models.OneToOneField(User, on_delete=models.CASCADE)
+    product = models.ManyToManyField(Product,related_name="wish_list_product")
