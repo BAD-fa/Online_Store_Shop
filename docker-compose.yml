@@ -1,6 +1,7 @@
 version: "3.7"
 
 services:
+
   django_web:
     build: .
     command: >
@@ -13,6 +14,8 @@ services:
       - ./.env
     depends_on:
       - postgres_db
+    networks:
+      - app_tier
   postgres_db:
     image: postgres:12.0-alpine
     volumes:
@@ -37,8 +40,6 @@ services:
   celery:
     restart: always
     image: online_store_shop_django_web
-    # build:
-    #   context: .
     command: >
       ash -c "touch celery.log && celery -A Online_Store_Shop worker -l info &> celery.log"
     volumes:
@@ -46,8 +47,34 @@ services:
     depends_on:
       - django_web
       - redis
+  mongodb:
+    image: mongo:5.0
+    # ports:
+    #   - 27017:27017
+    volumes:
+      - mongodb_data:/data/db 
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=admin
+  discount_code_app:
+    build: discountcode_app/
+    command: >
+      ash -c "uvicorn discountcode_app.views:app --reload && python receiver.py "
+    depends_on:
+      - mongodb
+      - rabbitmq
+    networks:
+      - app_tier
+  rabbitmq:
+    image: 'bitnami/rabbitmq:latest'
+    networks:
+      - app-tier
+    volumes:
+      - rabbit_data:/bitnami
 volumes:
   postgres_data:
   static:
   media:
   redis_val:
+  rabbit_data:
+  mongodb_data:

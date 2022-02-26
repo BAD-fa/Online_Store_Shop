@@ -1,16 +1,16 @@
 from pathlib import Path
 from dotenv import find_dotenv,load_dotenv
 from bson import ObjectId
-import motor.motor_asyncio
 import os
 import pika
+import pymongo
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 env_file = Path(find_dotenv(usecwd=True))
 load_dotenv(verbose=True, dotenv_path=env_file)
-client = motor.motor_asyncio.AsyncIOMotorClient(os.environ.get("MONGODB_URL"))
+client = pymongo.MongoClient(host=os.environ.get("MONGO_HOST"))
 db = client.discount_code
 
 rabbit_connection = pika.BlockingConnection(
