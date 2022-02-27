@@ -1,12 +1,11 @@
 import uuid
 import pika
-from django.conf import settings
-
+from Online_Store_Shop.settings import RABBIT_CONNECTION
 
 class DiscountCodeRpcClient(object):
 
     def __init__(self):
-        self.connection = settings.RABBIT_CONNECTION
+        self.connection = RABBIT_CONNECTION
 
         self.channel = self.connection.channel()
         self.channel.exchange_declare(exchange='discount_code_app', exchange_type='direct')
