@@ -63,7 +63,7 @@ services:
       - mongodb
       - rabbitmq
   rabbitmq:
-    image: 'bitnami/rabbitmq:latest'
+    image: rabbitmq:3.9-management
     volumes:
       - rabbit_data:/bitnami
 volumes:

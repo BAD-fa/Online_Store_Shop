@@ -211,3 +211,5 @@ CELERY_RESULT_SERIALIZER = 'json'
 
 RABBIT_CONNECTION = pika.BlockingConnection(
             pika.ConnectionParameters(host=os.environ.get("RABIT_HOST")))
+
+print(RABBIT_CONNECTION)
