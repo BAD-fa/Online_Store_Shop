@@ -20,6 +20,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['217.182.230.17']
 
+CSRF_TRUSTED_ORIGINS = ['http://oss', 'http://*.127.0.0.1', 'http://217.182.230.17:8003']
+
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',

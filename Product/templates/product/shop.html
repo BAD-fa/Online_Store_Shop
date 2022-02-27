@@ -130,7 +130,7 @@
                         <div class="category category-ellipse">
                             <figure class="category-media">
                                 <a href="{% url 'product:product_list' cat.name %}">
-                                    <img src="#" alt="Categroy"
+                                    <img src="{{cat.img.url}}" alt="Categroy"
                                          width="190" height="190" style="background-color: #5C92C0;"/>
                                 </a>
                             </figure>
@@ -193,7 +193,7 @@
                                 <div class="widget-body">
                                     <ul class="filter-items search-ul item-check mt-1">
                                     {% for d in detail %}
-                                        <li><input type="submit" name="{{property}}" value="{{d}}"><a href="{% url_add_query request.get_full_path property=property detail=d %}">{{d}}</a></li>
+                                        <li><a href="{% url_add_query request.get_full_path property=property detail=d %}">{{d}}</a></li>
 
                                     {% endfor %}
                                     </ul>
