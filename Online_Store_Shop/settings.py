@@ -1,5 +1,6 @@
 from pathlib import Path
 import os
+import pika
 from datetime import timedelta
 from dotenv import load_dotenv, find_dotenv
 
@@ -206,3 +207,7 @@ CELERY_RESULT_BACKEND = f'redis://{REDIS_HOST}:6379/2'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
+
+
+RABBIT_CONNECTION = pika.BlockingConnection(
+            pika.ConnectionParameters(host=os.environ.get("RABIT_HOST")))

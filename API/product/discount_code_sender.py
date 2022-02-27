@@ -1,13 +1,12 @@
 import uuid
-import os
 import pika
+from django.conf import settings
 
 
 class DiscountCodeRpcClient(object):
 
     def __init__(self):
-        self.connection = pika.BlockingConnection(
-            pika.ConnectionParameters(host=os.environ.get("RABIT_HOST")))
+        self.connection = settings.RABBIT_CONNECTION
 
         self.channel = self.connection.channel()
         self.channel.exchange_declare(exchange='discount_code_app', exchange_type='direct')
