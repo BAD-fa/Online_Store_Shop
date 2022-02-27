@@ -1,6 +1,5 @@
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model
-from django.shortcuts import redirect
 
 from rest_framework import viewsets
 from rest_framework.response import Response
@@ -9,7 +8,10 @@ from rest_framework.generics import ListCreateAPIView
 from rest_framework import status
 
 from Product.models import Product, Category, ProductComment
-from .serializers import CategoryListSerializer, ProductSerializer, ProductListSerializer, ProductCommentSerializer
+from .serializers import CategoryListSerializer, ProductSerializer, ProductListSerializer, ProductCommentSerializer,DiscountCodeSerializer
+from .discount_code_sender import DiscountCodeRpcClient
+
+rabit_MQ_sender = DiscountCodeRpcClient()
 
 User = get_user_model()
 
@@ -48,3 +50,17 @@ class CommentAPI(ListCreateAPIView):
             return Response(comment.data, status=status.HTTP_201_CREATED)
         else:
             return Response(comment.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class DiscountCodeApi(ListCreateAPIView):
+
+    def create(self, request):
+        serializer_class = DiscountCodeSerializer(data=request.data)
+        if serializer_class.is_valid():
+            user_id_list = serializer_class.validated_data.get("user_id_list")
+            day_expire_time = serializer_class.validated_data.get("day_expire_time")
+            rabit_MQ_sender = DiscountCodeRpcClient()
+            rabit_MQ_sender.call(user_id_list,day_expire_time)
+            return rabit_MQ_sender.response
+        else:
+            return Response(serializer_class.errors, status=status.HTTP_400_BAD_REQUEST)

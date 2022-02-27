@@ -2,7 +2,7 @@ from django.urls import path
 
 from rest_framework import routers
 
-from .views import CategoryViewset, ProductViewSet, CommentAPI
+from .views import CategoryViewset, ProductViewSet, CommentAPI,DiscountCodeApi
 
 app_name = 'api_product'
 
@@ -25,5 +25,6 @@ urlpatterns = [
                   path('product_list/<str:name>', product_list, name='list'),
                   path('product_detail/<str:product_slug>', product_detail, name='detail'),
                   path('add_comment/<str:product_slug>', add_comment, name='comment'),
-                  path('add_comment/', CommentAPI.as_view(), name='comment')
+                  path('add_comment/', CommentAPI.as_view(), name='comment'),
+                  path('discount/',DiscountCodeApi.as_view(),name="discount")
               ] + router.urls

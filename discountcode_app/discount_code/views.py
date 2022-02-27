@@ -19,4 +19,4 @@ def create_discountcode(user_id_list:list,day_expire_time:str):
             result[id] = discount_code
         except:
             pass
-        return JSONResponse(status_code=status.HTTP_201_CREATED,data={"data":result})
+        return JSONResponse(status_code=status.HTTP_201_CREATED,data=result)

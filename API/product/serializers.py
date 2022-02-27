@@ -2,6 +2,9 @@ from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 
 from rest_framework import serializers
+from rest_framework.response import Response
+from rest_framework import status
+
 
 
 from Product.models import Product, Category, ProductComment, ProductDetails, ProductImage
@@ -75,3 +78,8 @@ class ProductListSerializer(serializers.HyperlinkedModelSerializer):
         extra_kwargs = {
             'url': {'view_name': 'api:api_product:detail', 'lookup_field': 'product_slug'}
         }
+
+
+class DiscountCodeSerializer(serializers.Serializer):
+    user_id_list = serializers.ListField()
+    day_expire_time = serializers.IntegerField()
