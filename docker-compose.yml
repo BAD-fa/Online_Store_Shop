@@ -1,8 +1,4 @@
 version: "3.7"
-networks:
-  app-tier:
-    external: true
-
 
 services:
 
@@ -18,8 +14,7 @@ services:
       - ./.env
     depends_on:
       - postgres_db
-    networks:
-      - app-tier
+      - rabbitmq
   postgres_db:
     image: postgres:12.0-alpine
     volumes:
@@ -67,12 +62,8 @@ services:
     depends_on:
       - mongodb
       - rabbitmq
-    networks:
-      - app-tier
   rabbitmq:
     image: 'bitnami/rabbitmq:latest'
-    networks:
-      - app-tier
     volumes:
       - rabbit_data:/bitnami
 volumes:
